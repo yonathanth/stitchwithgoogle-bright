@@ -2,7 +2,7 @@
 
 import { ReactNode } from 'react';
 
-interface Column<T> {
+export interface Column<T> {
   key: string;
   header: string;
   render?: (item: T) => ReactNode;
@@ -18,7 +18,7 @@ interface DataTableProps<T> {
   onRowClick?: (item: T) => void;
 }
 
-export default function DataTable<T extends Record<string, unknown>>({
+export default function DataTable<T extends object>({
   columns,
   data,
   keyExtractor,
@@ -92,7 +92,7 @@ export default function DataTable<T extends Record<string, unknown>>({
                     >
                       {column.render
                         ? column.render(item)
-                        : String(item[column.key] ?? '-')}
+                        : String((item as Record<string, unknown>)[column.key] ?? '-')}
                     </td>
                   ))}
                 </tr>

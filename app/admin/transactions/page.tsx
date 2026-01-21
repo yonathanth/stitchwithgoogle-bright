@@ -7,7 +7,7 @@ import {
   TransactionStats,
   PaginatedResponse,
 } from '@/lib/api';
-import DataTable, { Pagination } from '@/components/admin/DataTable';
+import DataTable, { Pagination, type Column } from '@/components/admin/DataTable';
 import StatsCard from '@/components/admin/StatsCard';
 
 export default function TransactionsPage() {
@@ -71,7 +71,7 @@ export default function TransactionsPage() {
     });
   };
 
-  const columns = [
+  const columns: Column<Transaction>[] = [
     {
       key: 'type',
       header: 'Type',
@@ -364,7 +364,7 @@ export default function TransactionsPage() {
 
       {/* Transactions Table */}
       <div>
-        <DataTable
+        <DataTable<Transaction>
           columns={columns}
           data={transactions?.data || []}
           keyExtractor={(transaction) => transaction.id}

@@ -292,7 +292,7 @@ export default function MemberDetailPage({ params }: Props) {
                     </div>
                     <div>
                       <p className="text-white">
-                        {new Date(record.checkInTime).toLocaleDateString('en-GB', {
+                        {new Date(record.date).toLocaleDateString('en-GB', {
                           weekday: 'long',
                           day: 'numeric',
                           month: 'short',
@@ -301,12 +301,12 @@ export default function MemberDetailPage({ params }: Props) {
                       </p>
                       <p className="text-white/40 text-sm">
                         Check-in:{' '}
-                        {new Date(record.checkInTime).toLocaleTimeString('en-GB', {
+                        {new Date(record.date).toLocaleTimeString('en-GB', {
                           hour: '2-digit',
                           minute: '2-digit',
                         })}
-                        {record.checkOutTime &&
-                          ` • Check-out: ${new Date(record.checkOutTime).toLocaleTimeString(
+                        {record.updatedAt &&
+                          ` • Check-out: ${new Date(record.updatedAt).toLocaleTimeString(
                             'en-GB',
                             { hour: '2-digit', minute: '2-digit' }
                           )}`}

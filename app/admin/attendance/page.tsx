@@ -8,7 +8,7 @@ import {
   TodayAttendance,
   PaginatedResponse,
 } from '@/lib/api';
-import DataTable, { Pagination } from '@/components/admin/DataTable';
+import DataTable, { Pagination, type Column } from '@/components/admin/DataTable';
 import StatsCard from '@/components/admin/StatsCard';
 
 export default function AttendancePage() {
@@ -79,7 +79,7 @@ export default function AttendancePage() {
     });
   };
 
-  const columns = [
+  const columns: Column<Attendance>[] = [
     {
       key: 'member',
       header: 'Member',
@@ -270,7 +270,7 @@ export default function AttendancePage() {
 
       {/* Attendance Table */}
       <div>
-        <DataTable
+        <DataTable<Attendance>
           columns={columns}
           data={attendance?.data || []}
           keyExtractor={(record) => record.id}

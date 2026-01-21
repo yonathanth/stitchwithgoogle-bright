@@ -3,7 +3,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import { membersApi, Member, MemberStats, PaginatedResponse } from '@/lib/api';
-import DataTable, { Pagination } from '@/components/admin/DataTable';
+import DataTable, { Pagination, type Column } from '@/components/admin/DataTable';
 import StatsCard from '@/components/admin/StatsCard';
 
 export default function MembersPage() {
@@ -72,7 +72,7 @@ export default function MembersPage() {
     );
   };
 
-  const columns = [
+  const columns: Column<Member>[] = [
     {
       key: 'fullName',
       header: 'Member',
@@ -209,7 +209,7 @@ export default function MembersPage() {
 
       {/* Members Table */}
       <div>
-        <DataTable
+        <DataTable<Member>
           columns={columns}
           data={members?.data || []}
           keyExtractor={(member) => member.id}

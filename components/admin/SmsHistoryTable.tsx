@@ -130,14 +130,14 @@ export default function SmsHistoryTable() {
           <div className="flex gap-2">
             <button
               onClick={() => setPage((p) => Math.max(1, p - 1))}
-              disabled={!history.meta.hasPreviousPage || isLoading}
+              disabled={history.meta.page <= 1 || isLoading}
               className="px-3 py-1.5 bg-surface-dark-lighter text-white rounded-lg hover:bg-surface-dark-lighter/80 disabled:opacity-50 disabled:cursor-not-allowed text-sm"
             >
               Previous
             </button>
             <button
               onClick={() => setPage((p) => p + 1)}
-              disabled={!history.meta.hasNextPage || isLoading}
+              disabled={history.meta.page >= history.meta.totalPages || isLoading}
               className="px-3 py-1.5 bg-surface-dark-lighter text-white rounded-lg hover:bg-surface-dark-lighter/80 disabled:opacity-50 disabled:cursor-not-allowed text-sm"
             >
               Next

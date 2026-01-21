@@ -345,7 +345,7 @@ export const dashboardApi = {
 // Members API
 export const membersApi = {
   getAll: (query: MemberQuery = {}) =>
-    apiFetch<PaginatedResponse<Member>>(`/api/members${buildQueryString(query)}`),
+    apiFetch<PaginatedResponse<Member>>(`/api/members${buildQueryString(query as Record<string, unknown>)}`),
   
   getOne: (id: number) => apiFetch<Member>(`/api/members/${id}`),
   
@@ -358,7 +358,7 @@ export const membersApi = {
 // Attendance API
 export const attendanceApi = {
   getAll: (query: AttendanceQuery = {}) =>
-    apiFetch<PaginatedResponse<Attendance>>(`/api/attendance${buildQueryString(query)}`),
+    apiFetch<PaginatedResponse<Attendance>>(`/api/attendance${buildQueryString(query as Record<string, unknown>)}`),
   
   getOne: (id: number) => apiFetch<Attendance>(`/api/attendance/${id}`),
   
@@ -368,14 +368,14 @@ export const attendanceApi = {
   
   getByMember: (memberId: number, query: AttendanceQuery = {}) =>
     apiFetch<PaginatedResponse<Attendance>>(
-      `/api/attendance/member/${memberId}${buildQueryString(query)}`
+      `/api/attendance/member/${memberId}${buildQueryString(query as Record<string, unknown>)}`
     ),
 };
 
 // Transactions API
 export const transactionsApi = {
   getAll: (query: TransactionQuery = {}) =>
-    apiFetch<PaginatedResponse<Transaction>>(`/api/transactions${buildQueryString(query)}`),
+    apiFetch<PaginatedResponse<Transaction>>(`/api/transactions${buildQueryString(query as Record<string, unknown>)}`),
   
   getOne: (id: number) => apiFetch<Transaction>(`/api/transactions/${id}`),
   
@@ -383,14 +383,14 @@ export const transactionsApi = {
   
   getByMember: (memberId: number, query: TransactionQuery = {}) =>
     apiFetch<PaginatedResponse<Transaction>>(
-      `/api/transactions/member/${memberId}${buildQueryString(query)}`
+      `/api/transactions/member/${memberId}${buildQueryString(query as Record<string, unknown>)}`
     ),
 };
 
 // Services API
 export const servicesApi = {
   getAll: (query: ServiceQuery = {}) =>
-    apiFetch<PaginatedResponse<Service>>(`/api/services${buildQueryString(query)}`),
+    apiFetch<PaginatedResponse<Service>>(`/api/services${buildQueryString(query as Record<string, unknown>)}`),
   
   getOne: (id: number) => apiFetch<Service>(`/api/services/${id}`),
   
@@ -431,7 +431,7 @@ export const smsApi = {
     apiFetch<SmsStatus>(`/api/sms/status/${encodeURIComponent(messageId)}`),
 
   getHistory: (query: SmsHistoryQuery = {}) =>
-    apiFetch<PaginatedResponse<SmsHistory>>(`/api/sms/history${buildQueryString(query)}`),
+    apiFetch<PaginatedResponse<SmsHistory>>(`/api/sms/history${buildQueryString(query as Record<string, unknown>)}`),
 
   sendRenewalReminders: (days?: number) =>
     apiFetch<RenewalReminderResult>('/api/sms/renewal-reminders', {
