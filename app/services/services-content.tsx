@@ -1,11 +1,35 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { BillingToggle, useBillingPeriod } from "./billing-toggle";
+import { servicesApi, type Service } from "@/lib/api";
 
 export function ServicesContent() {
   const { billingPeriod } = useBillingPeriod();
+  const [services, setServices] = useState<Service[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    const fetchServices = async () => {
+      try {
+        setLoading(true);
+        const response = await servicesApi.getAll({ isActive: true, limit: 100 });
+        setServices(response.data || []);
+        setError(null);
+      } catch (err: any) {
+        console.error("Failed to fetch services:", err);
+        setError(err.message || "Failed to load services");
+        setServices([]);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchServices();
+  }, []);
 
   return (
     <>
@@ -39,182 +63,98 @@ export function ServicesContent() {
         {/* Membership Packages Section */}
         <section className="relative px-4 py-12 lg:px-20 -mt-20 z-20">
           <div className="max-w-7xl mx-auto">
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {/* Starter Package */}
-              <div className="flex flex-col gap-6 rounded-2xl border border-border-dark bg-card-dark p-8 shadow-xl hover:border-primary/50 transition-colors duration-300 group">
-                <div className="flex flex-col gap-2">
-                  <h3 className="text-white/70 text-lg font-bold">The Starter</h3>
-                  <div className="flex items-baseline gap-1 text-white">
-                    <span className="text-4xl font-black tracking-tight">
-                      ETB{" "}
-                      {billingPeriod === "monthly"
-                        ? "1,500"
-                        : "14,400"}
-                    </span>
-                    <span className="text-white/60 text-sm font-medium">
-                      /{billingPeriod === "monthly" ? "month" : "year"}
-                    </span>
-                  </div>
-                  <p className="text-white/60 text-sm leading-relaxed mt-2">
-                    Perfect for beginners looking to start their fitness journey
-                    with essential access.
-                  </p>
-                </div>
-                <div className="flex flex-col gap-3 flex-1">
-                  <div className="flex items-center gap-3 text-sm text-white/80">
-                    <span className="material-symbols-outlined text-primary text-xl">
-                      check_circle
-                    </span>
-                    <span>Gym floor access (Off-peak)</span>
-                  </div>
-                  <div className="flex items-center gap-3 text-sm text-white/80">
-                    <span className="material-symbols-outlined text-primary text-xl">
-                      check_circle
-                    </span>
-                    <span>Locker room access</span>
-                  </div>
-                  <div className="flex items-center gap-3 text-sm text-white/80">
-                    <span className="material-symbols-outlined text-primary text-xl">
-                      check_circle
-                    </span>
-                    <span>Free WiFi</span>
-                  </div>
-                  <div className="flex items-center gap-3 text-sm text-white/40 line-through decoration-white/30">
-                    <span className="material-symbols-outlined text-white/30 text-xl">
-                      cancel
-                    </span>
-                    <span>Group classes</span>
-                  </div>
-                </div>
-                <button className="w-full h-12 rounded-xl bg-surface-dark-lighter text-white font-bold hover:bg-surface-dark transition-colors mt-4">
-                  Select Starter
-                </button>
+            {loading && (
+              <div className="text-center py-16">
+                <p className="text-white/60">Loading membership plans...</p>
               </div>
+            )}
 
-              {/* Athlete Package - Featured */}
-              <div className="flex flex-col gap-6 rounded-2xl border-2 border-primary bg-card-dark p-8 shadow-2xl shadow-primary/10 relative transform lg:-translate-y-4 z-10">
-                <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-primary text-black text-xs font-bold px-4 py-1.5 rounded-full uppercase tracking-wider shadow-lg">
-                  Most Popular
-                </div>
-                <div className="flex flex-col gap-2">
-                  <h3 className="text-primary text-lg font-bold">The Athlete</h3>
-                  <div className="flex items-baseline gap-1 text-white">
-                    <span className="text-4xl font-black tracking-tight">
-                      ETB{" "}
-                      {billingPeriod === "monthly"
-                        ? "3,500"
-                        : "11,200"}
-                    </span>
-                    <span className="text-white/60 text-sm font-medium">
-                      /{billingPeriod === "monthly" ? "quarter" : "year"}
-                    </span>
-                  </div>
-                  <p className="text-white/70 text-sm leading-relaxed mt-2">
-                    Our most balanced package designed for consistent gym-goers
-                    seeking results.
-                  </p>
-                </div>
-                <div className="flex flex-col gap-3 flex-1">
-                  <div className="flex items-center gap-3 text-sm text-white font-medium">
-                    <span className="material-symbols-outlined text-primary text-xl">
-                      check_circle
-                    </span>
-                    <span>All Starter features</span>
-                  </div>
-                  <div className="flex items-center gap-3 text-sm text-white font-medium">
-                    <span className="material-symbols-outlined text-primary text-xl">
-                      check_circle
-                    </span>
-                    <span>Unlimited Gym Access</span>
-                  </div>
-                  <div className="flex items-center gap-3 text-sm text-white font-medium">
-                    <span className="material-symbols-outlined text-primary text-xl">
-                      check_circle
-                    </span>
-                    <span>Group classes included</span>
-                  </div>
-                  <div className="flex items-center gap-3 text-sm text-white font-medium">
-                    <span className="material-symbols-outlined text-primary text-xl">
-                      check_circle
-                    </span>
-                    <span>Sauna & Steam access</span>
-                  </div>
-                  <div className="flex items-center gap-3 text-sm text-white font-medium">
-                    <span className="material-symbols-outlined text-primary text-xl">
-                      check_circle
-                    </span>
-                    <span>1 Free PT session</span>
-                  </div>
-                </div>
-                <button className="w-full h-12 rounded-xl bg-primary text-black font-bold hover:brightness-110 transition-all mt-4 shadow-lg shadow-primary/25">
-                  Select Athlete
-                </button>
+            {error && (
+              <div className="text-center py-16">
+                <p className="text-red-400">Failed to load membership plans. Please try again later.</p>
               </div>
+            )}
 
-              {/* Elite Package */}
-              <div className="flex flex-col gap-6 rounded-2xl border border-border-dark bg-card-dark p-8 shadow-xl hover:border-primary/50 transition-colors duration-300 group">
-                <div className="flex flex-col gap-2">
-                  <div className="flex justify-between items-center">
-                    <h3 className="text-white/70 text-lg font-bold">
-                      The Elite
-                    </h3>
-                    <span className="text-[10px] font-bold bg-surface-dark-lighter text-white/70 px-2 py-1 rounded border border-border-dark">
-                      Best Value
-                    </span>
-                  </div>
-                  <div className="flex items-baseline gap-1 text-white">
-                    <span className="text-4xl font-black tracking-tight">
-                      ETB{" "}
-                      {billingPeriod === "monthly"
-                        ? "1,000"
-                        : "9,600"}
-                    </span>
-                    <span className="text-white/60 text-sm font-medium">
-                      /{billingPeriod === "monthly" ? "month" : "year"}
-                    </span>
-                  </div>
-                  <p className="text-white/60 text-sm leading-relaxed mt-2">
-                    The ultimate commitment to your health with VIP perks and
-                    unlimited access.
-                  </p>
-                </div>
-                <div className="flex flex-col gap-3 flex-1">
-                  <div className="flex items-center gap-3 text-sm text-white/80">
-                    <span className="material-symbols-outlined text-primary text-xl">
-                      check_circle
-                    </span>
-                    <span>All Athlete features</span>
-                  </div>
-                  <div className="flex items-center gap-3 text-sm text-white/80">
-                    <span className="material-symbols-outlined text-primary text-xl">
-                      check_circle
-                    </span>
-                    <span>Priority Class Booking</span>
-                  </div>
-                  <div className="flex items-center gap-3 text-sm text-white/80">
-                    <span className="material-symbols-outlined text-primary text-xl">
-                      check_circle
-                    </span>
-                    <span>Monthly Nutrition Plan</span>
-                  </div>
-                  <div className="flex items-center gap-3 text-sm text-white/80">
-                    <span className="material-symbols-outlined text-primary text-xl">
-                      check_circle
-                    </span>
-                    <span>5 Guest Passes / month</span>
-                  </div>
-                  <div className="flex items-center gap-3 text-sm text-white/80">
-                    <span className="material-symbols-outlined text-primary text-xl">
-                      check_circle
-                    </span>
-                    <span>Free Merchandise Pack</span>
-                  </div>
-                </div>
-                <button className="w-full h-12 rounded-xl bg-surface-dark-lighter text-white font-bold hover:bg-surface-dark transition-colors mt-4">
-                  Select Elite
-                </button>
+            {!loading && !error && services.length === 0 && (
+              <div className="text-center py-16">
+                <p className="text-white/60">No membership plans available at the moment.</p>
               </div>
-            </div>
+            )}
+
+            {!loading && !error && services.length > 0 && (
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {services.map((service, index) => (
+                  <div
+                    key={service.id}
+                    className={`flex flex-col gap-6 rounded-2xl border bg-card-dark p-8 shadow-xl transition-colors duration-300 group ${
+                      index === 1
+                        ? "border-2 border-primary shadow-2xl shadow-primary/10 relative transform lg:-translate-y-4 z-10"
+                        : "border-border-dark hover:border-primary/50"
+                    }`}
+                  >
+                    {index === 1 && (
+                      <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-primary text-black text-xs font-bold px-4 py-1.5 rounded-full uppercase tracking-wider shadow-lg">
+                        Most Popular
+                      </div>
+                    )}
+
+                    <div className="flex flex-col gap-2">
+                      <h3
+                        className={`text-lg font-bold ${
+                          index === 1 ? "text-primary" : "text-white/70"
+                        }`}
+                      >
+                        {service.name}
+                      </h3>
+                      <div className="flex items-baseline gap-1 text-white">
+                        <span className="text-4xl font-black tracking-tight">
+                          ETB {service.price.toLocaleString()}
+                        </span>
+                        <span className="text-white/60 text-sm font-medium">
+                          /{service.durationUnit}
+                        </span>
+                      </div>
+                      <p className="text-white/60 text-sm leading-relaxed mt-2">
+                        {service.description || "Premium membership package"}
+                      </p>
+                    </div>
+
+                    <div className="flex flex-col gap-3 flex-1">
+                      <div className="flex items-center gap-3 text-sm text-white/80">
+                        <span className="material-symbols-outlined text-primary text-xl">
+                          check_circle
+                        </span>
+                        <span>
+                          {service.duration} {service.durationUnit} access
+                        </span>
+                      </div>
+                      <div className="flex items-center gap-3 text-sm text-white/80">
+                        <span className="material-symbols-outlined text-primary text-xl">
+                          check_circle
+                        </span>
+                        <span>Premium facilities</span>
+                      </div>
+                      <div className="flex items-center gap-3 text-sm text-white/80">
+                        <span className="material-symbols-outlined text-primary text-xl">
+                          check_circle
+                        </span>
+                        <span>Expert support</span>
+                      </div>
+                    </div>
+
+                    <button
+                      className={`w-full h-12 rounded-xl font-bold transition-all mt-4 ${
+                        index === 1
+                          ? "bg-primary text-black hover:brightness-110 shadow-lg shadow-primary/25"
+                          : "bg-surface-dark-lighter text-white hover:bg-surface-dark"
+                      }`}
+                    >
+                      Select {service.name}
+                    </button>
+                  </div>
+                ))}
+              </div>
+            )}
           </div>
         </section>
 
@@ -454,4 +394,5 @@ export function ServicesContent() {
     </>
   );
 }
+
 

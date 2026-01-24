@@ -304,3 +304,4 @@ Your Bright Gym website now has:
 **Framework:** Next.js 16.1.1  
 **Next Review:** 2026-02-24
 
+

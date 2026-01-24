@@ -23,7 +23,7 @@ export default function Home() {
 
       <main className="flex flex-col w-full">
         {/* Hero Section */}
-        <section className="relative w-full min-h-[600px] md:min-h-[700px] flex items-center justify-center overflow-hidden">
+        <section className="relative w-full min-h-[500px] md:min-h-[700px] flex items-center justify-center overflow-hidden">
           <div
             className="absolute inset-0 bg-cover bg-center bg-no-repeat"
             style={{
@@ -32,26 +32,26 @@ export default function Home() {
             }}
           ></div>
           <div className="relative z-10 max-w-6xl mx-auto px-4 md:px-10 text-center">
-            <div className="flex flex-col gap-6 items-center">
-              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 backdrop-blur-md border border-primary/20 mb-4">
-                <span className="material-symbols-outlined text-primary text-sm">
+            <div className="flex flex-col gap-3 sm:gap-4 md:gap-6 items-center">
+              <div className="inline-flex items-center gap-2 px-3 py-1.5 sm:px-4 sm:py-2 rounded-full bg-primary/10 backdrop-blur-md border border-primary/20 mb-2 sm:mb-4">
+                <span className="material-symbols-outlined text-primary text-xs sm:text-sm">
                   fitness_center
                 </span>
-                <span className="text-primary text-xs font-bold tracking-wider uppercase">
-                  Addis Ababa&apos;s Premier Gym
+                <span className="text-primary text-[10px] sm:text-xs font-bold tracking-wider uppercase">
+                  Brighten Your Future
                 </span>
               </div>
-              <h1 className="text-white text-5xl md:text-6xl lg:text-7xl font-black leading-tight tracking-tight">
-                Transform Your Body,
+              <h1 className="text-white text-3xl sm:text-4xl md:text-6xl lg:text-7xl font-black leading-tight tracking-tight">
+                Train Your Body,
                 <br />
-                <span className="text-primary">Transform Your Life</span>
+                <span className="text-primary">Free Your Mind</span>
               </h1>
-              <p className="text-white/80 text-lg md:text-xl max-w-2xl font-light leading-relaxed">
+              <p className="text-white/80 text-sm sm:text-base md:text-lg lg:text-xl max-w-2xl font-light leading-relaxed">
                 Join Bright Gym and become part of a community that pushes you
                 beyond your limits. Premium equipment, expert trainers, and a
                 supportive environment await.
               </p>
-              <div className="flex flex-col sm:flex-row gap-4 mt-6">
+              <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 mt-4 sm:mt-6">
                 <Link
                   href="/register"
                   className="flex items-center justify-center rounded-lg h-14 px-8 bg-primary text-black text-base font-bold leading-normal tracking-[0.015em] hover:bg-primary/90 transition-all shadow-lg shadow-primary/20"

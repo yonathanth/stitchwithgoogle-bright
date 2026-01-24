@@ -14,7 +14,6 @@ export default function RegisterPage() {
     phoneNumber: "",
     email: "",
     serviceId: "",
-    terms: false,
   });
   const [services, setServices] = useState<Service[]>([]);
   const [loadingServices, setLoadingServices] = useState(false);
@@ -38,11 +37,10 @@ export default function RegisterPage() {
   }, []);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
-    const { name, value, type } = e.target;
-    const checked = (e.target as HTMLInputElement).checked;
+    const { name, value } = e.target;
     setFormData((prev) => ({
       ...prev,
-      [name]: type === "checkbox" ? checked : value,
+      [name]: value,
     }));
   };
 
@@ -68,7 +66,6 @@ export default function RegisterPage() {
         phoneNumber: "",
         email: "",
         serviceId: "",
-        terms: false,
       });
       setSelectedPlan("quarterly");
     } catch (err: any) {
@@ -247,140 +244,6 @@ export default function RegisterPage() {
                   </span>
                 </div>
               </label>
-
-              <div className="mt-4">
-                <label className="text-sm font-medium text-white/80 mb-4 block">
-                  Select Package
-                </label>
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                  {/* Monthly Plan */}
-                  <label className="group relative cursor-pointer">
-                    <input
-                      className="peer sr-only"
-                      name="plan"
-                      type="radio"
-                      value="monthly"
-                      checked={selectedPlan === "monthly"}
-                      onChange={() => setSelectedPlan("monthly")}
-                    />
-                    <div className="p-4 rounded-xl border-2 border-surface-dark-lighter bg-surface-dark peer-checked:border-primary peer-checked:bg-surface-dark-lighter/50 hover:border-white/30 transition-all h-full flex flex-col">
-                      <div className="flex justify-between items-start mb-2">
-                        <span className="text-sm font-bold text-white/60 uppercase tracking-wider">
-                          Monthly
-                        </span>
-                        <div className="w-5 h-5 rounded-full border-2 border-white/40 peer-checked:border-primary peer-checked:bg-primary transition-colors flex items-center justify-center">
-                          <div className="w-2.5 h-2.5 bg-black rounded-full opacity-0 peer-checked:opacity-100"></div>
-                        </div>
-                      </div>
-                      <div className="mt-auto">
-                        <span className="text-2xl font-bold text-white">
-                          2,500
-                        </span>
-                        <span className="text-xs text-white/60 font-medium">
-                          {" "}
-                          ETB / mo
-                        </span>
-                      </div>
-                    </div>
-                  </label>
-
-                  {/* Quarterly Plan - Featured */}
-                  <label className="group relative cursor-pointer">
-                    <input
-                      className="peer sr-only"
-                      name="plan"
-                      type="radio"
-                      value="quarterly"
-                      checked={selectedPlan === "quarterly"}
-                      onChange={() => setSelectedPlan("quarterly")}
-                    />
-                    <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-primary text-black text-[10px] font-bold px-2 py-0.5 rounded-full z-10 uppercase tracking-wide">
-                      Best Value
-                    </div>
-                    <div className="p-4 rounded-xl border-2 border-primary bg-surface-dark-lighter/50 peer-checked:border-primary peer-checked:bg-surface-dark-lighter/70 hover:border-primary/80 transition-all h-full flex flex-col shadow-lg shadow-primary/10">
-                      <div className="flex justify-between items-start mb-2">
-                        <span className="text-sm font-bold text-primary uppercase tracking-wider">
-                          Quarterly
-                        </span>
-                        <div className="w-5 h-5 rounded-full border-2 border-primary bg-primary flex items-center justify-center">
-                          <div className="w-2.5 h-2.5 bg-black rounded-full"></div>
-                        </div>
-                      </div>
-                      <div className="mt-auto">
-                        <span className="text-2xl font-bold text-white">
-                          6,500
-                        </span>
-                        <span className="text-xs text-white/60 font-medium">
-                          {" "}
-                          ETB / 3mo
-                        </span>
-                      </div>
-                    </div>
-                  </label>
-
-                  {/* Annual Plan */}
-                  <label className="group relative cursor-pointer">
-                    <input
-                      className="peer sr-only"
-                      name="plan"
-                      type="radio"
-                      value="annual"
-                      checked={selectedPlan === "annual"}
-                      onChange={() => setSelectedPlan("annual")}
-                    />
-                    <div className="p-4 rounded-xl border-2 border-surface-dark-lighter bg-surface-dark peer-checked:border-primary peer-checked:bg-surface-dark-lighter/50 hover:border-white/30 transition-all h-full flex flex-col">
-                      <div className="flex justify-between items-start mb-2">
-                        <span className="text-sm font-bold text-white/60 uppercase tracking-wider">
-                          Annual
-                        </span>
-                        <div className="w-5 h-5 rounded-full border-2 border-white/40 peer-checked:border-primary peer-checked:bg-primary transition-colors flex items-center justify-center">
-                          <div className="w-2.5 h-2.5 bg-black rounded-full opacity-0 peer-checked:opacity-100"></div>
-                        </div>
-                      </div>
-                      <div className="mt-auto">
-                        <span className="text-2xl font-bold text-white">
-                          24,000
-                        </span>
-                        <span className="text-xs text-white/60 font-medium">
-                          {" "}
-                          ETB / yr
-                        </span>
-                      </div>
-                    </div>
-                  </label>
-                </div>
-              </div>
-
-              <div className="flex items-start gap-3 mt-2">
-                <div className="flex items-center h-5">
-                  <input
-                    className="w-5 h-5 rounded border-surface-dark-lighter bg-surface-dark text-primary focus:ring-primary focus:ring-offset-background-dark"
-                    id="terms"
-                    type="checkbox"
-                    name="terms"
-                    checked={formData.terms}
-                    onChange={handleInputChange}
-                    required
-                  />
-                </div>
-                <label className="text-sm text-white/60" htmlFor="terms">
-                  I agree to the{" "}
-                  <Link
-                    className="text-primary hover:underline font-medium"
-                    href="#"
-                  >
-                    Terms & Conditions
-                  </Link>{" "}
-                  and{" "}
-                  <Link
-                    className="text-primary hover:underline font-medium"
-                    href="#"
-                  >
-                    Privacy Policy
-                  </Link>
-                  .
-                </label>
-              </div>
 
               {error && (
                 <div className="mt-4 p-4 bg-red-500/10 border border-red-500/30 rounded-lg text-red-400 text-sm">

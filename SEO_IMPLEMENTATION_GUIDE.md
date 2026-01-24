@@ -310,3 +310,4 @@ bright/
 **Domain:** brightgymfitness.com
 **Framework:** Next.js 16.1.1
 
+

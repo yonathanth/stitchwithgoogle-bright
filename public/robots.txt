@@ -12,3 +12,4 @@ Crawl-delay: 1
 # Sitemap location
 Sitemap: https://brightgymfitness.com/sitemap.xml
 
+

@@ -69,12 +69,22 @@ export default function Footer() {
         </div>
         <div>
           <h4 className="text-white font-bold mb-4">Visit Us</h4>
-          <p className="text-sm text-gray-400">Bole Atlas, Addis Ababa</p>
-          <p className="text-sm text-gray-400 mt-2">Mon-Sun: 5:00 AM - 10:00 PM</p>
+          <p className="text-sm text-gray-400">Ayat 49, Addis Ababa</p>
+          <p className="text-sm text-gray-400 mt-2">Mon-Sun: 6:00 AM - 8:45 PM</p>
         </div>
       </div>
-      <div className="mt-12 pt-8 border-t border-surface-dark-lighter text-center text-sm text-gray-500">
-        © {currentYear} Bright Gym. All rights reserved.
+      <div className="mt-12 pt-8 border-t border-surface-dark-lighter flex flex-col sm:flex-row items-center justify-between gap-4">
+        <div className="text-center sm:text-left text-sm text-gray-500">
+          © {currentYear} Bright Gym. All rights reserved.
+        </div>
+        <Link
+          href="/admin/login"
+          className="text-gray-500 hover:text-primary transition-colors text-xs font-medium flex items-center gap-1"
+          title="Admin portal"
+        >
+          <span className="material-symbols-outlined text-sm">lock</span>
+          <span>Admin</span>
+        </Link>
       </div>
     </footer>
   );
