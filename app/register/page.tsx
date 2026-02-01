@@ -1,12 +1,12 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { Suspense, useState, useEffect } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import { potentialCustomersApi, servicesApi, type Service } from "@/lib/api";
 
-export default function RegisterPage() {
+function RegisterContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [selectedPlan, setSelectedPlan] = useState<"monthly" | "quarterly" | "annual">("quarterly");
@@ -278,6 +278,24 @@ export default function RegisterPage() {
         </div>
       )}
     </div>
+  );
+}
+
+export default function RegisterPage() {
+  return (
+    <Suspense
+      fallback={
+        <div className="relative flex min-h-screen w-full flex-col overflow-x-hidden">
+          <Header />
+          <main className="flex flex-1 items-center justify-center pt-[73px]">
+            <div className="text-white/60">Loading...</div>
+          </main>
+          <Footer />
+        </div>
+      }
+    >
+      <RegisterContent />
+    </Suspense>
   );
 }
 
