@@ -3,7 +3,6 @@ import Footer from "../components/Footer";
 import { MultipleSchemaComponent, SchemaComponent } from "@/lib/schema-component";
 import { productSchema, faqSchema, breadcrumbSchema } from "@/lib/schemas";
 import type { Metadata } from "next";
-import { BillingProvider } from "./billing-toggle";
 import { ServicesContent } from "./services-content";
 
 export const metadata: Metadata = {
@@ -29,11 +28,10 @@ export default function ServicesPage() {
     <div className="relative flex min-h-screen w-full flex-col overflow-x-hidden">
       <Header />
 
-      <BillingProvider>
+      <div className="pt-[73px]">
         <ServicesContent />
-      </BillingProvider>
-
-      <Footer />
+        <Footer />
+      </div>
 
       {/* Breadcrumb Schema */}
       <SchemaComponent

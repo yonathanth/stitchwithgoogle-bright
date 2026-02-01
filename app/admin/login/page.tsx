@@ -34,14 +34,9 @@ export default function AdminLoginPage() {
       <div className="w-full max-w-md">
         {/* Logo/Brand */}
         <div className="text-center mb-8">
-          <Link href="/" className="inline-flex items-center gap-2 mb-4">
-            <div className="size-12 rounded-xl bg-primary/10 flex items-center justify-center">
-              <span className="material-symbols-outlined text-primary text-2xl">
-                fitness_center
-              </span>
-            </div>
+          {/* <Link href="/" className="inline-block mb-4">
             <span className="text-white text-2xl font-bold">Bright Gym</span>
-          </Link>
+          </Link> */}
           <h1 className="text-white text-2xl font-bold mt-4">Admin Portal</h1>
           <p className="text-white/60 mt-2">Sign in to access the dashboard</p>
         </div>

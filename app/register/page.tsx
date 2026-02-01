@@ -1,13 +1,14 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
-import Link from "next/link";
-import Image from "next/image";
 import { potentialCustomersApi, servicesApi, type Service } from "@/lib/api";
 
 export default function RegisterPage() {
+  const router = useRouter();
+  const searchParams = useSearchParams();
   const [selectedPlan, setSelectedPlan] = useState<"monthly" | "quarterly" | "annual">("quarterly");
   const [formData, setFormData] = useState({
     fullName: "",
@@ -36,6 +37,16 @@ export default function RegisterPage() {
     fetchServices();
   }, []);
 
+  useEffect(() => {
+    const serviceId = searchParams.get("serviceId");
+    if (serviceId && services.length > 0) {
+      const exists = services.some((s) => String(s.id) === serviceId);
+      if (exists) {
+        setFormData((prev) => ({ ...prev, serviceId }));
+      }
+    }
+  }, [searchParams, services]);
+
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
     setFormData((prev) => ({
@@ -60,7 +71,6 @@ export default function RegisterPage() {
       });
 
       setSuccess(true);
-      // Reset form
       setFormData({
         fullName: "",
         phoneNumber: "",
@@ -79,7 +89,7 @@ export default function RegisterPage() {
     <div className="relative flex min-h-screen w-full flex-col overflow-x-hidden">
       <Header />
 
-      <main className="flex flex-col lg:flex-row flex-1">
+      <main className="flex flex-col lg:flex-row flex-1 pt-[73px]">
         {/* Left Side - Image Section */}
         <div className="relative w-full lg:w-5/12 min-h-[300px] lg:min-h-auto flex flex-col justify-end p-8 lg:p-16 overflow-hidden lg:sticky lg:top-[73px] lg:h-[calc(100vh-73px)]">
           <div
@@ -107,37 +117,6 @@ export default function RegisterPage() {
               Premium facilities, expert trainers, affordable plans. Join Addis
               Ababa&apos;s top fitness community today.
             </p>
-            <div className="flex items-center gap-4 mt-4">
-              <div className="flex -space-x-3">
-                <Image
-                  alt="Member Avatar"
-                  className="w-10 h-10 rounded-full border-2 border-black"
-                  src="https://lh3.googleusercontent.com/aida-public/AB6AXuCWTN1vkSrpnUduzhuR2TLFOF81e8I_vb-BWKIE-4pRrAoNASwKJmxPrYtnU1dAbnG3gmjBuSsQTcWjMyi6v6XOfagIkRWocpfmpTGDMUAvqCvsCRSM-ie7zXz2sCUcqmFcf28Qt60eBcrerwUMEcKy8SxPysD1aMxJiOFoKwoeI31BPCHcb6Ku10aiS7r_ZdFZV5FL7oIEozM3IGlIz16mEw1MyiIoyJOOmTPX9wRz6yPlw8DGxoLcOnrStyvKrHD2uJTO2QPkAZI"
-                  width={40}
-                  height={40}
-                />
-                <Image
-                  alt="Member Avatar"
-                  className="w-10 h-10 rounded-full border-2 border-black"
-                  src="https://lh3.googleusercontent.com/aida-public/AB6AXuB6FvqEzy6TZn00oCHUqTbeI90ZIAa2Lg68cA33URBvuuVVq8yjzbYgrkmdlskwgS2-uoRNXdFbUxiEEd_fdOpwz4a-Le0Z3AplgDKoCOTjqpGvj9kfkaYdT1Kltf-w_Swk6tvZtmrS4OG8xbXVucLX1XDa7R_MnhZDNF3nUQV5Fi8Nr_rVoPqig7JvnMVI3R_Qw8J_7U5Z8Nrj-c_eGrPJiImMPIwsm5KqgVOo7kThnPtxSqs69PGt8gqMLkoETqeqmoCEsfwEoxs"
-                  width={40}
-                  height={40}
-                />
-                <Image
-                  alt="Member Avatar"
-                  className="w-10 h-10 rounded-full border-2 border-black"
-                  src="https://lh3.googleusercontent.com/aida-public/AB6AXuCB6nkJ0c6-8TClorG1G2SfsY3H01XqwNetvemz7d-ius-Mn7S4GeLeUsWhWUbVOEDWjNstM3idOTWU6y7XoH59MbUSH_BI08qCp4dHnAxTa1_15xgnjsld4xznHMo77vzYlZj5bM-pSgGocGfOLq1PYW8oTTxxxnZ5mGvh-0c4GdEkMhILeJrwIKhLN-bTf6Ojx3DV6soalatLVxky3CUhGPfam1VP-1BQTn3VOvcHTKcxNaLQ8JTgdgwoNQI-p_YUmYl83VbEsSw"
-                  width={40}
-                  height={40}
-                />
-                <div className="w-10 h-10 rounded-full border-2 border-black bg-white flex items-center justify-center text-black font-bold text-xs">
-                  +500
-                </div>
-              </div>
-              <p className="text-sm font-medium text-white/80">
-                Active members in Addis
-              </p>
-            </div>
           </div>
         </div>
 
@@ -251,12 +230,6 @@ export default function RegisterPage() {
                 </div>
               )}
 
-              {success && (
-                <div className="mt-4 p-4 bg-green-500/10 border border-green-500/30 rounded-lg text-green-400 text-sm">
-                  Registration successful! We'll contact you soon.
-                </div>
-              )}
-
               <button
                 className="mt-4 w-full h-14 bg-primary hover:bg-primary/90 text-black font-bold text-lg rounded-lg shadow-lg shadow-primary/20 hover:shadow-xl transition-all flex items-center justify-center gap-2 group disabled:opacity-50 disabled:cursor-not-allowed"
                 type="submit"
@@ -273,24 +246,37 @@ export default function RegisterPage() {
                   </>
                 )}
               </button>
-
-              <div className="text-center mt-2">
-                <p className="text-sm text-white/60">
-                  Already have an account?{" "}
-                  <Link
-                    className="text-primary font-bold hover:underline"
-                    href="#"
-                  >
-                    Log in
-                  </Link>
-                </p>
-              </div>
             </form>
           </div>
         </div>
       </main>
 
       <Footer />
+
+      {/* Success popup – redirects to home */}
+      {success && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm">
+          <div className="w-full max-w-md rounded-2xl bg-surface-dark border border-surface-dark-lighter p-8 shadow-xl text-center">
+            <div className="size-16 rounded-full bg-emerald-500/20 flex items-center justify-center mx-auto mb-6">
+              <span className="material-symbols-outlined text-emerald-400 text-4xl">
+                check_circle
+              </span>
+            </div>
+            <h3 className="text-white text-xl font-bold mb-2">Registration successful!</h3>
+            <p className="text-white/70 text-sm mb-6">
+              We&apos;ll contact you soon. Thank you for joining Bright Gym.
+            </p>
+            <button
+              type="button"
+              onClick={() => router.push("/")}
+              className="w-full h-12 bg-primary text-black font-bold rounded-lg hover:bg-primary/90 transition-colors flex items-center justify-center gap-2"
+            >
+              <span>Back to Home</span>
+              <span className="material-symbols-outlined text-xl">arrow_forward</span>
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

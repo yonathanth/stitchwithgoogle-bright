@@ -9,6 +9,12 @@ const nextConfig: NextConfig = {
       },
     ],
   },
+  async rewrites() {
+    return [
+      // SEO: many crawlers request exactly /favicon.ico – serve from /favicon/
+      { source: "/favicon.ico", destination: "/favicon/favicon.ico" },
+    ];
+  },
 };
 
 export default nextConfig;

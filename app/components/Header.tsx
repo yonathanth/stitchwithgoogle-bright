@@ -8,7 +8,7 @@ export default function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   return (
-    <header className="flex items-center justify-between whitespace-nowrap border-b border-solid border-b-surface-dark-lighter px-4 py-2 md:px-10 bg-background-light sticky top-0 z-50">
+    <header className="flex items-center justify-between whitespace-nowrap border-b border-solid border-b-surface-dark-lighter px-4 py-2 md:px-10 bg-background-light fixed top-0 left-0 right-0 z-50">
       <Link href="/" className="flex items-center gap-3 text-white hover:opacity-80 transition-opacity">
         <div className="size-10 relative">
           <Image

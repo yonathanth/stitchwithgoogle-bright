@@ -4,11 +4,23 @@ import { useState, useEffect, useCallback } from 'react';
 import {
   transactionsApi,
   Transaction,
+  TransactionType,
   TransactionStats,
   PaginatedResponse,
 } from '@/lib/api';
 import DataTable, { Pagination, type Column } from '@/components/admin/DataTable';
 import StatsCard from '@/components/admin/StatsCard';
+
+const TRANSACTION_TYPE_LABELS: Record<TransactionType, string> = {
+  income: 'Income',
+  expense: 'Expense',
+  positive_return: 'Positive Return',
+  negative_return: 'Negative Return',
+};
+
+function isInflow(type: TransactionType): boolean {
+  return type === 'income' || type === 'positive_return';
+}
 
 export default function TransactionsPage() {
   const [transactions, setTransactions] = useState<PaginatedResponse<Transaction> | null>(null);
@@ -34,7 +46,7 @@ export default function TransactionsPage() {
       const data = await transactionsApi.getAll({
         page,
         limit,
-        type: (typeFilter as 'income' | 'expense') || undefined,
+        transactionType: (typeFilter as TransactionType) || undefined,
         startDate: startDate || undefined,
         endDate: endDate || undefined,
       });
@@ -71,22 +83,35 @@ export default function TransactionsPage() {
     });
   };
 
+  const getTypeBadgeClass = (type: TransactionType) => {
+    switch (type) {
+      case 'income':
+        return 'bg-emerald-500/10 text-emerald-400';
+      case 'expense':
+        return 'bg-red-500/10 text-red-400';
+      case 'positive_return':
+        return 'bg-teal-500/10 text-teal-400';
+      case 'negative_return':
+        return 'bg-amber-500/10 text-amber-400';
+      default:
+        return 'bg-gray-500/10 text-gray-400';
+    }
+  };
+
   const columns: Column<Transaction>[] = [
     {
       key: 'type',
       header: 'Type',
       render: (transaction: Transaction) => (
         <div
-          className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium ${
-            transaction.type === 'income'
-              ? 'bg-emerald-500/10 text-emerald-400'
-              : 'bg-red-500/10 text-red-400'
-          }`}
+          className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium capitalize ${getTypeBadgeClass(
+            transaction.type
+          )}`}
         >
           <span className="material-symbols-outlined text-sm">
-            {transaction.type === 'income' ? 'arrow_downward' : 'arrow_upward'}
+            {isInflow(transaction.type) ? 'arrow_downward' : 'arrow_upward'}
           </span>
-          {transaction.type}
+          {TRANSACTION_TYPE_LABELS[transaction.type] ?? transaction.type}
         </div>
       ),
     },
@@ -134,10 +159,10 @@ export default function TransactionsPage() {
       render: (transaction: Transaction) => (
         <span
           className={`font-semibold ${
-            transaction.type === 'income' ? 'text-emerald-400' : 'text-red-400'
+            isInflow(transaction.type) ? 'text-emerald-400' : 'text-red-400'
           }`}
         >
-          {transaction.type === 'income' ? '+' : '-'}
+          {isInflow(transaction.type) ? '+' : '-'}
           {formatCurrency(transaction.amount)}
         </span>
       ),
@@ -171,7 +196,7 @@ export default function TransactionsPage() {
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
           <h1 className="text-white text-2xl font-bold">Transactions</h1>
-          <p className="text-white/60 mt-1">Manage income and expenses</p>
+          <p className="text-white/60 mt-1">Manage income, outflows, and returns</p>
         </div>
       </div>
 
@@ -184,8 +209,8 @@ export default function TransactionsPage() {
           color="green"
         />
         <StatsCard
-          title="Total Expenses"
-          value={formatCurrency(stats?.totalExpense || 0)}
+          title="Total Outflows"
+          value={formatCurrency(stats?.totalOutflows || 0)}
           icon="trending_down"
           color="red"
         />
@@ -237,23 +262,23 @@ export default function TransactionsPage() {
                 <div className="size-10 rounded-full bg-red-500/10 flex items-center justify-center text-red-400">
                   <span className="material-symbols-outlined">arrow_upward</span>
                 </div>
-                <span className="text-white/80">Expenses</span>
+                <span className="text-white/80">Outflows</span>
               </div>
               <span className="text-red-400 font-semibold">
-                {formatCurrency(stats?.thisMonthExpense || 0)}
+                {formatCurrency(stats?.thisMonthOutflows || 0)}
               </span>
             </div>
             <div className="border-t border-surface-dark-lighter pt-4 flex items-center justify-between">
               <span className="text-white font-medium">Net</span>
               <span
                 className={`font-bold text-lg ${
-                  (stats?.thisMonthIncome || 0) - (stats?.thisMonthExpense || 0) >= 0
+                  (stats?.thisMonthIncome || 0) - (stats?.thisMonthOutflows || 0) >= 0
                     ? 'text-emerald-400'
                     : 'text-red-400'
                 }`}
               >
                 {formatCurrency(
-                  (stats?.thisMonthIncome || 0) - (stats?.thisMonthExpense || 0)
+                  (stats?.thisMonthIncome || 0) - (stats?.thisMonthOutflows || 0)
                 )}
               </span>
             </div>
@@ -280,23 +305,23 @@ export default function TransactionsPage() {
                 <div className="size-10 rounded-full bg-red-500/10 flex items-center justify-center text-red-400">
                   <span className="material-symbols-outlined">arrow_upward</span>
                 </div>
-                <span className="text-white/80">Expenses</span>
+                <span className="text-white/80">Outflows</span>
               </div>
               <span className="text-red-400 font-semibold">
-                {formatCurrency(stats?.lastMonthExpense || 0)}
+                {formatCurrency(stats?.lastMonthOutflows || 0)}
               </span>
             </div>
             <div className="border-t border-surface-dark-lighter pt-4 flex items-center justify-between">
               <span className="text-white font-medium">Net</span>
               <span
                 className={`font-bold text-lg ${
-                  (stats?.lastMonthIncome || 0) - (stats?.lastMonthExpense || 0) >= 0
+                  (stats?.lastMonthIncome || 0) - (stats?.lastMonthOutflows || 0) >= 0
                     ? 'text-emerald-400'
                     : 'text-red-400'
                 }`}
               >
                 {formatCurrency(
-                  (stats?.lastMonthIncome || 0) - (stats?.lastMonthExpense || 0)
+                  (stats?.lastMonthIncome || 0) - (stats?.lastMonthOutflows || 0)
                 )}
               </span>
             </div>
@@ -318,6 +343,8 @@ export default function TransactionsPage() {
             <option value="">All Types</option>
             <option value="income">Income</option>
             <option value="expense">Expense</option>
+            <option value="positive_return">Positive Return</option>
+            <option value="negative_return">Negative Return</option>
           </select>
           <input
             type="date"

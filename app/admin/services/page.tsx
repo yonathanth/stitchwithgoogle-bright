@@ -176,7 +176,11 @@ export default function ServicesPage() {
                   <h3 className="text-white text-lg font-semibold mb-3">
                     {service.name}
                   </h3>
-                  
+                  {service.category && (
+                    <span className="inline-flex items-center px-2.5 py-1 rounded-lg bg-primary/10 text-primary text-xs font-medium mb-3">
+                      {service.category}
+                    </span>
+                  )}
                   {benefits.length > 0 && (
                     <div className="mb-4">
                       <p className="text-white/40 text-xs mb-2">Benefits:</p>

@@ -57,14 +57,17 @@ export default function MemberDetailPage({ params }: Props) {
   }, [id]);
 
   const getStatusBadge = (status: string) => {
-    const styles = {
+    const styles: Record<string, string> = {
       active: 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20',
       inactive: 'bg-gray-500/10 text-gray-400 border-gray-500/20',
+      frozen: 'bg-sky-500/10 text-sky-400 border-sky-500/20',
+      pending: 'bg-amber-500/10 text-amber-400 border-amber-500/20',
+      expired: 'bg-red-500/10 text-red-400 border-red-500/20',
     };
     return (
       <span
-        className={`inline-flex items-center px-3 py-1 rounded-full text-sm font-medium border ${
-          styles[status as keyof typeof styles] || styles.inactive
+        className={`inline-flex items-center px-3 py-1 rounded-full text-sm font-medium border capitalize ${
+          styles[status] || styles.inactive
         }`}
       >
         {status}
@@ -189,7 +192,7 @@ export default function MemberDetailPage({ params }: Props) {
                 {member.phone && (
                   <button
                     onClick={() => setIsSmsModalOpen(true)}
-                    className="px-3 py-1.5 bg-primary text-white rounded-lg hover:bg-primary/90 text-sm font-medium flex items-center gap-2"
+                    className="px-3 py-1.5 bg-primary text-black rounded-lg hover:bg-primary/90 text-sm font-medium flex items-center gap-2"
                     title="Send SMS"
                   >
                     <span className="material-symbols-outlined text-sm">sms</span>
@@ -358,43 +361,53 @@ export default function MemberDetailPage({ params }: Props) {
                 No transactions
               </div>
             ) : (
-              transactions?.data.map((transaction) => (
-                <div
-                  key={transaction.id}
-                  className="p-4 flex items-center justify-between"
-                >
-                  <div className="flex items-center gap-3">
-                    <div
-                      className={`size-10 rounded-full flex items-center justify-center ${
-                        transaction.type === 'income'
-                          ? 'bg-emerald-500/10 text-emerald-400'
-                          : 'bg-red-500/10 text-red-400'
+              transactions?.data.map((transaction) => {
+                const isInflow =
+                  transaction.type === 'income' || transaction.type === 'positive_return';
+                const typeLabel =
+                  transaction.type === 'positive_return'
+                    ? 'Positive Return'
+                    : transaction.type === 'negative_return'
+                      ? 'Negative Return'
+                      : transaction.type === 'income'
+                        ? 'Income'
+                        : 'Expense';
+                return (
+                  <div
+                    key={transaction.id}
+                    className="p-4 flex items-center justify-between"
+                  >
+                    <div className="flex items-center gap-3">
+                      <div
+                        className={`size-10 rounded-full flex items-center justify-center ${
+                          isInflow ? 'bg-emerald-500/10 text-emerald-400' : 'bg-red-500/10 text-red-400'
+                        }`}
+                      >
+                        <span className="material-symbols-outlined">
+                          {isInflow ? 'arrow_downward' : 'arrow_upward'}
+                        </span>
+                      </div>
+                      <div>
+                        <p className="text-white">
+                          {transaction.description || transaction.category}
+                        </p>
+                        <p className="text-white/40 text-sm">
+                          {typeLabel} • {formatDate(transaction.transactionDate)} •{' '}
+                          {transaction.paymentMethod || 'N/A'}
+                        </p>
+                      </div>
+                    </div>
+                    <span
+                      className={`font-semibold ${
+                        isInflow ? 'text-emerald-400' : 'text-red-400'
                       }`}
                     >
-                      <span className="material-symbols-outlined">
-                        {transaction.type === 'income' ? 'arrow_downward' : 'arrow_upward'}
-                      </span>
-                    </div>
-                    <div>
-                      <p className="text-white">
-                        {transaction.description || transaction.category}
-                      </p>
-                      <p className="text-white/40 text-sm">
-                        {formatDate(transaction.transactionDate)} •{' '}
-                        {transaction.paymentMethod || 'N/A'}
-                      </p>
-                    </div>
+                      {isInflow ? '+' : '-'}
+                      {formatCurrency(transaction.amount)}
+                    </span>
                   </div>
-                  <span
-                    className={`font-semibold ${
-                      transaction.type === 'income' ? 'text-emerald-400' : 'text-red-400'
-                    }`}
-                  >
-                    {transaction.type === 'income' ? '+' : '-'}
-                    {formatCurrency(transaction.amount)}
-                  </span>
-                </div>
-              ))
+                );
+              })
             )}
           </div>
         </div>

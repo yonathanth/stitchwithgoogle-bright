@@ -29,7 +29,7 @@ export default function AboutPage() {
       <div className="layout-container flex w-full flex-col">
         <Header />
 
-        <main className="flex flex-col items-center justify-center w-full">
+        <main className="flex flex-col items-center justify-center w-full pt-[73px]">
           <div className="layout-content-container flex flex-col w-full max-w-[1200px] flex-1">
             {/* HeroSection */}
             <div className="@container w-full">
@@ -52,9 +52,12 @@ export default function AboutPage() {
                     </h2>
                   </div>
                   <div className="flex gap-4 flex-wrap">
-                    <button className="flex min-w-[84px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-12 px-6 bg-primary text-black text-base font-bold leading-normal tracking-[0.015em] hover:bg-opacity-90 transition-opacity">
+                    <Link
+                      href="/register"
+                      className="flex min-w-[84px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-12 px-6 bg-primary text-black text-base font-bold leading-normal tracking-[0.015em] hover:bg-opacity-90 transition-opacity"
+                    >
                       <span className="truncate">Join the Movement</span>
-                    </button>
+                    </Link>
                   </div>
                 </div>
               </div>
@@ -88,15 +91,11 @@ export default function AboutPage() {
                       hard work meets high-quality guidance.
                     </p>
                     <p className="text-white/70 text-base font-normal leading-relaxed">
-                      What began as a small training group has grown into the
-                      city&apos;s most energetic fitness hub. We believe that
-                      everyone deserves access to top-tier equipment and
-                      motivating coaches, regardless of their starting point.
+                      From that small group we grew into a place where Addis
+                      trains—where everyone gets access to solid equipment and
+                      coaches who push you, no matter where you start.
                     </p>
                   </div>
-                  <button className="w-fit flex cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-6 border border-primary text-primary hover:bg-primary hover:text-black transition-colors text-sm font-bold leading-normal tracking-[0.015em]">
-                    <span className="truncate">Read Our Full History</span>
-                  </button>
                 </div>
               </div>
             </div>
@@ -286,37 +285,29 @@ export default function AboutPage() {
 
             {/* Stats Section */}
             <div className="flex flex-col w-full px-4 py-6 md:px-10">
-              <div className="flex flex-wrap gap-4">
-                <div className="flex min-w-[158px] flex-1 flex-col gap-2 rounded-xl p-6 bg-surface-dark border border-surface-dark-lighter items-center text-center">
-                  <p className="text-primary text-3xl font-black leading-tight">
-                    1,200+
+              <div className="grid grid-cols-2 md:grid-cols-3 gap-6">
+                <div className="flex flex-col gap-2 items-center text-center p-6 rounded-xl bg-surface-dark border border-surface-dark-lighter">
+                  <p className="text-primary text-4xl md:text-5xl font-black leading-tight">
+                    200+
                   </p>
-                  <p className="text-white text-sm font-medium leading-normal uppercase tracking-wider opacity-80">
-                    Members Active
-                  </p>
-                </div>
-                <div className="flex min-w-[158px] flex-1 flex-col gap-2 rounded-xl p-6 bg-surface-dark border border-surface-dark-lighter items-center text-center">
-                  <p className="text-primary text-3xl font-black leading-tight">
-                    8
-                  </p>
-                  <p className="text-white text-sm font-medium leading-normal uppercase tracking-wider opacity-80">
-                    Years Experience
+                  <p className="text-white text-sm font-medium uppercase tracking-wider opacity-80">
+                    Members
                   </p>
                 </div>
-                <div className="flex min-w-[158px] flex-1 flex-col gap-2 rounded-xl p-6 bg-surface-dark border border-surface-dark-lighter items-center text-center">
-                  <p className="text-primary text-3xl font-black leading-tight">
-                    45+
+                <div className="flex flex-col gap-2 items-center text-center p-6 rounded-xl bg-surface-dark border border-surface-dark-lighter">
+                  <p className="text-primary text-4xl md:text-5xl font-black leading-tight">
+                    5
                   </p>
-                  <p className="text-white text-sm font-medium leading-normal uppercase tracking-wider opacity-80">
-                    Classes per Week
+                  <p className="text-white text-sm font-medium uppercase tracking-wider opacity-80">
+                    Years of Experience
                   </p>
                 </div>
-                <div className="flex min-w-[158px] flex-1 flex-col gap-2 rounded-xl p-6 bg-surface-dark border border-surface-dark-lighter items-center text-center">
-                  <p className="text-primary text-3xl font-black leading-tight">
-                    2
+                <div className="flex flex-col gap-2 items-center text-center p-6 rounded-xl bg-surface-dark border border-surface-dark-lighter">
+                  <p className="text-primary text-4xl md:text-5xl font-black leading-tight">
+                    10+
                   </p>
-                  <p className="text-white text-sm font-medium leading-normal uppercase tracking-wider opacity-80">
-                    Locations
+                  <p className="text-white text-sm font-medium uppercase tracking-wider opacity-80">
+                    Classes Weekly
                   </p>
                 </div>
               </div>
@@ -337,12 +328,18 @@ export default function AboutPage() {
                     first day pass absolutely free.
                   </p>
                   <div className="flex flex-col sm:flex-row gap-4 mt-4 w-full justify-center">
-                    <button className="flex min-w-[160px] cursor-pointer items-center justify-center rounded-lg h-12 px-8 bg-primary text-black text-base font-bold leading-normal hover:bg-opacity-90 transition-all transform hover:scale-105">
-                      Get Free Day Pass
-                    </button>
-                    <button className="flex min-w-[160px] cursor-pointer items-center justify-center rounded-lg h-12 px-8 bg-transparent border-2 border-white/20 text-white text-base font-bold leading-normal hover:bg-white/10 transition-all">
+                    <Link
+                      href="/register"
+                      className="flex min-w-[160px] cursor-pointer items-center justify-center rounded-lg h-12 px-8 bg-primary text-black text-base font-bold leading-normal hover:bg-opacity-90 transition-all transform hover:scale-105"
+                    >
+                      Register Now
+                    </Link>
+                    <Link
+                      href="/services"
+                      className="flex min-w-[160px] cursor-pointer items-center justify-center rounded-lg h-12 px-8 bg-transparent border-2 border-white/20 text-white text-base font-bold leading-normal hover:bg-white/10 transition-all"
+                    >
                       View Membership Plans
-                    </button>
+                    </Link>
                   </div>
                 </div>
               </div>

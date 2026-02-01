@@ -1,5 +1,4 @@
 // API Client with typed responses for Gym API
-
 const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:9000';
 
 // Types based on gym-api DTOs
@@ -36,7 +35,7 @@ export interface Member {
   phone: string;
   email?: string;
   gender?: string;
-  status: 'active' | 'inactive';
+  status: string;
   serviceType?: string;
   startDate?: string;
   endDate?: string;
@@ -87,11 +86,13 @@ export interface TodayAttendance {
   }>;
 }
 
+export type TransactionType = 'income' | 'expense' | 'positive_return' | 'negative_return';
+
 export interface Transaction {
   id: number;
   memberId: number;
   amount: number;
-  type: 'income' | 'expense';
+  type: TransactionType;
   category: string;
   description?: string;
   paymentMethod?: string;
@@ -102,17 +103,19 @@ export interface Transaction {
 
 export interface TransactionStats {
   totalIncome: number;
-  totalExpense: number;
+  totalOutflows: number;
   netProfit: number;
   thisMonthIncome: number;
-  thisMonthExpense: number;
+  thisMonthOutflows: number;
   lastMonthIncome: number;
-  lastMonthExpense: number;
+  lastMonthOutflows: number;
+  last7Days?: { date: string; income: number; outflows: number }[];
 }
 
 export interface Service {
   id: number;
   name: string;
+  category: string;
   description?: string;
   price: number;
   duration: number;
@@ -190,7 +193,7 @@ export interface AttendanceQuery extends PaginationQuery {
 export interface TransactionQuery extends PaginationQuery {
   startDate?: string;
   endDate?: string;
-  type?: 'income' | 'expense';
+  transactionType?: TransactionType;
   category?: string;
 }
 
@@ -307,12 +310,23 @@ async function apiFetch<T>(
   if (token) {
     (headers as Record<string, string>)['Authorization'] = `Bearer ${token}`;
   }
-  
-  const response = await fetch(`${API_URL}${endpoint}`, {
-    ...options,
-    headers,
-  });
-  
+
+  let response: Response;
+  try {
+    response = await fetch(`${API_URL}${endpoint}`, {
+      ...options,
+      headers,
+    });
+  } catch (err) {
+    const message =
+      err instanceof TypeError && err.message === 'Failed to fetch'
+        ? `Cannot reach the API at ${API_URL}. Make sure the gym-api server is running (e.g. \`npm run start:dev\` in gym-api) and that NEXT_PUBLIC_API_URL matches its port.`
+        : err instanceof Error
+          ? err.message
+          : 'Network error';
+    throw new ApiError(0, message);
+  }
+
   if (!response.ok) {
     const errorData = await response.json().catch(() => ({}));
     

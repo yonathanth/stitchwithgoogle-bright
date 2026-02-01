@@ -11,7 +11,7 @@ export const metadata: Metadata = {
   description: "Transform your body and life at Bright Gym. Premium equipment, expert trainers, and a supportive community await.",
   openGraph: {
     title: "Bright Gym - Transform Your Body, Transform Your Life",
-    description: "Join Addis Ababa's premier fitness center with 1,200+ active members",
+    description: "Join Addis Ababa's premier fitness center with 200+ members",
     url: "https://brightgymfitness.com",
   },
 };
@@ -21,7 +21,7 @@ export default function Home() {
     <div className="relative flex min-h-screen w-full flex-col overflow-x-hidden">
       <Header />
 
-      <main className="flex flex-col w-full">
+      <main className="flex flex-col w-full pt-[73px]">
         {/* Hero Section */}
         <section className="relative w-full min-h-[500px] md:min-h-[700px] flex items-center justify-center overflow-hidden">
           <div
@@ -79,15 +79,15 @@ export default function Home() {
               <div className="inline-flex items-center gap-2 mb-4">
                 <div className="h-1 w-8 bg-primary rounded-full"></div>
                 <span className="text-primary font-bold tracking-widest uppercase text-xs">
-                  Why Choose Us
+                  Why Bright Gym
                 </span>
               </div>
               <h2 className="text-white text-3xl md:text-4xl font-black leading-tight tracking-tight mb-4">
-                Everything You Need to Succeed
+                Where Addis Gets Strong
               </h2>
               <p className="text-white/60 text-lg max-w-2xl mx-auto">
-                We&apos;ve built a fitness experience that combines world-class
-                facilities with the support you need to reach your goals.
+                A real gym for real people—quality kit, trainers who know your
+                name, and a community that shows up. No fluff, just results.
               </p>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -98,10 +98,10 @@ export default function Home() {
                     fitness_center
                   </span>
                 </div>
-                <h3 className="text-white text-xl font-bold">Premium Equipment</h3>
+                <h3 className="text-white text-xl font-bold">Solid Equipment</h3>
                 <p className="text-white/60 text-sm leading-relaxed">
-                  State-of-the-art machines and free weights from leading fitness
-                  brands. Everything you need for a complete workout.
+                  Good machines and free weights, kept clean and in working order.
+                  Everything you need to train properly, right here in Addis.
                 </p>
               </div>
 
@@ -112,10 +112,10 @@ export default function Home() {
                     groups
                   </span>
                 </div>
-                <h3 className="text-white text-xl font-bold">Expert Trainers</h3>
+                <h3 className="text-white text-xl font-bold">Trainers Who Care</h3>
                 <p className="text-white/60 text-sm leading-relaxed">
-                  Certified professionals ready to guide you. From beginners to
-                  athletes, we have the expertise to help you succeed.
+                  Experienced coaches who actually work with you—whether you’re
+                  just starting or pushing for the next level. No one gets left behind.
                 </p>
               </div>
 
@@ -126,10 +126,10 @@ export default function Home() {
                     schedule
                   </span>
                 </div>
-                <h3 className="text-white text-xl font-bold">Flexible Hours</h3>
+                <h3 className="text-white text-xl font-bold">Hours That Fit Your Day</h3>
                 <p className="text-white/60 text-sm leading-relaxed">
-                  Open 24/7 for premium members. Standard members enjoy access
-                  from 6 AM to 10 PM daily. Fit your workout around your life.
+                  Open early until late—so you can train before work, on lunch, or
+                  after the day winds down. We’re here when Addis is moving.
                 </p>
               </div>
             </div>
@@ -139,37 +139,29 @@ export default function Home() {
         {/* Stats Section */}
         <section className="py-16 px-4 md:px-10 bg-black">
           <div className="max-w-6xl mx-auto">
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+            <div className="grid grid-cols-2 md:grid-cols-3 gap-6">
               <div className="flex flex-col gap-2 items-center text-center p-6 rounded-xl bg-surface-dark border border-surface-dark-lighter">
                 <p className="text-primary text-4xl md:text-5xl font-black leading-tight">
-                  1,200+
+                  200+
                 </p>
                 <p className="text-white text-sm font-medium uppercase tracking-wider opacity-80">
-                  Active Members
+                  Members
                 </p>
               </div>
               <div className="flex flex-col gap-2 items-center text-center p-6 rounded-xl bg-surface-dark border border-surface-dark-lighter">
                 <p className="text-primary text-4xl md:text-5xl font-black leading-tight">
-                  8
+                  5
                 </p>
                 <p className="text-white text-sm font-medium uppercase tracking-wider opacity-80">
-                  Years Experience
+                  Years of Experience
                 </p>
               </div>
               <div className="flex flex-col gap-2 items-center text-center p-6 rounded-xl bg-surface-dark border border-surface-dark-lighter">
                 <p className="text-primary text-4xl md:text-5xl font-black leading-tight">
-                  45+
+                  10+
                 </p>
                 <p className="text-white text-sm font-medium uppercase tracking-wider opacity-80">
                   Classes Weekly
-                </p>
-              </div>
-              <div className="flex flex-col gap-2 items-center text-center p-6 rounded-xl bg-surface-dark border border-surface-dark-lighter">
-                <p className="text-primary text-4xl md:text-5xl font-black leading-tight">
-                  2
-                </p>
-                <p className="text-white text-sm font-medium uppercase tracking-wider opacity-80">
-                  Locations
                 </p>
               </div>
             </div>
@@ -197,13 +189,6 @@ export default function Home() {
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
               {/* Testimonial 1 */}
               <div className="flex flex-col gap-4 p-8 rounded-2xl bg-surface-dark border border-surface-dark-lighter">
-                <div className="flex gap-1 text-primary mb-2">
-                  <span className="material-symbols-outlined text-xl">star</span>
-                  <span className="material-symbols-outlined text-xl">star</span>
-                  <span className="material-symbols-outlined text-xl">star</span>
-                  <span className="material-symbols-outlined text-xl">star</span>
-                  <span className="material-symbols-outlined text-xl">star</span>
-                </div>
                 <p className="text-white/80 text-sm leading-relaxed">
                   &quot;The trainers here are incredible. They pushed me to
                   achieve goals I never thought possible. Best investment in
@@ -214,7 +199,7 @@ export default function Home() {
                     <span className="material-symbols-outlined">person</span>
                   </div>
                   <div>
-                    <p className="text-white font-bold">Abebe Kebede</p>
+                    <p className="text-white font-bold">Leul Derebe</p>
                     <p className="text-white/60 text-xs">Member since 2022</p>
                   </div>
                 </div>
@@ -222,16 +207,9 @@ export default function Home() {
 
               {/* Testimonial 2 */}
               <div className="flex flex-col gap-4 p-8 rounded-2xl bg-surface-dark border border-surface-dark-lighter">
-                <div className="flex gap-1 text-primary mb-2">
-                  <span className="material-symbols-outlined text-xl">star</span>
-                  <span className="material-symbols-outlined text-xl">star</span>
-                  <span className="material-symbols-outlined text-xl">star</span>
-                  <span className="material-symbols-outlined text-xl">star</span>
-                  <span className="material-symbols-outlined text-xl">star</span>
-                </div>
                 <p className="text-white/80 text-sm leading-relaxed">
-                  &quot;The 24/7 access is perfect for my schedule. The equipment
-                  is always clean and well-maintained. Highly recommend!&quot;
+                  &quot;The hours fit my schedule—early or late, the gym is there.
+                  Equipment is always clean and well-kept. Highly recommend!&quot;
                 </p>
                 <div className="flex items-center gap-3 mt-4">
                   <div className="size-12 rounded-full bg-surface-dark-lighter flex items-center justify-center text-primary">
@@ -246,13 +224,6 @@ export default function Home() {
 
               {/* Testimonial 3 */}
               <div className="flex flex-col gap-4 p-8 rounded-2xl bg-surface-dark border border-surface-dark-lighter">
-                <div className="flex gap-1 text-primary mb-2">
-                  <span className="material-symbols-outlined text-xl">star</span>
-                  <span className="material-symbols-outlined text-xl">star</span>
-                  <span className="material-symbols-outlined text-xl">star</span>
-                  <span className="material-symbols-outlined text-xl">star</span>
-                  <span className="material-symbols-outlined text-xl">star</span>
-                </div>
                 <p className="text-white/80 text-sm leading-relaxed">
                   &quot;The community here is amazing. Everyone is supportive
                   and the atmosphere is motivating. I look forward to every
@@ -281,7 +252,7 @@ export default function Home() {
               Ready to Start Your Transformation?
             </h2>
             <p className="text-white/70 text-lg md:text-xl max-w-2xl mx-auto mb-8">
-              Join over 1,200 members who are already on their fitness journey.
+              Join over 200 members who are already on their fitness journey.
               Your best self is waiting.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
@@ -317,7 +288,7 @@ export default function Home() {
       {/* Review Schemas */}
       <SchemaComponent
         schema={reviewSchema({
-          author: "Abebe Kebede",
+          author: "Leul Derebe",
           rating: 5,
           reviewBody:
             "The trainers here are incredible. They pushed me to achieve goals I never thought possible. Best investment in myself I've ever made.",
@@ -330,7 +301,7 @@ export default function Home() {
           author: "Sara Tesfaye",
           rating: 5,
           reviewBody:
-            "The 24/7 access is perfect for my schedule. The equipment is always clean and well-maintained. Highly recommend!",
+            "The hours fit my schedule early or late, the gym is there. Equipment is always clean and well-kept. Highly recommend!",
           reviewDate: "2023-06-20",
         })}
       />

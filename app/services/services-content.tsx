@@ -2,15 +2,13 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import Image from "next/image";
-import { BillingToggle, useBillingPeriod } from "./billing-toggle";
 import { servicesApi, type Service } from "@/lib/api";
 
 export function ServicesContent() {
-  const { billingPeriod } = useBillingPeriod();
   const [services, setServices] = useState<Service[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [categoryFilter, setCategoryFilter] = useState<string>("");
 
   useEffect(() => {
     const fetchServices = async () => {
@@ -30,6 +28,11 @@ export function ServicesContent() {
 
     fetchServices();
   }, []);
+
+  const categories = [...new Set(services.map((s) => s.category).filter(Boolean))].sort();
+  const displayedServices = categoryFilter
+    ? services.filter((s) => s.category === categoryFilter)
+    : services;
 
   return (
     <>
@@ -56,7 +59,6 @@ export function ServicesContent() {
                 Join the community of achievers in Addis Ababa.
               </h2>
             </div>
-            <BillingToggle />
           </div>
         </section>
 
@@ -82,28 +84,58 @@ export function ServicesContent() {
             )}
 
             {!loading && !error && services.length > 0 && (
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {services.map((service, index) => (
-                  <div
-                    key={service.id}
-                    className={`flex flex-col gap-6 rounded-2xl border bg-card-dark p-8 shadow-xl transition-colors duration-300 group ${
-                      index === 1
-                        ? "border-2 border-primary shadow-2xl shadow-primary/10 relative transform lg:-translate-y-4 z-10"
-                        : "border-border-dark hover:border-primary/50"
-                    }`}
-                  >
-                    {index === 1 && (
-                      <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-primary text-black text-xs font-bold px-4 py-1.5 rounded-full uppercase tracking-wider shadow-lg">
-                        Most Popular
-                      </div>
-                    )}
-
-                    <div className="flex flex-col gap-2">
-                      <h3
-                        className={`text-lg font-bold ${
-                          index === 1 ? "text-primary" : "text-white/70"
+              <>
+                {categories.length > 1 && (
+                  <div className="flex items-center justify-center mb-8">
+                    <div className="bg-card-dark p-1 rounded-xl inline-flex border border-border-dark flex-wrap justify-center gap-0">
+                      <button
+                        type="button"
+                        onClick={() => setCategoryFilter("")}
+                        className={`relative z-10 px-6 py-2 rounded-lg text-sm font-bold transition-all ${
+                          categoryFilter === ""
+                            ? "text-black bg-primary shadow-sm"
+                            : "text-white/60 hover:text-white"
                         }`}
                       >
+                        All
+                      </button>
+                      {categories.map((cat) => (
+                        <button
+                          key={cat}
+                          type="button"
+                          onClick={() => setCategoryFilter(cat)}
+                          className={`relative z-10 px-6 py-2 rounded-lg text-sm font-bold transition-all ${
+                            categoryFilter === cat
+                              ? "text-black bg-primary shadow-sm"
+                              : "text-white/60 hover:text-white"
+                          }`}
+                        >
+                          {cat}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                )}
+                {displayedServices.length === 0 ? (
+                  <div className="text-center py-12">
+                    <p className="text-white/60">No plans in this category.</p>
+                    <button
+                      type="button"
+                      onClick={() => setCategoryFilter("")}
+                      className="mt-2 text-primary font-medium hover:underline"
+                    >
+                      Show all
+                    </button>
+                  </div>
+                ) : (
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {displayedServices.map((service) => (
+                  <div
+                    key={service.id}
+                    className="flex flex-col gap-6 rounded-2xl border border-border-dark bg-card-dark p-8 shadow-xl transition-colors duration-300 group hover:border-primary/50"
+                  >
+                    <div className="flex flex-col gap-2">
+                      <h3 className="text-lg font-bold text-white/70">
                         {service.name}
                       </h3>
                       <div className="flex items-baseline gap-1 text-white">
@@ -142,183 +174,18 @@ export function ServicesContent() {
                       </div>
                     </div>
 
-                    <button
-                      className={`w-full h-12 rounded-xl font-bold transition-all mt-4 ${
-                        index === 1
-                          ? "bg-primary text-black hover:brightness-110 shadow-lg shadow-primary/25"
-                          : "bg-surface-dark-lighter text-white hover:bg-surface-dark"
-                      }`}
+                    <Link
+                      href={`/register?serviceId=${service.id}`}
+                      className="w-full h-12 rounded-xl font-bold transition-all mt-4 bg-surface-dark-lighter text-white hover:bg-surface-dark flex items-center justify-center"
                     >
                       Select {service.name}
-                    </button>
+                    </Link>
                   </div>
                 ))}
-              </div>
+                </div>
+                )}
+              </>
             )}
-          </div>
-        </section>
-
-        {/* Comparison Table Section */}
-        <section className="py-16 px-4 lg:px-20 bg-background-dark border-t border-border-dark">
-          <div className="max-w-4xl mx-auto flex flex-col gap-10">
-            <div className="text-center">
-              <h2 className="text-2xl font-bold text-white mb-2">
-                Compare Features
-              </h2>
-              <p className="text-white/60">Detailed breakdown of what&apos;s included in each plan.</p>
-            </div>
-            <div className="overflow-x-auto rounded-xl border border-border-dark bg-card-dark">
-              <table className="w-full min-w-[600px] text-sm text-left">
-                <thead className="text-xs text-white/60 uppercase bg-black/20 border-b border-border-dark">
-                  <tr>
-                    <th className="px-6 py-4 font-bold" scope="col">
-                      Feature
-                    </th>
-                    <th className="px-6 py-4 text-center" scope="col">
-                      Starter
-                    </th>
-                    <th className="px-6 py-4 text-center text-primary" scope="col">
-                      Athlete
-                    </th>
-                    <th className="px-6 py-4 text-center" scope="col">
-                      Elite
-                    </th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-border-dark">
-                  <tr className="hover:bg-white/5 transition-colors">
-                    <th
-                      className="px-6 py-4 font-medium text-white whitespace-nowrap"
-                      scope="row"
-                    >
-                      Gym Access
-                    </th>
-                    <td className="px-6 py-4 text-center text-white/70">
-                      Off-peak
-                    </td>
-                    <td className="px-6 py-4 text-center text-white font-bold">
-                      Unlimited
-                    </td>
-                    <td className="px-6 py-4 text-center text-white font-bold">
-                      Unlimited
-                    </td>
-                  </tr>
-                  <tr className="hover:bg-white/5 transition-colors">
-                    <th className="px-6 py-4 font-medium text-white" scope="row">
-                      Group Classes
-                    </th>
-                    <td className="px-6 py-4 text-center">
-                      <span className="material-symbols-outlined text-white/30 text-lg">
-                        close
-                      </span>
-                    </td>
-                    <td className="px-6 py-4 text-center">
-                      <span className="material-symbols-outlined text-primary text-lg">
-                        check
-                      </span>
-                    </td>
-                    <td className="px-6 py-4 text-center">
-                      <span className="material-symbols-outlined text-primary text-lg">
-                        check
-                      </span>
-                    </td>
-                  </tr>
-                  <tr className="hover:bg-white/5 transition-colors">
-                    <th className="px-6 py-4 font-medium text-white" scope="row">
-                      Guest Passes
-                    </th>
-                    <td className="px-6 py-4 text-center">
-                      <span className="material-symbols-outlined text-white/30 text-lg">
-                        close
-                      </span>
-                    </td>
-                    <td className="px-6 py-4 text-center text-white/70">
-                      1 / month
-                    </td>
-                    <td className="px-6 py-4 text-center text-white font-bold">
-                      5 / month
-                    </td>
-                  </tr>
-                  <tr className="hover:bg-white/5 transition-colors">
-                    <th className="px-6 py-4 font-medium text-white" scope="row">
-                      Nutrition Plan
-                    </th>
-                    <td className="px-6 py-4 text-center">
-                      <span className="material-symbols-outlined text-white/30 text-lg">
-                        close
-                      </span>
-                    </td>
-                    <td className="px-6 py-4 text-center">
-                      <span className="material-symbols-outlined text-white/30 text-lg">
-                        close
-                      </span>
-                    </td>
-                    <td className="px-6 py-4 text-center">
-                      <span className="material-symbols-outlined text-primary text-lg">
-                        check
-                      </span>
-                    </td>
-                  </tr>
-                  <tr className="hover:bg-white/5 transition-colors">
-                    <th className="px-6 py-4 font-medium text-white" scope="row">
-                      Sauna & Steam
-                    </th>
-                    <td className="px-6 py-4 text-center">
-                      <span className="material-symbols-outlined text-white/30 text-lg">
-                        close
-                      </span>
-                    </td>
-                    <td className="px-6 py-4 text-center">
-                      <span className="material-symbols-outlined text-primary text-lg">
-                        check
-                      </span>
-                    </td>
-                    <td className="px-6 py-4 text-center">
-                      <span className="material-symbols-outlined text-primary text-lg">
-                        check
-                      </span>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
-        </section>
-
-        {/* Testimonial Section */}
-        <section className="py-16 px-4 lg:px-20 bg-black">
-          <div className="max-w-6xl mx-auto flex flex-col md:flex-row gap-12 items-center">
-            <div className="w-full md:w-1/2 rounded-2xl overflow-hidden h-80 relative">
-              <Image
-                alt="Fit young woman doing battle ropes exercise in gym"
-                className="w-full h-full object-cover"
-                src="https://lh3.googleusercontent.com/aida-public/AB6AXuBTr-EyEqBhpLz_MrEOsbMY8G0YNkTTNOhp1MSgNn55dX0aH04WRoxxXG59uW7zS8OsbbVz9zBEGDszAYEZ3kMdKBMma4futd5aaJpsciSRpgYVNbRNNdjr6yylZXvOSnt1nw5TUWXXhqEat-eALuFja2_-5G2Limp4IZBQfUc9ZvQOIYsZ9cuab6kN2wCyaPN8JVS1_6vvXEeRpmIMjDrRmO5O2tiqO5V7ISRXHAqNeQbVtDOFeEDGUqWoVpN1ibikibiyqMGKCBU"
-                fill
-                sizes="(max-width: 768px) 100vw, 50vw"
-              />
-            </div>
-            <div className="w-full md:w-1/2 flex flex-col gap-6">
-              <div className="flex gap-1 text-primary">
-                <span className="material-symbols-outlined text-xl">star</span>
-                <span className="material-symbols-outlined text-xl">star</span>
-                <span className="material-symbols-outlined text-xl">star</span>
-                <span className="material-symbols-outlined text-xl">star</span>
-                <span className="material-symbols-outlined text-xl">star</span>
-              </div>
-              <h3 className="text-2xl md:text-3xl font-bold text-white leading-tight">
-                &quot;Joining Bright Gym was the best decision for my health. The
-                trainers are knowledgeable and the atmosphere is incredibly
-                motivating.&quot;
-              </h3>
-              <div className="flex flex-col">
-                <span className="text-white font-bold text-lg">
-                  Abebe Kebede
-                </span>
-                <span className="text-white/60 text-sm">
-                  Member since 2022 • Athlete Plan
-                </span>
-              </div>
-            </div>
           </div>
         </section>
 
@@ -337,9 +204,9 @@ export function ServicesContent() {
                   </span>
                 </summary>
                 <div className="px-4 pb-4 text-white/60 text-sm leading-relaxed">
-                  Yes, members on the Athlete and Elite plans can freeze their
-                  membership for up to 30 days per year for medical or travel
-                  reasons. Please visit the front desk with supporting documents.
+                  Yes. Any member may freeze their membership by specifying the
+                  maximum period they will be away. Please speak to our front
+                  desk to arrange a freeze.
                 </div>
               </details>
 
@@ -351,9 +218,7 @@ export function ServicesContent() {
                   </span>
                 </summary>
                 <div className="px-4 pb-4 text-white/60 text-sm leading-relaxed">
-                  Absolutely not. The price you see is the price you pay. There
-                  is a one-time registration fee of ETB 500 for new members which
-                  covers your access card and initial assessment.
+                  No hidden fees, just 350 registration fee.
                 </div>
               </details>
 
@@ -365,9 +230,8 @@ export function ServicesContent() {
                   </span>
                 </summary>
                 <div className="px-4 pb-4 text-white/60 text-sm leading-relaxed">
-                  Yes! You can upgrade your plan at any time. The remaining
-                  balance of your current plan will be credited towards your new
-                  plan. Downgrades are available upon renewal.
+                  Yes. Members may switch to a different plan at any time. Please
+                  visit the front desk or contact us to update your membership.
                 </div>
               </details>
             </div>
@@ -383,7 +247,7 @@ export function ServicesContent() {
               Ready to start?
             </h2>
             <p className="text-black/80 font-medium">
-              Join 500+ members transforming their lives in Addis.
+              Join 200+ members transforming their lives in Addis.
             </p>
           </div>
           <button className="bg-black text-white hover:bg-surface-dark px-8 py-4 rounded-xl font-bold text-lg transition-colors shadow-lg">

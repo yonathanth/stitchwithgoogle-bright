@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 
 interface NavItem {
@@ -46,7 +47,21 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
         <div className="flex flex-col h-full">
           {/* Header */}
           <div className="p-5 border-b border-surface-dark-lighter">
-            <div className="text-white font-small">Admin Panel</div>
+            <Link href="/admin/dashboard" className="flex items-center gap-3" onClick={onClose}>
+              <div className="size-10 relative shrink-0">
+                <Image
+                  src="/logo-bright.png"
+                  alt="Bright Gym"
+                  width={40}
+                  height={40}
+                  className="w-full h-full object-contain"
+                />
+              </div>
+              <div>
+                <span className="text-white font-bold text-lg">Bright Gym</span>
+                <p className="text-white/60 text-xs">Admin Panel</p>
+              </div>
+            </Link>
           </div>
 
           {/* Navigation */}
@@ -76,14 +91,16 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
           {/* Branding */}
           <div className="p-4 border-t border-surface-dark-lighter">
             <Link href="/admin/dashboard" className="flex items-center gap-3" onClick={onClose}>
-              <div className="size-10 rounded-xl bg-primary/10 flex items-center justify-center">
-                <span className="material-symbols-outlined text-primary text-xl">
-                  fitness_center
-                </span>
+              <div className="size-10 relative shrink-0">
+                <Image
+                  src="/logo-bright.png"
+                  alt="Bright Gym"
+                  width={40}
+                  height={40}
+                  className="w-full h-full object-contain"
+                />
               </div>
-              <div>
-                <span className="text-white font-bold text-lg">Bright Gym</span>
-              </div>
+              <span className="text-white font-bold text-lg">Bright Gym</span>
             </Link>
           </div>
         </div>

@@ -23,7 +23,7 @@ export default function MembersPage() {
         page,
         limit,
         search: search || undefined,
-        status: (statusFilter as 'active' | 'inactive') || undefined,
+        status: (statusFilter as 'active' | 'inactive' | 'frozen' | 'pending' | 'expired') || undefined,
       });
       setMembers(data);
     } catch (err) {
@@ -57,14 +57,17 @@ export default function MembersPage() {
   };
 
   const getStatusBadge = (status: string) => {
-    const styles = {
+    const styles: Record<string, string> = {
       active: 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20',
       inactive: 'bg-gray-500/10 text-gray-400 border-gray-500/20',
+      frozen: 'bg-sky-500/10 text-sky-400 border-sky-500/20',
+      pending: 'bg-amber-500/10 text-amber-400 border-amber-500/20',
+      expired: 'bg-red-500/10 text-red-400 border-red-500/20',
     };
     return (
       <span
-        className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium border ${
-          styles[status as keyof typeof styles] || styles.inactive
+        className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium border capitalize ${
+          styles[status] || styles.inactive
         }`}
       >
         {status}
@@ -220,6 +223,9 @@ export default function MembersPage() {
             <option value="">All Status</option>
             <option value="active">Active</option>
             <option value="inactive">Inactive</option>
+            <option value="frozen">Frozen</option>
+            <option value="pending">Pending</option>
+            <option value="expired">Expired</option>
           </select>
           <button
             type="submit"

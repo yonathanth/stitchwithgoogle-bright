@@ -1,43 +1,14 @@
 "use client";
 
-import { useState } from "react";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
-import Link from "next/link";
-import Image from "next/image";
 
 export default function ContactPage() {
-  const [formData, setFormData] = useState({
-    firstName: "",
-    lastName: "",
-    email: "",
-    phone: "",
-    goal: "General Fitness",
-    message: "",
-  });
-
-  const handleInputChange = (
-    e: React.ChangeEvent<
-      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
-    >
-  ) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
-  };
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    // Handle form submission
-    console.log("Form submitted:", formData);
-  };
-
   return (
     <div className="relative flex min-h-screen w-full flex-col overflow-x-hidden">
       <Header />
 
+      <div className="pt-[73px]">
       {/* Hero Section */}
       <div className="w-full bg-background-light relative">
         <div className="absolute inset-0 opacity-10 dark:opacity-20 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')]"></div>
@@ -56,123 +27,9 @@ export default function ContactPage() {
 
       {/* Main Content */}
       <div className="w-full grow flex justify-center px-4 md:px-10 lg:px-40 pb-20">
-        <div className="w-full max-w-[1280px] grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16">
-          {/* Contact Form Section */}
-          <div className="lg:col-span-7 flex flex-col gap-8">
-            <div className="bg-surface-dark p-6 md:p-8 rounded-2xl border border-surface-dark-lighter shadow-sm">
-              <h3 className="text-white text-2xl font-bold mb-6 flex items-center gap-3">
-                <span className="material-symbols-outlined text-primary">
-                  mail
-                </span>
-                Send us a Message
-              </h3>
-              <form
-                className="flex flex-col gap-5"
-                onSubmit={handleSubmit}
-              >
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-                  <label className="flex flex-col gap-2">
-                    <span className="text-white/70 text-sm font-bold uppercase tracking-wide">
-                      First Name
-                    </span>
-                    <input
-                      className="w-full rounded-lg bg-card-dark border border-surface-dark-lighter text-white p-4 focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all placeholder:text-white/40"
-                      placeholder="Enter your first name"
-                      type="text"
-                      name="firstName"
-                      value={formData.firstName}
-                      onChange={handleInputChange}
-                      required
-                    />
-                  </label>
-                  <label className="flex flex-col gap-2">
-                    <span className="text-white/70 text-sm font-bold uppercase tracking-wide">
-                      Last Name
-                    </span>
-                    <input
-                      className="w-full rounded-lg bg-card-dark border border-surface-dark-lighter text-white p-4 focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all placeholder:text-white/40"
-                      placeholder="Enter your last name"
-                      type="text"
-                      name="lastName"
-                      value={formData.lastName}
-                      onChange={handleInputChange}
-                      required
-                    />
-                  </label>
-                </div>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-                  <label className="flex flex-col gap-2">
-                    <span className="text-white/70 text-sm font-bold uppercase tracking-wide">
-                      Email
-                    </span>
-                    <input
-                      className="w-full rounded-lg bg-card-dark border border-surface-dark-lighter text-white p-4 focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all placeholder:text-white/40"
-                      placeholder="name@example.com"
-                      type="email"
-                      name="email"
-                      value={formData.email}
-                      onChange={handleInputChange}
-                      required
-                    />
-                  </label>
-                  <label className="flex flex-col gap-2">
-                    <span className="text-white/70 text-sm font-bold uppercase tracking-wide">
-                      Phone (+251)
-                    </span>
-                    <input
-                      className="w-full rounded-lg bg-card-dark border border-surface-dark-lighter text-white p-4 focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all placeholder:text-white/40"
-                      placeholder="911 23 45 67"
-                      type="tel"
-                      name="phone"
-                      value={formData.phone}
-                      onChange={handleInputChange}
-                      required
-                    />
-                  </label>
-                </div>
-                <label className="flex flex-col gap-2">
-                  <span className="text-white/70 text-sm font-bold uppercase tracking-wide">
-                    Goal
-                  </span>
-                  <select
-                    className="w-full rounded-lg bg-card-dark border border-surface-dark-lighter text-white p-4 focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all appearance-none cursor-pointer"
-                    name="goal"
-                    value={formData.goal}
-                    onChange={handleInputChange}
-                  >
-                    <option value="General Fitness">General Fitness</option>
-                    <option value="Weight Loss">Weight Loss</option>
-                    <option value="Muscle Gain">Muscle Gain</option>
-                    <option value="Personal Training">Personal Training</option>
-                  </select>
-                </label>
-                <label className="flex flex-col gap-2">
-                  <span className="text-white/70 text-sm font-bold uppercase tracking-wide">
-                    Message
-                  </span>
-                  <textarea
-                    className="w-full rounded-lg bg-card-dark border border-surface-dark-lighter text-white p-4 focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all placeholder:text-white/40 resize-none"
-                    placeholder="How can we help you achieve your goals?"
-                    rows={4}
-                    name="message"
-                    value={formData.message}
-                    onChange={handleInputChange}
-                    required
-                  ></textarea>
-                </label>
-                <button
-                  className="mt-4 w-full bg-primary text-black font-black text-lg py-4 rounded-lg uppercase tracking-wide hover:bg-primary/90 transition-all shadow-lg"
-                  type="submit"
-                >
-                  Send Message
-                </button>
-              </form>
-            </div>
-          </div>
-
+        <div className="w-full max-w-[1280px] grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-start">
           {/* Contact Info Section */}
-          <div className="lg:col-span-5 flex flex-col gap-8">
-            <div className="bg-black p-8 rounded-2xl relative overflow-hidden group border border-surface-dark-lighter">
+          <div className="bg-black p-8 rounded-2xl relative overflow-hidden group border border-surface-dark-lighter">
               <div className="absolute -right-10 -top-10 w-40 h-40 bg-white/5 rounded-full blur-3xl group-hover:bg-white/10 transition-all duration-700"></div>
               <h3 className="text-white text-2xl font-bold mb-6 relative z-10">
                 Contact Info
@@ -186,28 +43,12 @@ export default function ContactPage() {
                     <p className="text-white/60 text-sm uppercase font-bold tracking-wider mb-1">
                       Phone
                     </p>
-                    <p className="text-white text-lg font-medium">
-                      +251 911 234 567
-                    </p>
-                    <p className="text-white text-lg font-medium">
-                      +251 116 654 321
-                    </p>
-                  </div>
-                </div>
-                <div className="flex items-start gap-4">
-                  <div className="size-12 rounded-full bg-surface-dark-lighter flex items-center justify-center shrink-0 text-white">
-                    <span className="material-symbols-outlined">email</span>
-                  </div>
-                  <div>
-                    <p className="text-white/60 text-sm uppercase font-bold tracking-wider mb-1">
-                      Email
-                    </p>
-                    <p className="text-white text-lg font-medium">
-                      hello@brightgym.et
-                    </p>
-                    <p className="text-white text-lg font-medium">
-                      support@brightgym.et
-                    </p>
+                    <a href="tel:+251975427575" className="text-white text-lg font-medium block hover:text-primary transition-colors">
+                      0975427575
+                    </a>
+                    <a href="tel:+251977363636" className="text-white text-lg font-medium block hover:text-primary transition-colors">
+                      0977363636
+                    </a>
                   </div>
                 </div>
                 <div className="flex items-start gap-4">
@@ -268,31 +109,18 @@ export default function ContactPage() {
               </div>
             </div>
 
-            {/* Map Section */}
-            <div className="h-[300px] w-full rounded-2xl overflow-hidden shadow-lg border border-surface-dark-lighter relative">
-              <Image
-                alt="Map showing gym location in Addis Ababa Bole Area"
-                className="w-full h-full object-cover"
-                src="https://lh3.googleusercontent.com/aida-public/AB6AXuDxHXNeGsxiOvJqihJorPSLwMNSi1KlqFJHv5UhFQf-WD9R6KshjAKdmxvNjJwIc1zj8DIFr6dpiS8ddoYYWgQG0zFKNThzFa5zY-tK1-8rDr5xR8y5e_FWdAjAisgmezLJqEuR06uVVLgscqXGpUeiVGJsx-Q-F-GVpfQse2YR-CnE9XBXBszFTyMmXIQXXVQ8LJvild4Sv_sNuc0CCpNmlHKisv9LQ3nFEaOUiRhR-AIAZ1kdOuNe0Dyk-TCnPQ4tUkIp2yzc-bk"
-                fill
-                sizes="(max-width: 1024px) 100vw, 50vw"
-              />
-              <div className="absolute inset-0 bg-black/50 flex items-center justify-center">
-                <div className="text-center p-4">
-                  <span className="material-symbols-outlined text-4xl text-white mb-2">
-                    map
-                  </span>
-                  <p className="text-white font-bold">View on Google Maps</p>
-                </div>
-              </div>
-              <a
-                aria-label="Open Map"
-                className="absolute inset-0 z-10"
-                href="https://maps.google.com"
-                target="_blank"
-                rel="noopener noreferrer"
-              ></a>
-            </div>
+          {/* Map Section */}
+          <div className="w-full rounded-2xl overflow-hidden shadow-lg border border-surface-dark-lighter lg:sticky lg:top-[calc(73px+1rem)]">
+            <iframe
+              src="https://www.google.com/maps/embed?pb=!1m17!1m12!1m3!1d3940.580190014501!2d38.889637!3d9.01072!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m2!1m1!2s!5e0!3m2!1sen!2set!4v1769973987338!5m2!1sen!2set"
+              width="100%"
+              height="450"
+              style={{ border: 0 }}
+              allowFullScreen
+              loading="lazy"
+              referrerPolicy="no-referrer-when-downgrade"
+              title="Bright Gym location on Google Maps"
+            />
           </div>
         </div>
       </div>
@@ -313,8 +141,8 @@ export default function ContactPage() {
                   Opening Hours
                 </h4>
                 <p className="text-white/60 text-sm leading-relaxed">
-                  We are open daily from 6:00 AM to 8:45 PM to fit your busy
-                  schedule.
+                  Our opening hours are from 6:00 AM to 8:45 PM on Saturdays,
+                  and from 6:00 AM to 10:00 PM on Sundays.
                 </p>
               </div>
               <div className="p-6 rounded-xl bg-surface-dark border border-surface-dark-lighter">
@@ -325,8 +153,8 @@ export default function ContactPage() {
                   Membership Fees
                 </h4>
                 <p className="text-white/60 text-sm leading-relaxed">
-                  We offer flexible packages starting from 1,500 ETB/month.
-                  Contact us for student discounts.
+                  We are flexible and affordable for the services we offer. We
+                  offer payment for different periods to suit your needs.
                 </p>
               </div>
               <div className="p-6 rounded-xl bg-surface-dark border border-surface-dark-lighter">
@@ -337,8 +165,7 @@ export default function ContactPage() {
                 </div>
                 <h4 className="text-white font-bold text-lg mb-2">Parking</h4>
                 <p className="text-white/60 text-sm leading-relaxed">
-                  Free secure parking is available for all members directly in
-                  front of the building.
+                  Parking is available for members beside the building.
                 </p>
               </div>
             </div>
@@ -349,7 +176,7 @@ export default function ContactPage() {
       {/* Floating Telegram Button */}
       <a
         className="fixed bottom-6 right-6 z-50 flex items-center gap-2 bg-[#0088cc] text-white p-3 pr-5 rounded-full shadow-lg hover:-translate-y-1 transition-transform"
-        href="https://t.me/brightgymaddis"
+        href="https://t.me/Brightgym2025"
         target="_blank"
         rel="noopener noreferrer"
         aria-label="Chat with us on Telegram"
@@ -365,6 +192,7 @@ export default function ContactPage() {
       </a>
 
       <Footer />
+      </div>
     </div>
   );
 }

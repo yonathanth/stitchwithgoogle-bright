@@ -3,10 +3,8 @@
 import { useState } from "react";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
-import Link from "next/link";
 
 export default function FAQPage() {
-  const [searchQuery, setSearchQuery] = useState("");
   const [activeCategory, setActiveCategory] = useState("all");
 
   const categories = [
@@ -23,35 +21,35 @@ export default function FAQPage() {
       category: "timings",
       question: "What are your opening hours?",
       answer:
-        "We know life in Addis is busy. That's why we are open 24/7 for Premium members. For Standard members, our hours are 6:00 AM to 10:00 PM daily. We are centrally located in Bole, just behind Friendship Mall.",
+        "Our opening hours are from 6:00 AM to 8:45 PM on Saturdays, and from 6:00 AM to 10:00 PM on Sundays. We are happy to welcome you during these times.",
     },
     {
       id: 2,
       category: "payments",
       question: "What payment methods do you accept?",
       answer:
-        "We accept cash at the front desk, major credit/debit cards, and mobile payments. You can easily pay via Telebirr (Merchant ID: 123456) or CBE Birr. Just show the confirmation SMS to our receptionist.",
+        "We accept CBE (Commercial Bank of Ethiopia) and other major bank payment options. Our front desk will be pleased to assist you with the available methods.",
     },
     {
       id: 3,
       category: "trainers",
       question: "Do you offer personal training?",
       answer:
-        "Absolutely! We have a team of certified trainers specializing in weight loss, bodybuilding, and general fitness. You can book a free 30-minute consultation to discuss your goals before committing to a package.",
+        "Yes. We offer personal training with certified trainers who can help you reach your fitness goals. Please speak to our team to book a session.",
     },
     {
       id: 4,
       category: "membership",
       question: "Can I freeze my membership?",
       answer:
-        "Yes. If you are traveling or have a medical issue, you can freeze your membership for up to 3 months within a 12-month period. A small administrative fee of 200 ETB applies per freeze request.",
+        "Yes. Any member may freeze their membership by specifying the maximum period they will be away. Please visit our front desk to arrange a freeze.",
     },
     {
       id: 5,
       category: "timings",
       question: "Is there parking available?",
       answer:
-        "We provide free underground parking for all members for up to 2 hours. The entrance is on the side street. Security guards are present 24/7 to ensure vehicle safety.",
+        "Yes. Parking is available for members. Please ask at the front desk for details and access.",
     },
   ];
 
@@ -60,17 +58,11 @@ export default function FAQPage() {
       ? faqs
       : faqs.filter((faq) => faq.category === activeCategory);
 
-  const handleSearch = (e: React.FormEvent) => {
-    e.preventDefault();
-    // Handle search functionality
-    console.log("Searching for:", searchQuery);
-  };
-
   return (
     <div className="relative flex min-h-screen w-full flex-col overflow-x-hidden">
       <Header />
 
-      <main className="flex-grow">
+      <main className="flex-grow pt-[73px]">
         {/* Hero Section */}
         <section className="relative py-16 md:py-24 px-4 overflow-hidden">
           <div className="absolute inset-0 z-0">
@@ -89,36 +81,9 @@ export default function FAQPage() {
               <span className="text-primary">Let&apos;s Get You Moving.</span>
             </h1>
             <p className="text-white/70 text-lg md:text-xl max-w-2xl font-light">
-              Find answers to common questions about memberships, Telebirr
-              payments, trainers, and gym etiquette.
+              Find answers to common questions about memberships, payments,
+              trainers, and gym access.
             </p>
-            <form
-              onSubmit={handleSearch}
-              className="w-full max-w-lg mt-4 group"
-            >
-              <div className="relative flex items-center w-full h-14 rounded-xl focus-within:ring-2 focus-within:ring-primary focus-within:ring-offset-2 focus-within:ring-offset-background-dark transition-all duration-300">
-                <div className="absolute left-4 text-white/40 flex items-center pointer-events-none">
-                  <span className="material-symbols-outlined">search</span>
-                </div>
-                <input
-                  className="w-full h-full pl-12 pr-20 bg-card-dark border border-surface-dark-lighter text-white rounded-xl placeholder-white/40 focus:outline-none focus:border-primary/50 text-base"
-                  placeholder="Search for parking, prices, Telebirr..."
-                  type="text"
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                />
-                <div className="absolute right-2">
-                  <button
-                    type="submit"
-                    className="bg-primary text-black p-2 rounded-lg hover:bg-primary/90 transition-colors"
-                  >
-                    <span className="material-symbols-outlined text-[20px]">
-                      arrow_forward
-                    </span>
-                  </button>
-                </div>
-              </div>
-            </form>
           </div>
         </section>
 
@@ -182,22 +147,30 @@ export default function FAQPage() {
                   </h2>
                   <p className="text-white/70 text-lg">
                     Can&apos;t find what you&apos;re looking for? Chat with our
-                    front desk directly on WhatsApp or give us a call.
+                    front desk on Telegram or give us a call.
                   </p>
                 </div>
                 <div className="flex flex-col sm:flex-row gap-4 w-full md:w-auto">
-                  <button className="bg-primary hover:bg-primary/90 text-black font-bold py-3 px-6 rounded-lg flex items-center justify-center gap-2 transition-all min-w-[200px]">
+                  <a
+                    href="https://t.me/Brightgym2025"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="bg-primary hover:bg-primary/90 text-black font-bold py-3 px-6 rounded-lg flex items-center justify-center gap-2 transition-all min-w-[200px]"
+                  >
                     <span className="material-symbols-outlined text-[20px]">
                       chat
                     </span>
-                    <span>Chat on WhatsApp</span>
-                  </button>
-                  <button className="bg-surface-dark-lighter hover:bg-surface-dark-lighter/80 text-white font-bold py-3 px-6 rounded-lg flex items-center justify-center gap-2 transition-all min-w-[200px]">
+                    <span>Chat on Telegram</span>
+                  </a>
+                  <a
+                    href="tel:+251977363636"
+                    className="bg-surface-dark-lighter hover:bg-surface-dark-lighter/80 text-white font-bold py-3 px-6 rounded-lg flex items-center justify-center gap-2 transition-all min-w-[200px]"
+                  >
                     <span className="material-symbols-outlined text-[20px]">
                       call
                     </span>
                     <span>Call Support</span>
-                  </button>
+                  </a>
                 </div>
               </div>
             </div>
