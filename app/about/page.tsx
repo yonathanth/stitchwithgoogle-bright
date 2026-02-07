@@ -30,39 +30,36 @@ export default function AboutPage() {
         <Header />
 
         <main className="flex flex-col items-center justify-center w-full pt-[73px]">
-          <div className="layout-content-container flex flex-col w-full max-w-[1200px] flex-1">
-            {/* HeroSection */}
-            <div className="@container w-full">
-              <div className="p-4 md:px-10 md:py-8">
-                <div
-                  className="flex min-h-[480px] flex-col gap-6 bg-cover bg-center bg-no-repeat rounded-xl items-start justify-end px-4 pb-10 md:px-10"
-                  style={{
-                    backgroundImage:
-                      'linear-gradient(rgba(0, 0, 0, 0.2) 0%, rgba(0, 0, 0, 0.7) 100%), url("https://lh3.googleusercontent.com/aida-public/AB6AXuBD_ubbILvAn1VdV0XBZ-NLVSyyuLxIW2utRjOhw7N6waJpLEe5oaUbicIRAlF5wF3V0KaqYDbRY8LGbTXWByUB5yGQaj94MGVgmLw7CqhoSWFbdbyPLnt5DQaFeW8ZIq6bm3AcJpIj3pAxr6iJKYEyi8eT0ppGOgYLpDOe_s_zFXmk5RtHCGJW6giVy0x8dHHouHjdyKS_H0QusXgwTVeV4nqS1eMAKSFsXHXrPt47UuOmuMaEICzeolbYspjl4ZIJvXPXywHe2Wo")',
-                  }}
-                >
-                  <div className="flex flex-col gap-2 text-left max-w-2xl">
-                    <h1 className="text-white text-4xl font-black leading-tight tracking-[-0.033em] md:text-6xl">
-                      Forging Fitness in Addis
-                    </h1>
-                    <h2 className="text-white/90 text-sm font-normal leading-relaxed md:text-lg">
-                      More Than Just a Gym. Experience a premium, energetic
-                      community dedicated to your growth right here in the
-                      capital.
-                    </h2>
-                  </div>
-                  <div className="flex gap-4 flex-wrap">
-                    <Link
-                      href="/register"
-                      className="flex min-w-[84px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-12 px-6 bg-primary text-black text-base font-bold leading-normal tracking-[0.015em] hover:bg-opacity-90 transition-opacity"
-                    >
-                      <span className="truncate">Join the Movement</span>
-                    </Link>
-                  </div>
-                </div>
-              </div>
+          {/* Hero Section - full-bleed like FAQ / membership */}
+          <section className="relative flex flex-col items-center justify-center min-h-[500px] w-full p-4 lg:p-10 overflow-hidden">
+            <div className="absolute inset-0 z-0">
+              <div className="absolute inset-0 bg-gradient-to-b from-background-dark/80 via-background-dark/90 to-background-dark z-10"></div>
+              <div
+                className="w-full h-full bg-cover bg-center bg-no-repeat"
+                style={{
+                  backgroundImage:
+                    'url("https://lh3.googleusercontent.com/aida-public/AB6AXuBD_ubbILvAn1VdV0XBZ-NLVSyyuLxIW2utRjOhw7N6waJpLEe5oaUbicIRAlF5wF3V0KaqYDbRY8LGbTXWByUB5yGQaj94MGVgmLw7CqhoSWFbdbyPLnt5DQaFeW8ZIq6bm3AcJpIj3pAxr6iJKYEyi8eT0ppGOgYLpDOe_s_zFXmk5RtHCGJW6giVy0x8dHHouHjdyKS_H0QusXgwTVeV4nqS1eMAKSFsXHXrPt47UuOmuMaEICzeolbYspjl4ZIJvXPXywHe2Wo")',
+                }}
+              ></div>
             </div>
+            <div className="relative z-10 flex flex-col gap-6 text-center max-w-4xl mx-auto mt-10 items-center">
+              <h1 className="text-white text-4xl sm:text-5xl lg:text-6xl font-black leading-tight tracking-[-0.033em]">
+                Forging Fitness in Addis
+              </h1>
+              <p className="text-white/70 text-base sm:text-lg font-normal leading-relaxed max-w-2xl">
+                More than just a gym. Experience a premium, energetic community
+                dedicated to your growth right here in the capital.
+              </p>
+              <Link
+                href="/register"
+                className="flex w-fit min-w-[84px] cursor-pointer items-center justify-center rounded-lg h-12 px-6 bg-primary text-black text-base font-bold leading-normal tracking-[0.015em] hover:bg-opacity-90 transition-opacity"
+              >
+                Get Started
+              </Link>
+            </div>
+          </section>
 
+          <div className="layout-content-container flex flex-col w-full max-w-[1200px] flex-1">
             {/* Story Section */}
             <div className="@container w-full">
               <div className="flex flex-col gap-10 px-4 py-10 md:px-10 md:flex-row md:items-center">
@@ -73,8 +70,8 @@ export default function AboutPage() {
                       'url("https://lh3.googleusercontent.com/aida-public/AB6AXuAypHCKA2wkbSQW5MJ-9Kk_KRvsSSfjRw6edahmzda33t6axAFd-fj-GJgL690V8EAx-zzxbjUwApMnf5_jVlGlrDMfjFzpRY0vmuQrNQjQU3VHE7WzskYBwuaW6mtcD5wsjzF8f66809yBrEJp88N6BsWR2rzSTNii9gtlAEMp3KVaI7amwTP9_o5vUemN7DPpgEEcIUisQnAyhlNFYPoDwHTKM0KFbtV-w941GSUxGn34QvozBVpeCHBRTosmiSy9PLRlWxnskkk")',
                   }}
                 ></div>
-                <div className="flex flex-col gap-6 md:w-1/2 md:pl-6">
-                  <div className="flex flex-col gap-4 text-left">
+                <div className="flex flex-col gap-6 md:w-1/2 md:pl-6 text-center md:text-left items-center md:items-start">
+                  <div className="flex flex-col gap-4">
                     <div className="inline-flex items-center gap-2">
                       <div className="h-1 w-8 bg-primary rounded-full"></div>
                       <span className="text-primary font-bold tracking-widest uppercase text-xs">
@@ -96,6 +93,12 @@ export default function AboutPage() {
                       coaches who push you, no matter where you start.
                     </p>
                   </div>
+                  <Link
+                    href="#"
+                    className="w-fit flex cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-6 border border-primary text-primary hover:bg-primary hover:text-black transition-colors text-sm font-bold leading-normal tracking-[0.015em]"
+                  >
+                    <span className="truncate">Read Our Full History</span>
+                  </Link>
                 </div>
               </div>
             </div>
@@ -114,8 +117,8 @@ export default function AboutPage() {
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                   {/* Value 1 */}
-                  <div className="flex flex-1 gap-4 rounded-xl border border-surface-dark-lighter bg-surface-dark p-6 flex-col hover:border-primary transition-colors group">
-                    <div className="w-12 h-12 rounded-full bg-surface-dark-lighter flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-black transition-colors">
+                  <div className="flex flex-1 gap-4 rounded-xl border border-surface-dark-lighter bg-surface-dark p-6 flex-col hover:border-primary transition-colors group text-center md:text-left items-center md:items-start">
+                    <div className="w-12 h-12 rounded-full bg-surface-dark-lighter flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-black transition-colors shrink-0">
                       <span className="material-symbols-outlined text-[28px]">
                         groups
                       </span>
@@ -132,8 +135,8 @@ export default function AboutPage() {
                   </div>
 
                   {/* Value 2 */}
-                  <div className="flex flex-1 gap-4 rounded-xl border border-surface-dark-lighter bg-surface-dark p-6 flex-col hover:border-primary transition-colors group">
-                    <div className="w-12 h-12 rounded-full bg-surface-dark-lighter flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-black transition-colors">
+                  <div className="flex flex-1 gap-4 rounded-xl border border-surface-dark-lighter bg-surface-dark p-6 flex-col hover:border-primary transition-colors group text-center md:text-left items-center md:items-start">
+                    <div className="w-12 h-12 rounded-full bg-surface-dark-lighter flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-black transition-colors shrink-0">
                       <span className="material-symbols-outlined text-[28px]">
                         emoji_events
                       </span>
@@ -150,8 +153,8 @@ export default function AboutPage() {
                   </div>
 
                   {/* Value 3 */}
-                  <div className="flex flex-1 gap-4 rounded-xl border border-surface-dark-lighter bg-surface-dark p-6 flex-col hover:border-primary transition-colors group">
-                    <div className="w-12 h-12 rounded-full bg-surface-dark-lighter flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-black transition-colors">
+                  <div className="flex flex-1 gap-4 rounded-xl border border-surface-dark-lighter bg-surface-dark p-6 flex-col hover:border-primary transition-colors group text-center md:text-left items-center md:items-start">
+                    <div className="w-12 h-12 rounded-full bg-surface-dark-lighter flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-black transition-colors shrink-0">
                       <span className="material-symbols-outlined text-[28px]">
                         fitness_center
                       </span>
@@ -285,7 +288,7 @@ export default function AboutPage() {
 
             {/* Stats Section */}
             <div className="flex flex-col w-full px-4 py-6 md:px-10">
-              <div className="grid grid-cols-2 md:grid-cols-3 gap-6">
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
                 <div className="flex flex-col gap-2 items-center text-center p-6 rounded-xl bg-surface-dark border border-surface-dark-lighter">
                   <p className="text-primary text-4xl md:text-5xl font-black leading-tight">
                     200+
@@ -310,6 +313,14 @@ export default function AboutPage() {
                     Classes Weekly
                   </p>
                 </div>
+                <div className="flex flex-col gap-2 items-center text-center p-6 rounded-xl bg-surface-dark border border-surface-dark-lighter">
+                  <p className="text-primary text-4xl md:text-5xl font-black leading-tight">
+                    7
+                  </p>
+                  <p className="text-white text-sm font-medium uppercase tracking-wider opacity-80">
+                    Days Open
+                  </p>
+                </div>
               </div>
             </div>
 
@@ -327,16 +338,16 @@ export default function AboutPage() {
                     Join the Bright Gym family today. Sign up now and get your
                     first day pass absolutely free.
                   </p>
-                  <div className="flex flex-col sm:flex-row gap-4 mt-4 w-full justify-center">
+                  <div className="flex flex-col sm:flex-row gap-4 mt-4 justify-center items-center">
                     <Link
                       href="/register"
-                      className="flex min-w-[160px] cursor-pointer items-center justify-center rounded-lg h-12 px-8 bg-primary text-black text-base font-bold leading-normal hover:bg-opacity-90 transition-all transform hover:scale-105"
+                      className="flex w-fit min-w-[160px] cursor-pointer items-center justify-center rounded-lg h-12 px-8 bg-primary text-black text-base font-bold leading-normal hover:bg-opacity-90 transition-all transform hover:scale-105"
                     >
                       Register Now
                     </Link>
                     <Link
                       href="/services"
-                      className="flex min-w-[160px] cursor-pointer items-center justify-center rounded-lg h-12 px-8 bg-transparent border-2 border-white/20 text-white text-base font-bold leading-normal hover:bg-white/10 transition-all"
+                      className="flex w-fit min-w-[160px] cursor-pointer items-center justify-center rounded-lg h-12 px-8 bg-transparent border-2 border-white/20 text-white text-base font-bold leading-normal hover:bg-white/10 transition-all"
                     >
                       View Membership Plans
                     </Link>

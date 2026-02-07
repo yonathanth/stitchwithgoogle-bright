@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
+import { faqContent } from "@/lib/faq-content";
 
 export default function FAQPage() {
   const [activeCategory, setActiveCategory] = useState("all");
@@ -15,43 +16,7 @@ export default function FAQPage() {
     { id: "timings", label: "Timings", icon: "schedule" },
   ];
 
-  const faqs = [
-    {
-      id: 1,
-      category: "timings",
-      question: "What are your opening hours?",
-      answer:
-        "Our opening hours are from 6:00 AM to 8:45 PM on Saturdays, and from 6:00 AM to 10:00 PM on Sundays. We are happy to welcome you during these times.",
-    },
-    {
-      id: 2,
-      category: "payments",
-      question: "What payment methods do you accept?",
-      answer:
-        "We accept CBE (Commercial Bank of Ethiopia) and other major bank payment options. Our front desk will be pleased to assist you with the available methods.",
-    },
-    {
-      id: 3,
-      category: "trainers",
-      question: "Do you offer personal training?",
-      answer:
-        "Yes. We offer personal training with certified trainers who can help you reach your fitness goals. Please speak to our team to book a session.",
-    },
-    {
-      id: 4,
-      category: "membership",
-      question: "Can I freeze my membership?",
-      answer:
-        "Yes. Any member may freeze their membership by specifying the maximum period they will be away. Please visit our front desk to arrange a freeze.",
-    },
-    {
-      id: 5,
-      category: "timings",
-      question: "Is there parking available?",
-      answer:
-        "Yes. Parking is available for members. Please ask at the front desk for details and access.",
-    },
-  ];
+  const faqs = [...faqContent];
 
   const filteredFAQs =
     activeCategory === "all"
@@ -64,23 +29,23 @@ export default function FAQPage() {
 
       <main className="flex-grow pt-[73px]">
         {/* Hero Section */}
-        <section className="relative py-16 md:py-24 px-4 overflow-hidden">
+        <section className="relative flex flex-col items-center justify-center min-h-[500px] w-full p-4 lg:p-10 overflow-hidden">
           <div className="absolute inset-0 z-0">
             <div className="absolute inset-0 bg-gradient-to-b from-background-dark/80 via-background-dark/90 to-background-dark z-10"></div>
             <div
-              className="w-full h-full bg-cover bg-center"
+              className="w-full h-full bg-cover bg-center bg-no-repeat"
               style={{
                 backgroundImage:
                   "url('https://lh3.googleusercontent.com/aida-public/AB6AXuBi2AbKrUfHAPWfH7raXm44atZxmUr1fnJlKWKmY-qT0_fgSAERVdCAYnpGyC4qYEHmYZM2vsWTE7qkSYuh3FqATfVDF_ITKRRsfai2psESYK3VfslGYRqA7r47c3Jq2D-8T-TXuw0gKupCIVR5b0t5IVfzvEiOE5bEZNhBDP3OjDpt_K4-l8GbjS1J3I8TkENFDI4HUQAgo2zPLn-NGrAPMe1kTva3ZjTfITqfq6oWjl4YiHvzaxdG2n0kAdvsUQzdETgQShoyC3Y')",
               }}
             ></div>
           </div>
-          <div className="relative z-10 max-w-4xl mx-auto text-center flex flex-col items-center gap-6">
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-black tracking-tight leading-tight text-white">
+          <div className="relative z-10 flex flex-col gap-6 text-center max-w-4xl mx-auto mt-10">
+            <h1 className="text-white text-4xl sm:text-5xl lg:text-6xl font-black leading-tight tracking-[-0.033em]">
               Got Questions? <br />
               <span className="text-primary">Let&apos;s Get You Moving.</span>
             </h1>
-            <p className="text-white/70 text-lg md:text-xl max-w-2xl font-light">
+            <p className="text-white/70 text-base sm:text-lg font-normal leading-relaxed max-w-2xl">
               Find answers to common questions about memberships, payments,
               trainers, and gym access.
             </p>

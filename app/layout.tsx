@@ -45,10 +45,11 @@ export const metadata: Metadata = {
     description: "Transform your body and life at Addis Ababa's premier fitness center",
     images: [
       {
-        url: "https://brightgymfitness.com/og-image.jpg",
-        width: 1200,
-        height: 630,
-        alt: "Bright Gym - Premium Fitness Equipment",
+        url: "https://brightgymfitness.com/og-image.png",
+        type: "image/png",
+        width: 1080,
+        height: 880,
+        alt: "Bright Gym - Premium Fitness in Addis Ababa",
       },
     ],
   },
@@ -56,7 +57,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     site: "@brightgym",
     creator: "@brightgym",
-    images: ["https://brightgymfitness.com/og-image.jpg"],
+    images: ["https://brightgymfitness.com/og-image.png"],
   },
   alternates: {
     canonical: "https://brightgymfitness.com",

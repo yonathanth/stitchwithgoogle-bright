@@ -23,7 +23,7 @@ export default function Home() {
 
       <main className="flex flex-col w-full pt-[73px]">
         {/* Hero Section */}
-        <section className="relative w-full min-h-[500px] md:min-h-[700px] flex items-center justify-center overflow-hidden">
+        <section className="relative w-full min-h-[calc(100vh-73px)] flex items-center justify-center overflow-hidden">
           <div
             className="absolute inset-0 bg-cover bg-center bg-no-repeat"
             style={{
@@ -51,10 +51,10 @@ export default function Home() {
                 beyond your limits. Premium equipment, expert trainers, and a
                 supportive environment await.
               </p>
-              <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 mt-4 sm:mt-6">
+              <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 mt-4 sm:mt-6 items-center justify-center">
                 <Link
                   href="/register"
-                  className="flex items-center justify-center rounded-lg h-14 px-8 bg-primary text-black text-base font-bold leading-normal tracking-[0.015em] hover:bg-primary/90 transition-all shadow-lg shadow-primary/20"
+                  className="flex w-fit items-center justify-center rounded-lg h-14 px-8 bg-primary text-black text-base font-bold leading-normal tracking-[0.015em] hover:bg-primary/90 transition-all shadow-lg shadow-primary/20"
                 >
                   <span>Start Your Journey</span>
                   <span className="material-symbols-outlined ml-2">
@@ -63,7 +63,7 @@ export default function Home() {
                 </Link>
                 <Link
                   href="/about"
-                  className="flex items-center justify-center rounded-lg h-14 px-8 bg-transparent border-2 border-white/20 text-white text-base font-bold leading-normal hover:bg-white/10 transition-all"
+                  className="flex w-fit items-center justify-center rounded-lg h-14 px-8 bg-transparent border-2 border-white/20 text-white text-base font-bold leading-normal hover:bg-white/10 transition-all"
                 >
                   Learn More
                 </Link>
@@ -92,8 +92,8 @@ export default function Home() {
             </div>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
               {/* Feature 1 */}
-              <div className="flex flex-col gap-4 p-8 rounded-2xl bg-surface-dark border border-surface-dark-lighter hover:border-primary/50 transition-colors group">
-                <div className="size-16 rounded-full bg-surface-dark-lighter flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-black transition-colors">
+              <div className="flex flex-col gap-4 p-8 rounded-2xl bg-surface-dark border border-surface-dark-lighter hover:border-primary/50 transition-colors group text-center md:text-left items-center md:items-start">
+                <div className="size-16 rounded-full bg-surface-dark-lighter flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-black transition-colors shrink-0">
                   <span className="material-symbols-outlined text-4xl">
                     fitness_center
                   </span>
@@ -106,22 +106,22 @@ export default function Home() {
               </div>
 
               {/* Feature 2 */}
-              <div className="flex flex-col gap-4 p-8 rounded-2xl bg-surface-dark border border-surface-dark-lighter hover:border-primary/50 transition-colors group">
-                <div className="size-16 rounded-full bg-surface-dark-lighter flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-black transition-colors">
+              <div className="flex flex-col gap-4 p-8 rounded-2xl bg-surface-dark border border-surface-dark-lighter hover:border-primary/50 transition-colors group text-center md:text-left items-center md:items-start">
+                <div className="size-16 rounded-full bg-surface-dark-lighter flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-black transition-colors shrink-0">
                   <span className="material-symbols-outlined text-4xl">
                     groups
                   </span>
                 </div>
                 <h3 className="text-white text-xl font-bold">Trainers Who Care</h3>
                 <p className="text-white/60 text-sm leading-relaxed">
-                  Experienced coaches who actually work with you—whether you’re
+                  Experienced coaches who actually work with you—whether you're
                   just starting or pushing for the next level. No one gets left behind.
                 </p>
               </div>
 
               {/* Feature 3 */}
-              <div className="flex flex-col gap-4 p-8 rounded-2xl bg-surface-dark border border-surface-dark-lighter hover:border-primary/50 transition-colors group">
-                <div className="size-16 rounded-full bg-surface-dark-lighter flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-black transition-colors">
+              <div className="flex flex-col gap-4 p-8 rounded-2xl bg-surface-dark border border-surface-dark-lighter hover:border-primary/50 transition-colors group text-center md:text-left items-center md:items-start">
+                <div className="size-16 rounded-full bg-surface-dark-lighter flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-black transition-colors shrink-0">
                   <span className="material-symbols-outlined text-4xl">
                     schedule
                   </span>
@@ -129,7 +129,7 @@ export default function Home() {
                 <h3 className="text-white text-xl font-bold">Hours That Fit Your Day</h3>
                 <p className="text-white/60 text-sm leading-relaxed">
                   Open early until late—so you can train before work, on lunch, or
-                  after the day winds down. We’re here when Addis is moving.
+                  after the day winds down. We're here when Addis is moving.
                 </p>
               </div>
             </div>
@@ -139,7 +139,7 @@ export default function Home() {
         {/* Stats Section */}
         <section className="py-16 px-4 md:px-10 bg-black">
           <div className="max-w-6xl mx-auto">
-            <div className="grid grid-cols-2 md:grid-cols-3 gap-6">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
               <div className="flex flex-col gap-2 items-center text-center p-6 rounded-xl bg-surface-dark border border-surface-dark-lighter">
                 <p className="text-primary text-4xl md:text-5xl font-black leading-tight">
                   200+
@@ -162,6 +162,14 @@ export default function Home() {
                 </p>
                 <p className="text-white text-sm font-medium uppercase tracking-wider opacity-80">
                   Classes Weekly
+                </p>
+              </div>
+              <div className="flex flex-col gap-2 items-center text-center p-6 rounded-xl bg-surface-dark border border-surface-dark-lighter">
+                <p className="text-primary text-4xl md:text-5xl font-black leading-tight">
+                  7
+                </p>
+                <p className="text-white text-sm font-medium uppercase tracking-wider opacity-80">
+                  Days Open
                 </p>
               </div>
             </div>
@@ -188,14 +196,14 @@ export default function Home() {
             </div>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
               {/* Testimonial 1 */}
-              <div className="flex flex-col gap-4 p-8 rounded-2xl bg-surface-dark border border-surface-dark-lighter">
+              <div className="flex flex-col gap-4 p-8 rounded-2xl bg-surface-dark border border-surface-dark-lighter text-center md:text-left items-center md:items-stretch">
                 <p className="text-white/80 text-sm leading-relaxed">
                   &quot;The trainers here are incredible. They pushed me to
                   achieve goals I never thought possible. Best investment in
                   myself I&apos;ve ever made.&quot;
                 </p>
-                <div className="flex items-center gap-3 mt-4">
-                  <div className="size-12 rounded-full bg-surface-dark-lighter flex items-center justify-center text-primary">
+                <div className="flex items-center gap-3 mt-4 justify-center md:justify-start">
+                  <div className="size-12 rounded-full bg-surface-dark-lighter flex items-center justify-center text-primary shrink-0">
                     <span className="material-symbols-outlined">person</span>
                   </div>
                   <div>
@@ -206,13 +214,13 @@ export default function Home() {
               </div>
 
               {/* Testimonial 2 */}
-              <div className="flex flex-col gap-4 p-8 rounded-2xl bg-surface-dark border border-surface-dark-lighter">
+              <div className="flex flex-col gap-4 p-8 rounded-2xl bg-surface-dark border border-surface-dark-lighter text-center md:text-left items-center md:items-stretch">
                 <p className="text-white/80 text-sm leading-relaxed">
                   &quot;The hours fit my schedule—early or late, the gym is there.
                   Equipment is always clean and well-kept. Highly recommend!&quot;
                 </p>
-                <div className="flex items-center gap-3 mt-4">
-                  <div className="size-12 rounded-full bg-surface-dark-lighter flex items-center justify-center text-primary">
+                <div className="flex items-center gap-3 mt-4 justify-center md:justify-start">
+                  <div className="size-12 rounded-full bg-surface-dark-lighter flex items-center justify-center text-primary shrink-0">
                     <span className="material-symbols-outlined">person</span>
                   </div>
                   <div>
@@ -223,14 +231,14 @@ export default function Home() {
               </div>
 
               {/* Testimonial 3 */}
-              <div className="flex flex-col gap-4 p-8 rounded-2xl bg-surface-dark border border-surface-dark-lighter">
+              <div className="flex flex-col gap-4 p-8 rounded-2xl bg-surface-dark border border-surface-dark-lighter text-center md:text-left items-center md:items-stretch">
                 <p className="text-white/80 text-sm leading-relaxed">
                   &quot;The community here is amazing. Everyone is supportive
                   and the atmosphere is motivating. I look forward to every
                   workout!&quot;
                 </p>
-                <div className="flex items-center gap-3 mt-4">
-                  <div className="size-12 rounded-full bg-surface-dark-lighter flex items-center justify-center text-primary">
+                <div className="flex items-center gap-3 mt-4 justify-center md:justify-start">
+                  <div className="size-12 rounded-full bg-surface-dark-lighter flex items-center justify-center text-primary shrink-0">
                     <span className="material-symbols-outlined">person</span>
                   </div>
                   <div>
@@ -255,10 +263,10 @@ export default function Home() {
               Join over 200 members who are already on their fitness journey.
               Your best self is waiting.
             </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
               <Link
                 href="/register"
-                className="flex items-center justify-center rounded-lg h-14 px-8 bg-primary text-black text-base font-bold leading-normal hover:bg-primary/90 transition-all shadow-lg shadow-primary/20"
+                className="flex w-fit items-center justify-center rounded-lg h-14 px-8 bg-primary text-black text-base font-bold leading-normal hover:bg-primary/90 transition-all shadow-lg shadow-primary/20"
               >
                 <span>Get Started Today</span>
                 <span className="material-symbols-outlined ml-2">
@@ -267,7 +275,7 @@ export default function Home() {
               </Link>
               <Link
                 href="/services"
-                className="flex items-center justify-center rounded-lg h-14 px-8 bg-transparent border-2 border-white/20 text-white text-base font-bold leading-normal hover:bg-white/10 transition-all"
+                className="flex w-fit items-center justify-center rounded-lg h-14 px-8 bg-transparent border-2 border-white/20 text-white text-base font-bold leading-normal hover:bg-white/10 transition-all"
               >
                 View Membership Plans
               </Link>

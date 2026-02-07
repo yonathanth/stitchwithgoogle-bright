@@ -29,10 +29,13 @@ export function ServicesContent() {
     fetchServices();
   }, []);
 
-  const categories = [...new Set(services.map((s) => s.category).filter(Boolean))].sort();
-  const displayedServices = categoryFilter
-    ? services.filter((s) => s.category === categoryFilter)
-    : services;
+  const paidServices = services.filter((s) => s.price > 0);
+  const categories = [...new Set(paidServices.map((s) => s.category).filter(Boolean))].sort();
+  const displayedServices = (
+    categoryFilter
+      ? paidServices.filter((s) => s.category === categoryFilter)
+      : [...paidServices]
+  ).sort((a, b) => a.price - b.price);
 
   return (
     <>
@@ -77,13 +80,13 @@ export function ServicesContent() {
               </div>
             )}
 
-            {!loading && !error && services.length === 0 && (
+            {!loading && !error && paidServices.length === 0 && (
               <div className="text-center py-16">
                 <p className="text-white/60">No membership plans available at the moment.</p>
               </div>
             )}
 
-            {!loading && !error && services.length > 0 && (
+            {!loading && !error && paidServices.length > 0 && (
               <>
                 {categories.length > 1 && (
                   <div className="flex items-center justify-center mb-8">

@@ -90,8 +90,8 @@ function RegisterContent() {
       <Header />
 
       <main className="flex flex-col lg:flex-row flex-1 pt-[73px]">
-        {/* Left Side - Image Section */}
-        <div className="relative w-full lg:w-5/12 min-h-[300px] lg:min-h-auto flex flex-col justify-end p-8 lg:p-16 overflow-hidden lg:sticky lg:top-[73px] lg:h-[calc(100vh-73px)]">
+        {/* Left Side - Image Section: hero-style on small screens, sidebar on lg */}
+        <div className="relative w-full lg:w-5/12 min-h-[500px] lg:min-h-auto flex flex-col justify-center lg:justify-end items-center text-center lg:items-start lg:text-left p-6 lg:p-16 overflow-hidden lg:sticky lg:top-[73px] lg:h-[calc(100vh-73px)]">
           <div
             className="absolute inset-0 bg-cover bg-center z-0"
             style={{
@@ -99,21 +99,13 @@ function RegisterContent() {
                 'url("https://lh3.googleusercontent.com/aida-public/AB6AXuDKIakc71G9TxnA2fiBRFl9eVXXN7tDkG7zXh-08iUqdqwb32P_fjRAyglNsvtqExpLvdGuqL6Hg7VMwF7kp7c43uvDL_sr1Ysm6c7TQ_kw9dUK9w1Unspya48XA71UjoIofDIXjcwQflkkfNuG_esqNq5XIXstPXuZyMiNb1HS_lvPsvL-tSUM3B5kcWaC1Q8s1osFa8oHGcdJcDkgIqCo6UCzi3Pr6crZfDWEWKclzqzefRZzJ4LaQOitMFyOkf3I0V88f719OJQ")',
             }}
           ></div>
-          <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/60 to-transparent z-0"></div>
-          <div className="relative z-10 text-white">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 backdrop-blur-md border border-white/20 mb-4">
-              <span className="material-symbols-outlined text-white text-sm">
-                bolt
-              </span>
-              <span className="text-xs font-bold text-white tracking-wide uppercase">
-                Join the movement
-              </span>
-            </div>
-            <h1 className="text-4xl lg:text-5xl font-black leading-tight tracking-tight mb-4">
+          <div className="absolute inset-0 bg-gradient-to-b from-background-dark/80 via-background-dark/90 to-background-dark lg:bg-gradient-to-t lg:from-black/95 lg:via-black/60 lg:to-transparent z-0"></div>
+          <div className="relative z-10 text-white max-w-xl lg:max-w-none">
+            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black leading-tight tracking-[-0.033em] mb-4">
               Unlock Your <br />
-              <span className="text-white/70">True Potential</span>
+              <span className="text-primary lg:text-white/70">True Potential</span>
             </h1>
-            <p className="text-white/60 text-lg lg:text-xl font-light mb-6">
+            <p className="text-white/70 text-base sm:text-lg font-normal leading-relaxed mb-6">
               Premium facilities, expert trainers, affordable plans. Join Addis
               Ababa&apos;s top fitness community today.
             </p>

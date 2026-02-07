@@ -1,97 +1,96 @@
 import Link from "next/link";
-import Image from "next/image";
 
 export default function Footer() {
   const currentYear = new Date().getFullYear();
-
+  
   return (
     <footer className="border-t border-surface-dark-lighter bg-background-dark py-12 px-4 md:px-10 text-center md:text-left">
       <div className="max-w-[1200px] mx-auto grid grid-cols-1 md:grid-cols-4 gap-8">
         <div className="flex flex-col gap-4">
-          <Link href="/" className="flex items-center justify-center md:justify-start gap-3 text-white hover:opacity-80 transition-opacity">
-            <div className="size-10 relative">
-              <Image
-                src="/logo-bright.png"
-                alt="Bright Gym Logo"
-                width={40}
-                height={40}
-                className="w-full h-full object-contain"
-              />
+          <div className="flex items-center justify-center md:justify-start gap-2 text-white">
+            <div className="size-6 text-primary">
+              <svg
+                className="w-full h-full"
+                fill="none"
+                viewBox="0 0 48 48"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M39.5563 34.1455V13.8546C39.5563 15.708 36.8773 17.3437 32.7927 18.3189C30.2914 18.916 27.263 19.2655 24 19.2655C20.737 19.2655 17.7086 18.916 15.2073 18.3189C11.1227 17.3437 8.44365 15.708 8.44365 13.8546V34.1455C8.44365 35.9988 11.1227 37.6346 15.2073 38.6098C17.7086 39.2069 20.737 39.5564 24 39.5564C27.263 39.5564 30.2914 39.2069 32.7927 38.6098C36.8773 37.6346 39.5563 35.9988 39.5563 34.1455Z"
+                  fill="currentColor"
+                ></path>
+              </svg>
             </div>
             <h3 className="font-bold text-xl">Bright Gym</h3>
-          </Link>
+          </div>
           <p className="text-sm text-gray-400">
-            Forging fitness and community in Addis Ababa.
+            Forging fitness and community in Addis Ababa since 2016.
           </p>
-        </div>
-        <div>
-          <h4 className="text-white font-bold mb-4">Packages</h4>
-          <ul className="flex flex-col gap-2 text-sm text-gray-400">
-            <li>
-              <Link className="hover:text-primary transition-colors" href="/services">
-                Group Fitness
-              </Link>
-            </li>
-            <li>
-              <Link className="hover:text-primary transition-colors" href="/services">
-                BMI Fit Program
-              </Link>
-            </li>
-            <li>
-              <Link className="hover:text-primary transition-colors" href="/services">
-                Body Building
-              </Link>
-            </li>
-          </ul>
         </div>
         <div>
           <h4 className="text-white font-bold mb-4">Company</h4>
           <ul className="flex flex-col gap-2 text-sm text-gray-400">
             <li>
-              <Link className="hover:text-primary transition-colors" href="/about">
+              <Link className="hover:text-primary" href="/about">
                 About Us
               </Link>
             </li>
             <li>
-              <Link className="hover:text-primary transition-colors" href="/contact">
-                Contact Us
+              <Link className="hover:text-primary" href="#">
+                Careers
               </Link>
             </li>
             <li>
-              <Link className="hover:text-primary transition-colors" href="/faq">
-                FAQ
+              <Link className="hover:text-primary" href="#">
+                Contact
               </Link>
             </li>
           </ul>
         </div>
         <div>
-          <h4 className="text-white font-bold mb-4">Explore</h4>
+          <h4 className="text-white font-bold mb-4">Classes</h4>
           <ul className="flex flex-col gap-2 text-sm text-gray-400">
             <li>
-              <Link className="hover:text-primary transition-colors" href="/services">
-                Membership
+              <Link className="hover:text-primary" href="#">
+                Strength
               </Link>
             </li>
             <li>
-              <Link className="hover:text-primary transition-colors" href="/register">
-                Register Now
+              <Link className="hover:text-primary" href="#">
+                Yoga
+              </Link>
+            </li>
+            <li>
+              <Link className="hover:text-primary" href="#">
+                HIIT
               </Link>
             </li>
           </ul>
         </div>
+        <div>
+          <h4 className="text-white font-bold mb-4">Visit Us</h4>
+          <p className="text-sm text-gray-400">Ayat 49, Addis Ababa</p>
+          <p className="text-sm text-gray-400 mt-2">Mon-Sun: 6:00 AM - 8:45 PM</p>
+        </div>
       </div>
       <div className="mt-12 pt-8 border-t border-surface-dark-lighter flex flex-col sm:flex-row items-center gap-4">
-        <div className="flex-1 hidden sm:block" aria-hidden="true" />
-        <div className="flex flex-col items-center gap-2 text-center">
-          <div className="text-sm text-gray-500">
-            © {currentYear} Bright Gym. All rights reserved.
-          </div>
-          <div className="text-sm text-gray-500">
+        {/* Spacer on left for md+ so center block is truly centered */}
+        <div className="hidden sm:block flex-1" aria-hidden="true" />
+        <div className="flex flex-col items-center gap-1 text-center text-sm text-gray-500 sm:flex-1 sm:justify-center">
+          <span>© {currentYear} Bright Gym. All rights reserved.</span>
+          <span>
             Developed by{" "}
-            <span className="font-medium text-gray-400">Shalops Digitals</span>
-          </div>
+            <a
+              href="https://www.shalops.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="font-medium text-gray-400 hover:text-primary transition-colors"
+            >
+              Shalops Digitals
+            </a>
+          </span>
         </div>
-        <div className="flex-1 flex justify-end sm:justify-end">
+        <div className="flex flex-1 justify-center sm:justify-end">
           <Link
             href="/admin/login"
             className="text-gray-500 hover:text-primary transition-colors text-xs font-medium flex items-center gap-1"
@@ -105,3 +104,4 @@ export default function Footer() {
     </footer>
   );
 }
+

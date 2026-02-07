@@ -9,64 +9,71 @@ export default function ContactPage() {
       <Header />
 
       <div className="pt-[73px]">
-      {/* Hero Section */}
-      <div className="w-full bg-background-light relative">
-        <div className="absolute inset-0 opacity-10 dark:opacity-20 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')]"></div>
-        <div className="relative px-4 md:px-10 lg:px-40 flex justify-center py-10 md:py-16">
-          <div className="w-full max-w-[1280px] text-center">
-            <h1 className="text-white text-4xl md:text-5xl lg:text-6xl font-black leading-tight tracking-tight mb-4">
-              Ready to <span className="text-white/60">Crush It?</span>
-            </h1>
-            <p className="text-white/60 text-lg md:text-xl max-w-2xl mx-auto">
-              Whether you have questions about memberships, want to book a
-              tour, or just need some motivation, we&apos;re here for you.
-            </p>
-          </div>
+      {/* Hero Section - photo background like FAQ / membership / about */}
+      <section className="relative flex flex-col items-center justify-center min-h-[500px] w-full p-4 lg:p-10 overflow-hidden">
+        <div className="absolute inset-0 z-0">
+          <div className="absolute inset-0 bg-gradient-to-b from-background-dark/80 via-background-dark/90 to-background-dark z-10"></div>
+          <div
+            className="w-full h-full bg-cover bg-center bg-no-repeat"
+            style={{
+              backgroundImage:
+                'url("https://lh3.googleusercontent.com/aida-public/AB6AXuBD_ubbILvAn1VdV0XBZ-NLVSyyuLxIW2utRjOhw7N6waJpLEe5oaUbicIRAlF5wF3V0KaqYDbRY8LGbTXWByUB5yGQaj94MGVgmLw7CqhoSWFbdbyPLnt5DQaFeW8ZIq6bm3AcJpIj3pAxr6iJKYEyi8eT0ppGOgYLpDOe_s_zFXmk5RtHCGJW6giVy0x8dHHouHjdyKS_H0QusXgwTVeV4nqS1eMAKSFsXHXrPt47UuOmuMaEICzeolbYspjl4ZIJvXPXywHe2Wo")',
+            }}
+          ></div>
         </div>
-      </div>
+        <div className="relative z-10 flex flex-col gap-6 text-center max-w-4xl mx-auto mt-10">
+          <h1 className="text-white text-4xl sm:text-5xl lg:text-6xl font-black leading-tight tracking-[-0.033em]">
+            Ready to <span className="text-primary">Crush It?</span>
+          </h1>
+          <p className="text-white/70 text-base sm:text-lg font-normal leading-relaxed max-w-2xl">
+            Whether you have questions about memberships, want to book a
+            tour, or just need some motivation, we&apos;re here for you.
+          </p>
+        </div>
+      </section>
 
       {/* Main Content */}
       <div className="w-full grow flex justify-center px-4 md:px-10 lg:px-40 pb-20">
         <div className="w-full max-w-[1280px] grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-start">
           {/* Contact Info Section */}
-          <div className="bg-black p-8 rounded-2xl relative overflow-hidden group border border-surface-dark-lighter">
+          <div className="bg-black p-6 md:p-8 rounded-2xl relative overflow-hidden group border border-surface-dark-lighter text-center flex flex-col items-center">
               <div className="absolute -right-10 -top-10 w-40 h-40 bg-white/5 rounded-full blur-3xl group-hover:bg-white/10 transition-all duration-700"></div>
-              <h3 className="text-white text-2xl font-bold mb-6 relative z-10">
+              <h3 className="text-white text-xl md:text-2xl font-bold mb-4 md:mb-6 relative z-10">
                 Contact Info
               </h3>
-              <div className="flex flex-col gap-6 relative z-10">
-                <div className="flex items-start gap-4">
-                  <div className="size-12 rounded-full bg-surface-dark-lighter flex items-center justify-center shrink-0 text-white">
-                    <span className="material-symbols-outlined">call</span>
+              <div className="flex flex-col gap-4 md:gap-6 relative z-10 items-center">
+                <div className="flex flex-col sm:flex-row items-center gap-3 md:gap-4 text-center sm:text-left">
+                  <div className="size-10 md:size-12 rounded-full bg-surface-dark-lighter flex items-center justify-center shrink-0 text-white">
+                    <span className="material-symbols-outlined text-lg md:text-xl">call</span>
                   </div>
                   <div>
-                    <p className="text-white/60 text-sm uppercase font-bold tracking-wider mb-1">
+                    <p className="text-white/60 text-xs md:text-sm uppercase font-bold tracking-wider mb-1">
                       Phone
                     </p>
-                    <a href="tel:+251975427575" className="text-white text-lg font-medium block hover:text-primary transition-colors">
+                    <a href="tel:+251975427575" className="text-white text-base md:text-lg font-medium block hover:text-primary transition-colors">
                       0975427575
                     </a>
-                    <a href="tel:+251977363636" className="text-white text-lg font-medium block hover:text-primary transition-colors">
+                    <a href="tel:+251977363636" className="text-white text-base md:text-lg font-medium block hover:text-primary transition-colors">
                       0977363636
                     </a>
                   </div>
                 </div>
-                <div className="flex items-start gap-4">
-                  <div className="size-12 rounded-full bg-surface-dark-lighter flex items-center justify-center shrink-0 text-white">
-                    <span className="material-symbols-outlined">location_on</span>
+                <div className="flex flex-col sm:flex-row items-center gap-3 md:gap-4 text-center sm:text-left">
+                  <div className="size-10 md:size-12 rounded-full bg-surface-dark-lighter flex items-center justify-center shrink-0 text-white">
+                    <span className="material-symbols-outlined text-lg md:text-xl">location_on</span>
                   </div>
                   <div>
-                    <p className="text-white/60 text-sm uppercase font-bold tracking-wider mb-1">
+                    <p className="text-white/60 text-xs md:text-sm uppercase font-bold tracking-wider mb-1">
                       Location
                     </p>
-                    <p className="text-white text-lg font-medium">
+                    <p className="text-white text-base md:text-lg font-medium">
                       Ayat 49
                     </p>
-                    <p className="text-white/60">Addis Ababa, Ethiopia</p>
+                    <p className="text-white/60 text-sm">Addis Ababa, Ethiopia</p>
                   </div>
                 </div>
               </div>
-              <div className="mt-8 pt-8 border-t border-surface-dark-lighter flex gap-4">
+              <div className="mt-8 pt-8 border-t border-surface-dark-lighter flex gap-4 justify-center">
                 <a
                   className="size-10 rounded-full bg-surface-dark-lighter flex items-center justify-center text-white hover:bg-primary hover:text-black transition-colors"
                   href="#"
@@ -112,7 +119,7 @@ export default function ContactPage() {
           {/* Map Section */}
           <div className="w-full rounded-2xl overflow-hidden shadow-lg border border-surface-dark-lighter lg:sticky lg:top-[calc(73px+1rem)]">
             <iframe
-              src="https://www.google.com/maps/embed?pb=!1m17!1m12!1m3!1d3940.580190014501!2d38.889637!3d9.01072!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m2!1m1!2s!5e0!3m2!1sen!2set!4v1769973987338!5m2!1sen!2set"
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d435.71408692663516!2d38.88910541534392!3d9.01081928677224!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x164b9b003514d5af%3A0x795f6d93e327adf4!2sBright%20gym%20Ayat%2049%20zemer%20building!5e0!3m2!1sen!2set!4v1770453049322!5m2!1sen!2set"
               width="100%"
               height="450"
               style={{ border: 0 }}
@@ -126,18 +133,18 @@ export default function ContactPage() {
       </div>
 
       {/* Common Questions Section */}
-      <div className="w-full bg-background-dark py-16">
+      <div className="w-full bg-background-dark py-12 md:py-16">
         <div className="px-4 md:px-10 lg:px-40 flex justify-center">
           <div className="w-full max-w-[960px] text-center">
-            <h2 className="text-white text-3xl font-black mb-12">
+            <h2 className="text-white text-2xl md:text-3xl font-black mb-8 md:mb-12">
               Common Questions
             </h2>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-left">
-              <div className="p-6 rounded-xl bg-surface-dark border border-surface-dark-lighter">
-                <div className="size-10 rounded-full bg-surface-dark-lighter flex items-center justify-center text-white mb-4">
-                  <span className="material-symbols-outlined">schedule</span>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8 text-left">
+              <div className="p-5 md:p-6 rounded-xl bg-surface-dark border border-surface-dark-lighter">
+                <div className="size-9 md:size-10 rounded-full bg-surface-dark-lighter flex items-center justify-center text-white mb-3 md:mb-4">
+                  <span className="material-symbols-outlined text-lg md:text-xl">schedule</span>
                 </div>
-                <h4 className="text-white font-bold text-lg mb-2">
+                <h4 className="text-white font-bold text-base md:text-lg mb-1.5 md:mb-2">
                   Opening Hours
                 </h4>
                 <p className="text-white/60 text-sm leading-relaxed">
@@ -145,11 +152,11 @@ export default function ContactPage() {
                   and from 6:00 AM to 10:00 PM on Sundays.
                 </p>
               </div>
-              <div className="p-6 rounded-xl bg-surface-dark border border-surface-dark-lighter">
-                <div className="size-10 rounded-full bg-surface-dark-lighter flex items-center justify-center text-white mb-4">
-                  <span className="material-symbols-outlined">payments</span>
+              <div className="p-5 md:p-6 rounded-xl bg-surface-dark border border-surface-dark-lighter">
+                <div className="size-9 md:size-10 rounded-full bg-surface-dark-lighter flex items-center justify-center text-white mb-3 md:mb-4">
+                  <span className="material-symbols-outlined text-lg md:text-xl">payments</span>
                 </div>
-                <h4 className="text-white font-bold text-lg mb-2">
+                <h4 className="text-white font-bold text-base md:text-lg mb-1.5 md:mb-2">
                   Membership Fees
                 </h4>
                 <p className="text-white/60 text-sm leading-relaxed">
@@ -157,13 +164,11 @@ export default function ContactPage() {
                   offer payment for different periods to suit your needs.
                 </p>
               </div>
-              <div className="p-6 rounded-xl bg-surface-dark border border-surface-dark-lighter">
-                <div className="size-10 rounded-full bg-surface-dark-lighter flex items-center justify-center text-white mb-4">
-                  <span className="material-symbols-outlined">
-                    directions_car
-                  </span>
+              <div className="p-5 md:p-6 rounded-xl bg-surface-dark border border-surface-dark-lighter">
+                <div className="size-9 md:size-10 rounded-full bg-surface-dark-lighter flex items-center justify-center text-white mb-3 md:mb-4">
+                  <span className="material-symbols-outlined text-lg md:text-xl">directions_car</span>
                 </div>
-                <h4 className="text-white font-bold text-lg mb-2">Parking</h4>
+                <h4 className="text-white font-bold text-base md:text-lg mb-1.5 md:mb-2">Parking</h4>
                 <p className="text-white/60 text-sm leading-relaxed">
                   Parking is available for members beside the building.
                 </p>

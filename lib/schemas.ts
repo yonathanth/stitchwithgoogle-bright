@@ -57,8 +57,8 @@ export const organizationSchema = (): BaseSchema & {
   name: "Bright Gym",
   description: "Premier fitness center in Addis Ababa with premium equipment and expert trainers",
   url: "https://brightgymfitness.com",
-  logo: "https://brightgymfitness.com/logo.png",
-  image: "https://brightgymfitness.com/og-image.jpg",
+  logo: "https://brightgymfitness.com/logo-bright.png",
+  image: "https://brightgymfitness.com/og-image.png",
   sameAs: [
     "https://www.facebook.com/brightgym",
     "https://www.instagram.com/brightgym",
@@ -67,20 +67,13 @@ export const organizationSchema = (): BaseSchema & {
   contactPoint: {
     "@type": "ContactPoint",
     contactType: "Customer Support",
-    telephone: "+251-XXX-XXXXXX",
+    telephone: "+251975427575",
     areaServed: "ET",
   },
   address: [
     {
       "@type": "PostalAddress",
-      streetAddress: "Main Location Address",
-      addressLocality: "Addis Ababa",
-      postalCode: "1000",
-      addressCountry: "ET",
-    },
-    {
-      "@type": "PostalAddress",
-      streetAddress: "Branch Location Address",
+      streetAddress: "Ayat 49, Zemer Building",
       addressLocality: "Addis Ababa",
       postalCode: "1000",
       addressCountry: "ET",
@@ -132,21 +125,14 @@ export const localBusinessSchema = (): BaseSchema & {
   "@context": "https://schema.org",
   "@type": "LocalBusiness",
   name: "Bright Gym",
-  image: "https://brightgymfitness.com/gym-image.jpg",
-  description: "Forging fitness and community in Addis Ababa",
+  image: "https://brightgymfitness.com/og-image.png",
+  description: "Forging fitness and community in Addis Ababa. Gym at Ayat 49.",
   url: "https://brightgymfitness.com",
-  telephone: "+251-XXX-XXXXXX",
+  telephone: "+251975427575",
   address: [
     {
       "@type": "PostalAddress",
-      streetAddress: "Main Location Address",
-      addressLocality: "Addis Ababa",
-      postalCode: "1000",
-      addressCountry: "ET",
-    },
-    {
-      "@type": "PostalAddress",
-      streetAddress: "Branch Location Address",
+      streetAddress: "Ayat 49, Zemer Building",
       addressLocality: "Addis Ababa",
       postalCode: "1000",
       addressCountry: "ET",
@@ -155,13 +141,8 @@ export const localBusinessSchema = (): BaseSchema & {
   geo: [
     {
       "@type": "GeoCoordinates",
-      latitude: 9.0265,
-      longitude: 38.7469,
-    },
-    {
-      "@type": "GeoCoordinates",
-      latitude: 9.0298,
-      longitude: 38.76,
+      latitude: 9.010819,
+      longitude: 38.889105,
     },
   ],
   openingHoursSpecification: [
@@ -173,9 +154,15 @@ export const localBusinessSchema = (): BaseSchema & {
     },
     {
       "@type": "OpeningHoursSpecification",
-      dayOfWeek: ["Saturday", "Sunday"],
-      opens: "07:00",
-      closes: "20:00",
+      dayOfWeek: "Saturday",
+      opens: "06:00",
+      closes: "20:45",
+    },
+    {
+      "@type": "OpeningHoursSpecification",
+      dayOfWeek: "Sunday",
+      opens: "06:00",
+      closes: "22:00",
     },
   ],
   priceRange: "$$",
