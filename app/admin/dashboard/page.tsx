@@ -183,59 +183,72 @@ export default function DashboardPage() {
           </div>
           {isLoading ? (
             <div className="h-48 bg-surface-dark-lighter rounded-lg animate-pulse" />
-          ) : (
-            <div className="flex items-end justify-between h-48 gap-2">
-              {attendance?.last30Days?.slice(0, 7).reverse().map((day, i) => {
-                const last7Days = attendance.last30Days.slice(0, 7);
-                const maxCount = Math.max(...last7Days.map((d) => d.count), 1);
-                const height = maxCount > 0 ? (day.count / maxCount) * 100 : 0;
-                // Parse date string as local date to avoid timezone issues
-                const [year, month, dayNum] = day.date.split('-').map(Number);
-                const dayDate = new Date(year, month - 1, dayNum);
-                return (
-                  <div key={i} className="flex-1 flex flex-col items-center gap-2">
-                    <div className="w-full flex-1 flex items-end">
-                      <div
-                        className="w-full bg-gradient-to-t from-blue-500/60 to-blue-400 rounded-t-lg transition-all duration-500"
-                        style={{ height: `${Math.max(height, 5)}%` }}
-                      />
+          ) : (() => {
+            // Last 7 days: backend sends [today, yesterday, ...] so slice(0,7) then reverse for left-to-right chronological
+            const last7Days = attendance?.last30Days?.slice(0, 7).reverse() ?? [];
+            if (last7Days.length === 0) {
+              return (
+                <div className="h-48 flex items-center justify-center text-white/40 text-sm">
+                  No check-in data for this week yet.
+                </div>
+              );
+            }
+            const maxCount = Math.max(...last7Days.map((d) => d.count), 1);
+            return (
+              <div className="flex items-end justify-between h-48 gap-2">
+                {last7Days.map((day, i) => {
+                  const height = maxCount > 0 ? (day.count / maxCount) * 100 : 0;
+                  const [year, month, dayNum] = day.date.split('-').map(Number);
+                  const dayDate = new Date(year, month - 1, dayNum);
+                  return (
+                    <div key={`${day.date}-${i}`} className="flex-1 flex flex-col items-center gap-2">
+                      <div className="w-full flex-1 flex items-end">
+                        <div
+                          className="w-full bg-gradient-to-t from-blue-500/60 to-blue-400 rounded-t-lg transition-all duration-500"
+                          style={{ height: `${Math.max(height, 5)}%` }}
+                        />
+                      </div>
+                      <span className="text-white/40 text-xs">
+                        {dayDate.toLocaleDateString('en', { weekday: 'short' })}
+                      </span>
                     </div>
-                    <span className="text-white/40 text-xs">
-                      {dayDate.toLocaleDateString('en', { weekday: 'short' })}
-                    </span>
-                  </div>
-                );
-              })}
-            </div>
-          )}
+                  );
+                })}
+              </div>
+            );
+          })()}
         </div>
       </div>
 
       {/* Quick Stats */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        {/* Peak Hours */}
+        {/* Avg check-ins by weekday (last 30 days) */}
         <div className="bg-surface-dark rounded-xl border border-surface-dark-lighter p-6">
-          <h3 className="text-white font-semibold mb-4 flex items-center gap-2">
+          <h3 className="text-white font-semibold mb-1 flex items-center gap-2">
             <span className="material-symbols-outlined text-primary">schedule</span>
             Peak Hours
           </h3>
+          <p className="text-white/40 text-sm mb-4">Avg check-ins by weekday (last 30 days)</p>
           {isLoading ? (
             <div className="space-y-2">
-              {[...Array(4)].map((_, i) => (
+              {[...Array(7)].map((_, i) => (
                 <div key={i} className="h-8 bg-surface-dark-lighter rounded animate-pulse" />
               ))}
             </div>
           ) : (
             <div className="space-y-2">
-              {attendance?.byDayOfWeek?.slice(0, 4).map((day, i) => (
+              {(attendance?.byDayOfWeek ?? []).map((day, i) => (
                 <div
-                  key={i}
+                  key={day.dayOfWeek}
                   className="flex items-center justify-between py-2 border-b border-surface-dark-lighter last:border-0"
                 >
                   <span className="text-white/80">{day.dayOfWeek}</span>
                   <span className="text-primary font-medium">{day.average.toFixed(1)} avg</span>
                 </div>
               ))}
+              {(!attendance?.byDayOfWeek || attendance.byDayOfWeek.length === 0) && (
+                <p className="text-white/40 text-sm">No attendance data yet.</p>
+              )}
             </div>
           )}
         </div>

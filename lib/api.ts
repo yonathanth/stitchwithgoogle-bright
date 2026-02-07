@@ -271,12 +271,6 @@ export interface SmsTemplate {
   isActive: boolean;
 }
 
-export interface RenewalReminderResult {
-  success: number;
-  failed: number;
-  total: number;
-}
-
 export interface SmsHistoryQuery extends PaginationQuery {
   days?: number;
 }
@@ -530,12 +524,6 @@ export const smsApi = {
 
   getHistory: (query: SmsHistoryQuery = {}) =>
     apiFetch<PaginatedResponse<SmsHistory>>(`/api/sms/history${buildQueryString(query as Record<string, unknown>)}`),
-
-  sendRenewalReminders: (days?: number) =>
-    apiFetch<RenewalReminderResult>('/api/sms/renewal-reminders', {
-      method: 'POST',
-      body: JSON.stringify({ days }),
-    }),
 
   getTemplates: () => apiFetch<SmsTemplate[]>('/api/sms/templates'),
 };

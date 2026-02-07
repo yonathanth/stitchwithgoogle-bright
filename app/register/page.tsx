@@ -117,7 +117,7 @@ function RegisterContent() {
           <div className="max-w-2xl mx-auto w-full">
             <div className="mb-8">
               <h2 className="text-3xl font-bold text-white mb-2">
-                Create your account
+                Register
               </h2>
               <p className="text-white/60">
                 Fill in your details to get started with your fitness journey.
