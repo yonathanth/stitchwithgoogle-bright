@@ -113,9 +113,9 @@ function RegisterContent() {
         </div>
 
         {/* Right Side - Form Section */}
-        <div className="w-full lg:w-7/12 flex flex-col justify-center px-6 py-12 lg:px-20 lg:py-16 bg-background-light">
-          <div className="max-w-2xl mx-auto w-full">
-            <div className="mb-8">
+        <div className="w-full lg:w-7/12 flex flex-col justify-center items-center px-6 py-12 lg:px-20 lg:py-16 bg-background-light">
+          <div className="max-w-2xl w-full">
+            <div className="mb-8 text-center">
               <h2 className="text-3xl font-bold text-white mb-2">
                 Register
               </h2>
@@ -127,15 +127,12 @@ function RegisterContent() {
             <form className="flex flex-col gap-6" onSubmit={handleSubmit}>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <label className="flex flex-col gap-2">
-                  <span className="text-sm font-medium text-white/80">
+                  <span className="text-sm font-medium text-white/80 text-center">
                     Full Name
                   </span>
                   <div className="relative">
-                    <span className="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-white/40 text-xl">
-                      person
-                    </span>
                     <input
-                      className="w-full h-12 pl-12 pr-4 rounded-lg bg-surface-dark border border-surface-dark-lighter text-white focus:ring-2 focus:ring-primary focus:border-transparent placeholder-white/40 transition-all"
+                      className="w-full h-12 px-4 rounded-lg bg-surface-dark border border-surface-dark-lighter text-white focus:ring-2 focus:ring-primary focus:border-transparent placeholder-white/40 transition-all text-center"
                       placeholder="e.g. Abebe Bikila"
                       type="text"
                       name="fullName"
@@ -147,15 +144,12 @@ function RegisterContent() {
                 </label>
 
                 <label className="flex flex-col gap-2">
-                  <span className="text-sm font-medium text-white/80">
+                  <span className="text-sm font-medium text-white/80 text-center">
                     Phone Number
                   </span>
                   <div className="relative">
-                    <span className="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-white/40 text-xl">
-                      call
-                    </span>
                     <input
-                      className="w-full h-12 pl-12 pr-4 rounded-lg bg-surface-dark border border-surface-dark-lighter text-white focus:ring-2 focus:ring-primary focus:border-transparent placeholder-white/40 transition-all"
+                      className="w-full h-12 px-4 rounded-lg bg-surface-dark border border-surface-dark-lighter text-white focus:ring-2 focus:ring-primary focus:border-transparent placeholder-white/40 transition-all text-center"
                       placeholder="+251 911 000 000"
                       type="tel"
                       name="phoneNumber"
@@ -168,15 +162,12 @@ function RegisterContent() {
               </div>
 
               <label className="flex flex-col gap-2">
-                <span className="text-sm font-medium text-white/80">
+                <span className="text-sm font-medium text-white/80 text-center">
                   Email Address
                 </span>
                 <div className="relative">
-                  <span className="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-white/40 text-xl">
-                    mail
-                  </span>
                   <input
-                    className="w-full h-12 pl-12 pr-4 rounded-lg bg-surface-dark border border-surface-dark-lighter text-white focus:ring-2 focus:ring-primary focus:border-transparent placeholder-white/40 transition-all"
+                    className="w-full h-12 px-4 rounded-lg bg-surface-dark border border-surface-dark-lighter text-white focus:ring-2 focus:ring-primary focus:border-transparent placeholder-white/40 transition-all text-center"
                     placeholder="name@example.com"
                     type="email"
                     name="email"
@@ -188,15 +179,12 @@ function RegisterContent() {
               </label>
 
               <label className="flex flex-col gap-2">
-                <span className="text-sm font-medium text-white/80">
+                <span className="text-sm font-medium text-white/80 text-center">
                   Service Package
                 </span>
                 <div className="relative">
-                  <span className="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-white/40 text-xl">
-                    category
-                  </span>
                   <select
-                    className="w-full h-12 pl-12 pr-4 rounded-lg bg-surface-dark border border-surface-dark-lighter text-white focus:ring-2 focus:ring-primary focus:border-transparent transition-all appearance-none cursor-pointer"
+                    className="w-full h-12 px-4 rounded-lg bg-surface-dark border border-surface-dark-lighter text-white focus:ring-2 focus:ring-primary focus:border-transparent transition-all appearance-none cursor-pointer text-center"
                     name="serviceId"
                     value={formData.serviceId}
                     onChange={handleInputChange}
@@ -210,9 +198,6 @@ function RegisterContent() {
                       </option>
                     ))}
                   </select>
-                  <span className="material-symbols-outlined absolute right-4 top-1/2 -translate-y-1/2 text-white/40 pointer-events-none">
-                    expand_more
-                  </span>
                 </div>
               </label>
 

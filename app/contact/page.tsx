@@ -148,8 +148,8 @@ export default function ContactPage() {
                   Opening Hours
                 </h4>
                 <p className="text-white/60 text-sm leading-relaxed">
-                  Our opening hours are from 6:00 AM to 8:45 PM on Saturdays,
-                  and from 6:00 AM to 10:00 PM on Sundays.
+                  We are open 6:00 AM to 8:45 PM Monday–Saturday,
+                  and 6:00 AM to 10:00 AM on Sundays.
                 </p>
               </div>
               <div className="p-5 md:p-6 rounded-xl bg-surface-dark border border-surface-dark-lighter">

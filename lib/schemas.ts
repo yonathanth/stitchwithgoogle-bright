@@ -162,7 +162,7 @@ export const localBusinessSchema = (): BaseSchema & {
       "@type": "OpeningHoursSpecification",
       dayOfWeek: "Sunday",
       opens: "06:00",
-      closes: "22:00",
+      closes: "10:00",
     },
   ],
   priceRange: "$$",

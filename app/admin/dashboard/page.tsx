@@ -5,7 +5,6 @@ import {
   dashboardApi,
   DashboardOverview,
   RevenueBreakdown,
-  AttendanceTrends,
   MemberGrowth,
 } from '@/lib/api';
 import StatsCard from '@/components/admin/StatsCard';
@@ -13,7 +12,6 @@ import StatsCard from '@/components/admin/StatsCard';
 export default function DashboardPage() {
   const [overview, setOverview] = useState<DashboardOverview | null>(null);
   const [revenue, setRevenue] = useState<RevenueBreakdown | null>(null);
-  const [attendance, setAttendance] = useState<AttendanceTrends | null>(null);
   const [growth, setGrowth] = useState<MemberGrowth | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -22,15 +20,13 @@ export default function DashboardPage() {
     async function fetchDashboardData() {
       try {
         setIsLoading(true);
-        const [overviewData, revenueData, attendanceData, growthData] = await Promise.all([
+        const [overviewData, revenueData, growthData] = await Promise.all([
           dashboardApi.getOverview(),
           dashboardApi.getRevenue(),
-          dashboardApi.getAttendanceTrends(),
           dashboardApi.getMemberGrowth(),
         ]);
         setOverview(overviewData);
         setRevenue(revenueData);
-        setAttendance(attendanceData);
         setGrowth(growthData);
       } catch (err) {
         setError('Failed to load dashboard data');
@@ -111,7 +107,6 @@ export default function DashboardPage() {
               value={overview?.attendanceToday || 0}
               icon="fact_check"
               color="blue"
-              subtitle={`Avg: ${attendance?.averageDaily?.toFixed(1) || 0}/day`}
             />
             <StatsCard
               title="Monthly Revenue"
@@ -124,9 +119,8 @@ export default function DashboardPage() {
         )}
       </div>
 
-      {/* Charts Section */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        {/* Revenue Chart */}
+      {/* Revenue Overview - full width */}
+      <div className="grid grid-cols-1 gap-6">
         <div className="bg-surface-dark rounded-xl border border-surface-dark-lighter p-6">
           <div className="flex items-center justify-between mb-6">
             <div>
@@ -166,93 +160,10 @@ export default function DashboardPage() {
             </div>
           )}
         </div>
-
-        {/* Attendance Chart */}
-        <div className="bg-surface-dark rounded-xl border border-surface-dark-lighter p-6">
-          <div className="flex items-center justify-between mb-6">
-            <div>
-              <h2 className="text-white font-semibold">Attendance Trends</h2>
-              <p className="text-white/40 text-sm">Daily check-ins this week</p>
-            </div>
-            <div className="text-right">
-              <p className="text-white text-2xl font-bold">
-                {attendance?.thisMonth || 0}
-              </p>
-              <p className="text-white/40 text-xs">This Month</p>
-            </div>
-          </div>
-          {isLoading ? (
-            <div className="h-48 bg-surface-dark-lighter rounded-lg animate-pulse" />
-          ) : (() => {
-            // Last 7 days: backend sends [today, yesterday, ...] so slice(0,7) then reverse for left-to-right chronological
-            const last7Days = attendance?.last30Days?.slice(0, 7).reverse() ?? [];
-            if (last7Days.length === 0) {
-              return (
-                <div className="h-48 flex items-center justify-center text-white/40 text-sm">
-                  No check-in data for this week yet.
-                </div>
-              );
-            }
-            const maxCount = Math.max(...last7Days.map((d) => d.count), 1);
-            return (
-              <div className="flex items-end justify-between h-48 gap-2">
-                {last7Days.map((day, i) => {
-                  const height = maxCount > 0 ? (day.count / maxCount) * 100 : 0;
-                  const [year, month, dayNum] = day.date.split('-').map(Number);
-                  const dayDate = new Date(year, month - 1, dayNum);
-                  return (
-                    <div key={`${day.date}-${i}`} className="flex-1 flex flex-col items-center gap-2">
-                      <div className="w-full flex-1 flex items-end">
-                        <div
-                          className="w-full bg-gradient-to-t from-blue-500/60 to-blue-400 rounded-t-lg transition-all duration-500"
-                          style={{ height: `${Math.max(height, 5)}%` }}
-                        />
-                      </div>
-                      <span className="text-white/40 text-xs">
-                        {dayDate.toLocaleDateString('en', { weekday: 'short' })}
-                      </span>
-                    </div>
-                  );
-                })}
-              </div>
-            );
-          })()}
-        </div>
       </div>
 
-      {/* Quick Stats */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        {/* Avg check-ins by weekday (last 30 days) */}
-        <div className="bg-surface-dark rounded-xl border border-surface-dark-lighter p-6">
-          <h3 className="text-white font-semibold mb-1 flex items-center gap-2">
-            <span className="material-symbols-outlined text-primary">schedule</span>
-            Peak Hours
-          </h3>
-          <p className="text-white/40 text-sm mb-4">Avg check-ins by weekday (last 30 days)</p>
-          {isLoading ? (
-            <div className="space-y-2">
-              {[...Array(7)].map((_, i) => (
-                <div key={i} className="h-8 bg-surface-dark-lighter rounded animate-pulse" />
-              ))}
-            </div>
-          ) : (
-            <div className="space-y-2">
-              {(attendance?.byDayOfWeek ?? []).map((day, i) => (
-                <div
-                  key={day.dayOfWeek}
-                  className="flex items-center justify-between py-2 border-b border-surface-dark-lighter last:border-0"
-                >
-                  <span className="text-white/80">{day.dayOfWeek}</span>
-                  <span className="text-primary font-medium">{day.average.toFixed(1)} avg</span>
-                </div>
-              ))}
-              {(!attendance?.byDayOfWeek || attendance.byDayOfWeek.length === 0) && (
-                <p className="text-white/40 text-sm">No attendance data yet.</p>
-              )}
-            </div>
-          )}
-        </div>
-
+      {/* Quick Stats - Revenue by Category & Member Growth */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {/* Revenue by Category */}
         <div className="bg-surface-dark rounded-xl border border-surface-dark-lighter p-6">
           <h3 className="text-white font-semibold mb-4 flex items-center gap-2">

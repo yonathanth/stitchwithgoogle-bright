@@ -7,7 +7,7 @@ export const faqContent = [
     category: "timings",
     question: "What are your opening hours?",
     answer:
-      "Our opening hours are from 6:00 AM to 8:45 PM on Saturdays, and from 6:00 AM to 10:00 PM on Sundays. We are happy to welcome you during these times.",
+      "We are open 6:00 AM to 8:45 PM Monday–Saturday, and 6:00 AM to 10:00 AM on Sundays. We are happy to welcome you during these times.",
   },
   {
     id: 2,

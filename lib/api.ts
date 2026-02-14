@@ -411,6 +411,43 @@ export const attendanceApi = {
     ),
 };
 
+// Staff (synced from desktop, read-only on web)
+export interface Staff {
+  id: number;
+  localId: number;
+  fullName: string;
+  phoneNumber: string | null;
+  role: string | null;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface StaffAttendance {
+  id: number;
+  localId: number;
+  staffId: number;
+  staff?: Staff;
+  scannedAt: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface StaffQuery {
+  page?: number;
+  limit?: number;
+  search?: string;
+}
+
+export const staffApi = {
+  getAll: (query: StaffQuery = {}) =>
+    apiFetch<PaginatedResponse<Staff>>(`/api/staff${buildQueryString(query as Record<string, unknown>)}`),
+  getOne: (id: number) => apiFetch<Staff>(`/api/staff/${id}`),
+  getAttendanceByStaff: (id: number, fromDate: string, toDate: string) =>
+    apiFetch<StaffAttendance[]>(`/api/staff/${id}/attendance?fromDate=${encodeURIComponent(fromDate)}&toDate=${encodeURIComponent(toDate)}`),
+  getAttendanceByDate: (date: string) =>
+    apiFetch<StaffAttendance[]>(`/api/staff-attendance/by-date?date=${encodeURIComponent(date)}`),
+};
+
 // Potential Customer Types
 export interface PotentialCustomer {
   id: number;
