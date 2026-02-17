@@ -43,6 +43,13 @@ export interface Member {
   emergencyContact?: string;
   notes?: string;
   membershipTier?: string;
+  goals?: string | null;
+  bloodType?: string | null;
+  age?: number | null;
+  height?: string | null;
+  telegramUsername?: string | null;
+  remark?: string | null;
+  objective?: string | null;
   createdAt: string;
   updatedAt: string;
 }
@@ -460,6 +467,11 @@ export interface PotentialCustomer {
   convertedToMemberId?: number | null;
   serviceId?: number | null;
   notes?: string | null;
+  age?: number | null;
+  height?: string | null;
+  telegramUsername?: string | null;
+  remark?: string | null;
+  objective?: string | null;
   createdAt: string;
   updatedAt: string;
 }
@@ -470,6 +482,11 @@ export interface CreatePotentialCustomerInput {
   email?: string;
   serviceId?: number;
   notes?: string;
+  age?: number;
+  height?: string;
+  telegramUsername?: string;
+  remark?: string;
+  objective?: string;
 }
 
 // Potential Customers API

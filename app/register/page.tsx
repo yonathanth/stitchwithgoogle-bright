@@ -15,6 +15,11 @@ function RegisterContent() {
     phoneNumber: "",
     email: "",
     serviceId: "",
+    age: "",
+    height: "",
+    telegramUsername: "",
+    remark: "",
+    objective: "",
   });
   const [services, setServices] = useState<Service[]>([]);
   const [loadingServices, setLoadingServices] = useState(false);
@@ -47,7 +52,7 @@ function RegisterContent() {
     }
   }, [searchParams, services]);
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     setFormData((prev) => ({
       ...prev,
@@ -68,6 +73,11 @@ function RegisterContent() {
         email: formData.email || undefined,
         serviceId: formData.serviceId ? Number(formData.serviceId) : undefined,
         notes: `Selected plan: ${selectedPlan}`,
+        age: formData.age ? Number(formData.age) : undefined,
+        height: formData.height || undefined,
+        telegramUsername: formData.telegramUsername || undefined,
+        remark: formData.remark || undefined,
+        objective: formData.objective || undefined,
       });
 
       setSuccess(true);
@@ -76,6 +86,11 @@ function RegisterContent() {
         phoneNumber: "",
         email: "",
         serviceId: "",
+        age: "",
+        height: "",
+        telegramUsername: "",
+        remark: "",
+        objective: "",
       });
       setSelectedPlan("quarterly");
     } catch (err: any) {
@@ -199,6 +214,77 @@ function RegisterContent() {
                     ))}
                   </select>
                 </div>
+              </label>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <label className="flex flex-col gap-2">
+                  <span className="text-sm font-medium text-white/80 text-center">Age (optional)</span>
+                  <input
+                    className="w-full h-12 px-4 rounded-lg bg-surface-dark border border-surface-dark-lighter text-white focus:ring-2 focus:ring-primary focus:border-transparent placeholder-white/40 transition-all text-center"
+                    placeholder="e.g. 25"
+                    type="number"
+                    min={1}
+                    max={120}
+                    name="age"
+                    value={formData.age}
+                    onChange={handleInputChange}
+                  />
+                </label>
+                <label className="flex flex-col gap-2">
+                  <span className="text-sm font-medium text-white/80 text-center">Height (optional)</span>
+                  <input
+                    className="w-full h-12 px-4 rounded-lg bg-surface-dark border border-surface-dark-lighter text-white focus:ring-2 focus:ring-primary focus:border-transparent placeholder-white/40 transition-all text-center"
+                    placeholder="e.g. 175 cm"
+                    type="text"
+                    name="height"
+                    value={formData.height}
+                    onChange={handleInputChange}
+                  />
+                </label>
+              </div>
+
+              <label className="flex flex-col gap-2">
+                <span className="text-sm font-medium text-white/80 text-center">Telegram username (optional)</span>
+                <input
+                  className="w-full h-12 px-4 rounded-lg bg-surface-dark border border-surface-dark-lighter text-white focus:ring-2 focus:ring-primary focus:border-transparent placeholder-white/40 transition-all text-center"
+                  placeholder="@username"
+                  type="text"
+                  name="telegramUsername"
+                  value={formData.telegramUsername}
+                  onChange={handleInputChange}
+                />
+              </label>
+
+              <label className="flex flex-col gap-2">
+                <span className="text-sm font-medium text-white/80 text-center">Objective (optional)</span>
+                <select
+                  className="w-full h-12 px-4 rounded-lg bg-surface-dark border border-surface-dark-lighter text-white focus:ring-2 focus:ring-primary focus:border-transparent transition-all appearance-none cursor-pointer text-center"
+                  name="objective"
+                  value={formData.objective}
+                  onChange={handleInputChange}
+                >
+                  <option value="">Select objective</option>
+                  <option value="Weight Loss">Weight Loss</option>
+                  <option value="Muscle Gain">Muscle Gain</option>
+                  <option value="Weight Gain">Weight Gain</option>
+                  <option value="Endurance">Endurance</option>
+                  <option value="Speed">Speed</option>
+                  <option value="Strength / Power">Strength / Power</option>
+                  <option value="Cardiovascular Development (Strengthening heart & breathing capacity)">Cardiovascular Development (Strengthening heart & breathing capacity)</option>
+                  <option value="Others">Others</option>
+                </select>
+              </label>
+
+              <label className="flex flex-col gap-2">
+                <span className="text-sm font-medium text-white/80 text-center">Remark (optional)</span>
+                <textarea
+                  className="w-full min-h-[80px] px-4 py-3 rounded-lg bg-surface-dark border border-surface-dark-lighter text-white focus:ring-2 focus:ring-primary focus:border-transparent placeholder-white/40 transition-all text-center"
+                  placeholder="Notes or remarks"
+                  name="remark"
+                  value={formData.remark}
+                  onChange={handleInputChange}
+                  rows={2}
+                />
               </label>
 
               {error && (

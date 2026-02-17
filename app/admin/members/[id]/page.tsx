@@ -214,8 +214,74 @@ export default function MemberDetailPage({ params }: Props) {
                   <p className="text-white">{member.emergencyContact || '-'}</p>
                 </div>
               </div>
+              {member.telegramUsername && (
+                <div className="flex items-center gap-3">
+                  <span className="material-symbols-outlined text-white/40">send</span>
+                  <div>
+                    <p className="text-white/40 text-xs">Telegram</p>
+                    <p className="text-white">{member.telegramUsername}</p>
+                  </div>
+                </div>
+              )}
             </div>
           </div>
+
+          {/* Profile Information */}
+          {(member.age || member.height || member.gender || member.bloodType || member.objective) && (
+            <div className="bg-surface-dark rounded-xl border border-surface-dark-lighter p-6">
+              <h2 className="text-white font-semibold mb-4 flex items-center gap-2">
+                <span className="material-symbols-outlined text-primary">person</span>
+                Profile Information
+              </h2>
+              <div className="space-y-4">
+                {member.age && (
+                  <div className="flex items-center gap-3">
+                    <span className="material-symbols-outlined text-white/40">cake</span>
+                    <div>
+                      <p className="text-white/40 text-xs">Age</p>
+                      <p className="text-white">{member.age}</p>
+                    </div>
+                  </div>
+                )}
+                {member.height && (
+                  <div className="flex items-center gap-3">
+                    <span className="material-symbols-outlined text-white/40">height</span>
+                    <div>
+                      <p className="text-white/40 text-xs">Height</p>
+                      <p className="text-white">{member.height}</p>
+                    </div>
+                  </div>
+                )}
+                {member.gender && (
+                  <div className="flex items-center gap-3">
+                    <span className="material-symbols-outlined text-white/40">wc</span>
+                    <div>
+                      <p className="text-white/40 text-xs">Gender</p>
+                      <p className="text-white">{member.gender}</p>
+                    </div>
+                  </div>
+                )}
+                {member.bloodType && (
+                  <div className="flex items-center gap-3">
+                    <span className="material-symbols-outlined text-white/40">bloodtype</span>
+                    <div>
+                      <p className="text-white/40 text-xs">Blood Type</p>
+                      <p className="text-white">{member.bloodType}</p>
+                    </div>
+                  </div>
+                )}
+                {member.objective && (
+                  <div className="flex items-center gap-3">
+                    <span className="material-symbols-outlined text-white/40">target</span>
+                    <div>
+                      <p className="text-white/40 text-xs">Objective</p>
+                      <p className="text-white">{member.objective}</p>
+                    </div>
+                  </div>
+                )}
+              </div>
+            </div>
+          )}
 
           {/* Membership Info */}
           <div className="bg-surface-dark rounded-xl border border-surface-dark-lighter p-6">
@@ -283,6 +349,17 @@ export default function MemberDetailPage({ params }: Props) {
                 Notes
               </h2>
               <p className="text-white/80">{member.notes}</p>
+            </div>
+          )}
+
+          {/* Remark */}
+          {member.remark && (
+            <div className="bg-surface-dark rounded-xl border border-surface-dark-lighter p-6 lg:col-span-2">
+              <h2 className="text-white font-semibold mb-4 flex items-center gap-2">
+                <span className="material-symbols-outlined text-primary">comment</span>
+                Remark
+              </h2>
+              <p className="text-white/80">{member.remark}</p>
             </div>
           )}
         </div>
