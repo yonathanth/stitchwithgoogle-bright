@@ -58,7 +58,7 @@ function AdminLayoutContent({ children }: { children: React.ReactNode }) {
   };
 
   // Show loading state
-  if (isLoading) {
+  if (isLoading && !isLoginPage) {
     return (
       <div className="min-h-screen bg-background-dark flex items-center justify-center">
         <div className="flex flex-col items-center gap-4">

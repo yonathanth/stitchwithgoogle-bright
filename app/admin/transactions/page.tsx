@@ -45,16 +45,63 @@ function isInflow(type: TransactionType): boolean {
   return type === 'income' || type === 'positive_return';
 }
 
+type ExportRangePreset = 'daily' | 'weekly' | 'monthly' | 'yearly' | 'custom';
+type FilterRangePreset = 'daily' | 'weekly' | 'monthly' | 'yearly' | 'custom';
+
+function toDateInputValue(date: Date): string {
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, '0');
+  const day = String(date.getDate()).padStart(2, '0');
+  return `${year}-${month}-${day}`;
+}
+
+function getRangeFromPreset(preset: ExportRangePreset): { startDate?: string; endDate?: string } {
+  const now = new Date();
+  const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+
+  if (preset === 'daily') {
+    const day = toDateInputValue(today);
+    return { startDate: day, endDate: day };
+  }
+
+  if (preset === 'weekly') {
+    const dayOfWeek = today.getDay();
+    const mondayOffset = dayOfWeek === 0 ? -6 : 1 - dayOfWeek;
+    const weekStart = new Date(today);
+    weekStart.setDate(today.getDate() + mondayOffset);
+    return { startDate: toDateInputValue(weekStart), endDate: toDateInputValue(today) };
+  }
+
+  if (preset === 'monthly') {
+    const monthStart = new Date(today.getFullYear(), today.getMonth(), 1);
+    return { startDate: toDateInputValue(monthStart), endDate: toDateInputValue(today) };
+  }
+
+  const yearStart = new Date(today.getFullYear(), 0, 1);
+  return { startDate: toDateInputValue(yearStart), endDate: toDateInputValue(today) };
+}
+
 export default function TransactionsPage() {
   const [transactions, setTransactions] = useState<PaginatedResponse<Transaction> | null>(null);
   const [stats, setStats] = useState<TransactionStats | null>(null);
+  const [filteredCardTotals, setFilteredCardTotals] = useState<{
+    income: number;
+    outflows: number;
+    net: number;
+  } | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [page, setPage] = useState(1);
   const [typeFilter, setTypeFilter] = useState<string>('');
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
+  const [filterRangePreset, setFilterRangePreset] = useState<FilterRangePreset>('custom');
   const [showExportMenu, setShowExportMenu] = useState(false);
+  const [showExportFilterModal, setShowExportFilterModal] = useState(false);
   const [exporting, setExporting] = useState(false);
+  const [pendingExportFormat, setPendingExportFormat] = useState<'pdf' | 'excel' | null>(null);
+  const [exportRangePreset, setExportRangePreset] = useState<ExportRangePreset>('monthly');
+  const [exportStartDate, setExportStartDate] = useState('');
+  const [exportEndDate, setExportEndDate] = useState('');
   const exportMenuRef = useRef<HTMLDivElement>(null);
   const limit = 10;
 
@@ -84,14 +131,74 @@ export default function TransactionsPage() {
     }
   }, [page, typeFilter, startDate, endDate]);
 
+  const fetchAllTransactionsByFilter = useCallback(
+    async (options?: {
+      transactionType?: TransactionType;
+      startDate?: string;
+      endDate?: string;
+    }): Promise<Transaction[]> => {
+      const all: Transaction[] = [];
+      const pageLimit = 100;
+      let pageNum = 1;
+      let hasMore = true;
+
+      while (hasMore) {
+        const res = await transactionsApi.getAll({
+          page: pageNum,
+          limit: pageLimit,
+          transactionType: options?.transactionType,
+          startDate: options?.startDate,
+          endDate: options?.endDate,
+        });
+        all.push(...res.data);
+        hasMore = res.data.length === pageLimit && pageNum * pageLimit < res.meta.total;
+        pageNum++;
+      }
+
+      return all;
+    },
+    [],
+  );
+
+  const fetchFilteredCardTotals = useCallback(async () => {
+    try {
+      const allTx = await fetchAllTransactionsByFilter({
+        transactionType: (typeFilter as TransactionType) || undefined,
+        startDate: startDate || undefined,
+        endDate: endDate || undefined,
+      });
+
+      const totals = allTx.reduce(
+        (acc, tx) => {
+          if (isInflow(tx.type)) {
+            acc.income += tx.amount;
+          } else {
+            acc.outflows += tx.amount;
+          }
+          return acc;
+        },
+        { income: 0, outflows: 0, net: 0 },
+      );
+      totals.net = totals.income - totals.outflows;
+      setFilteredCardTotals(totals);
+    } catch (err) {
+      console.error('Failed to fetch filtered card totals:', err);
+      setFilteredCardTotals(null);
+    }
+  }, [fetchAllTransactionsByFilter, typeFilter, startDate, endDate]);
+
   const fetchStats = useCallback(async () => {
     try {
-      const data = await transactionsApi.getStats();
+      const data = await transactionsApi.getStats({
+        transactionType: (typeFilter as TransactionType) || undefined,
+        startDate: startDate || undefined,
+        endDate: endDate || undefined,
+      });
       setStats(data);
     } catch (err) {
       console.error('Failed to fetch stats:', err);
     }
-  }, []);
+  }, [typeFilter, startDate, endDate]);
 
   useEffect(() => {
     fetchTransactions();
@@ -100,6 +207,10 @@ export default function TransactionsPage() {
   useEffect(() => {
     fetchStats();
   }, [fetchStats]);
+
+  useEffect(() => {
+    fetchFilteredCardTotals();
+  }, [fetchFilteredCardTotals]);
 
   const formatDate = (date: string) => {
     return new Date(date).toLocaleDateString('en-GB', {
@@ -214,46 +325,49 @@ export default function TransactionsPage() {
     e.preventDefault();
     setPage(1);
     fetchTransactions();
+    fetchStats();
   };
 
-  const fetchAllTransactionsForExport = async (): Promise<Transaction[]> => {
-    const all: Transaction[] = [];
-    const pageLimit = 100; // API enforces max 100
-    let pageNum = 1;
-    let hasMore = true;
-    while (hasMore) {
-      const res = await transactionsApi.getAll({
-        page: pageNum,
-        limit: pageLimit,
-        transactionType: (typeFilter as TransactionType) || undefined,
-        startDate: startDate || undefined,
-        endDate: endDate || undefined,
-      });
-      all.push(...res.data);
-      hasMore = res.data.length === pageLimit && pageNum * pageLimit < res.meta.total;
-      pageNum++;
-    }
-    return all;
+  const handleMainRangePresetChange = (preset: FilterRangePreset) => {
+    setFilterRangePreset(preset);
+    if (preset === 'custom') return;
+    const range = getRangeFromPreset(preset);
+    setStartDate(range.startDate || '');
+    setEndDate(range.endDate || '');
+    setPage(1);
   };
 
-  const buildFilterSummary = (): string => {
+  const fetchAllTransactionsForExport = async (
+    exportDateRange?: { startDate?: string; endDate?: string },
+  ): Promise<Transaction[]> => {
+    return fetchAllTransactionsByFilter({
+      transactionType: (typeFilter as TransactionType) || undefined,
+      startDate: exportDateRange?.startDate || undefined,
+      endDate: exportDateRange?.endDate || undefined,
+    });
+  };
+
+  const buildFilterSummary = (exportDateRange?: { startDate?: string; endDate?: string }): string => {
     const parts: string[] = [];
     if (typeFilter) {
       parts.push(`Type: ${TRANSACTION_TYPE_LABELS[typeFilter as TransactionType] ?? typeFilter}`);
     } else {
       parts.push('Type: All');
     }
-    if (startDate || endDate) {
-      parts.push(`Date: ${startDate || '...'} -> ${endDate || '...'}`);
+    if (exportDateRange?.startDate || exportDateRange?.endDate) {
+      parts.push(`Date: ${exportDateRange.startDate || '...'} -> ${exportDateRange.endDate || '...'}`);
     }
     return parts.length ? parts.join(' | ') : 'All filters';
   };
 
-  const handleExport = async (format: 'pdf' | 'excel') => {
+  const handleExport = async (
+    format: 'pdf' | 'excel',
+    exportDateRange?: { startDate?: string; endDate?: string },
+  ) => {
     setExporting(true);
     setShowExportMenu(false);
     try {
-      const allTx = await fetchAllTransactionsForExport();
+      const allTx = await fetchAllTransactionsForExport(exportDateRange);
       const exportTotals = allTx.reduce(
         (acc, tx) => {
           if (isInflow(tx.type)) {
@@ -266,7 +380,7 @@ export default function TransactionsPage() {
         { income: 0, expense: 0, net: 0 }
       );
       exportTotals.net = exportTotals.income - exportTotals.expense;
-      const filterSummary = buildFilterSummary();
+      const filterSummary = buildFilterSummary(exportDateRange);
       const now = new Date();
       const generatedAt = formatDateTimeForExport(now);
       const filenameBase = `finance-export-${now.toISOString().slice(0, 10)}`;
@@ -396,7 +510,7 @@ export default function TransactionsPage() {
         drawTableHeader(y);
         y -= headerHeight + 5;
 
-        allTx.forEach((tx, index) => {
+        allTx.forEach((tx) => {
           if (y < margin + rowHeight) {
             pdfPage = pdfDoc.addPage([pageWidth, pageHeight]);
             y = pageHeight - margin;
@@ -448,6 +562,41 @@ export default function TransactionsPage() {
     }
   };
 
+  const openExportFilterModal = (format: 'pdf' | 'excel') => {
+    const defaultRange = getRangeFromPreset('monthly');
+    setShowExportMenu(false);
+    setPendingExportFormat(format);
+    setExportRangePreset('monthly');
+    setExportStartDate(defaultRange.startDate || '');
+    setExportEndDate(defaultRange.endDate || '');
+    setShowExportFilterModal(true);
+  };
+
+  const handleExportRangePresetChange = (preset: ExportRangePreset) => {
+    setExportRangePreset(preset);
+    if (preset === 'custom') return;
+    const range = getRangeFromPreset(preset);
+    setExportStartDate(range.startDate || '');
+    setExportEndDate(range.endDate || '');
+  };
+
+  const handleConfirmExport = async () => {
+    if (!pendingExportFormat) return;
+    if (!exportStartDate || !exportEndDate) {
+      window.alert('Please select both start and end dates for export.');
+      return;
+    }
+    if (exportStartDate > exportEndDate) {
+      window.alert('Start date cannot be after end date.');
+      return;
+    }
+    setShowExportFilterModal(false);
+    await handleExport(pendingExportFormat, {
+      startDate: exportStartDate,
+      endDate: exportEndDate,
+    });
+  };
+
   useEffect(() => {
     function handleClickOutside(e: MouseEvent) {
       if (exportMenuRef.current && !exportMenuRef.current.contains(e.target as Node)) {
@@ -486,7 +635,7 @@ export default function TransactionsPage() {
             >
               <button
                 type="button"
-                onClick={() => handleExport('pdf')}
+                onClick={() => openExportFilterModal('pdf')}
                 disabled={exporting}
                 className="w-full px-4 py-2 text-left text-white hover:bg-surface-dark-lighter transition-colors flex items-center gap-2 disabled:opacity-60"
                 role="menuitem"
@@ -496,7 +645,7 @@ export default function TransactionsPage() {
               </button>
               <button
                 type="button"
-                onClick={() => handleExport('excel')}
+                onClick={() => openExportFilterModal('excel')}
                 disabled={exporting}
                 className="w-full px-4 py-2 text-left text-white hover:bg-surface-dark-lighter transition-colors flex items-center gap-2 disabled:opacity-60"
                 role="menuitem"
@@ -509,23 +658,97 @@ export default function TransactionsPage() {
         </div>
       </div>
 
+      {/* Filter Bar */}
+      <div className="bg-surface-dark rounded-xl border border-surface-dark-lighter p-4">
+        <form onSubmit={handleFilter} className="flex flex-col xl:flex-row gap-4">
+          <select
+            value={filterRangePreset}
+            onChange={(e) => handleMainRangePresetChange(e.target.value as FilterRangePreset)}
+            className="h-10 px-4 bg-surface-dark-lighter border border-surface-dark-lighter rounded-lg text-white focus:outline-none focus:border-primary/50 transition-colors xl:min-w-[150px]"
+          >
+            <option value="daily">Daily</option>
+            <option value="weekly">Weekly</option>
+            <option value="monthly">Monthly</option>
+            <option value="yearly">Yearly</option>
+            <option value="custom">Custom</option>
+          </select>
+          <select
+            value={typeFilter}
+            onChange={(e) => {
+              setTypeFilter(e.target.value);
+              setPage(1);
+            }}
+            className="h-10 px-4 bg-surface-dark-lighter border border-surface-dark-lighter rounded-lg text-white focus:outline-none focus:border-primary/50 transition-colors xl:min-w-[170px]"
+          >
+            <option value="">All Types</option>
+            <option value="income">Income</option>
+            <option value="expense">Expense</option>
+            <option value="positive_return">Positive Return</option>
+            <option value="negative_return">Negative Return</option>
+          </select>
+          <input
+            type="date"
+            value={startDate}
+            onChange={(e) => {
+              setFilterRangePreset('custom');
+              setStartDate(e.target.value);
+              setPage(1);
+            }}
+            placeholder="From Date"
+            className="h-10 px-4 bg-surface-dark-lighter border border-surface-dark-lighter rounded-lg text-white focus:outline-none focus:border-primary/50 transition-colors xl:min-w-[170px]"
+          />
+          <input
+            type="date"
+            value={endDate}
+            onChange={(e) => {
+              setFilterRangePreset('custom');
+              setEndDate(e.target.value);
+              setPage(1);
+            }}
+            placeholder="To Date"
+            className="h-10 px-4 bg-surface-dark-lighter border border-surface-dark-lighter rounded-lg text-white focus:outline-none focus:border-primary/50 transition-colors xl:min-w-[170px]"
+          />
+          {(typeFilter || startDate || endDate) && (
+            <button
+              type="button"
+              onClick={() => {
+                setTypeFilter('');
+                setStartDate('');
+                setEndDate('');
+                setFilterRangePreset('custom');
+                setPage(1);
+              }}
+              className="h-10 px-4 bg-surface-dark-lighter text-white/60 rounded-lg hover:text-white transition-colors"
+            >
+              Clear
+            </button>
+          )}
+          <button
+            type="submit"
+            className="h-10 px-6 bg-primary text-black font-medium rounded-lg hover:bg-primary/90 transition-colors"
+          >
+            Apply Filter
+          </button>
+        </form>
+      </div>
+
       {/* Stats Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         <StatsCard
           title="Total Income"
-          value={formatCurrency(stats?.totalIncome || 0)}
+          value={formatCurrency(filteredCardTotals?.income ?? stats?.totalIncome ?? 0)}
           icon="trending_up"
           color="green"
         />
         <StatsCard
           title="Total Outflows"
-          value={formatCurrency(stats?.totalOutflows || 0)}
+          value={formatCurrency(filteredCardTotals?.outflows ?? stats?.totalOutflows ?? 0)}
           icon="trending_down"
           color="red"
         />
         <StatsCard
           title="Net Profit"
-          value={formatCurrency(stats?.netProfit || 0)}
+          value={formatCurrency(filteredCardTotals?.net ?? stats?.netProfit ?? 0)}
           icon="account_balance"
           color="primary"
         />
@@ -638,66 +861,6 @@ export default function TransactionsPage() {
         </div>
       </div>
 
-      {/* Filters */}
-      <div className="bg-surface-dark rounded-xl border border-surface-dark-lighter p-4">
-        <form onSubmit={handleFilter} className="flex flex-col sm:flex-row gap-4">
-          <select
-            value={typeFilter}
-            onChange={(e) => {
-              setTypeFilter(e.target.value);
-              setPage(1);
-            }}
-            className="h-10 px-4 bg-surface-dark-lighter border border-surface-dark-lighter rounded-lg text-white focus:outline-none focus:border-primary/50 transition-colors"
-          >
-            <option value="">All Types</option>
-            <option value="income">Income</option>
-            <option value="expense">Expense</option>
-            <option value="positive_return">Positive Return</option>
-            <option value="negative_return">Negative Return</option>
-          </select>
-          <input
-            type="date"
-            value={startDate}
-            onChange={(e) => {
-              setStartDate(e.target.value);
-              setPage(1);
-            }}
-            placeholder="From Date"
-            className="h-10 px-4 bg-surface-dark-lighter border border-surface-dark-lighter rounded-lg text-white focus:outline-none focus:border-primary/50 transition-colors"
-          />
-          <input
-            type="date"
-            value={endDate}
-            onChange={(e) => {
-              setEndDate(e.target.value);
-              setPage(1);
-            }}
-            placeholder="To Date"
-            className="h-10 px-4 bg-surface-dark-lighter border border-surface-dark-lighter rounded-lg text-white focus:outline-none focus:border-primary/50 transition-colors"
-          />
-          {(typeFilter || startDate || endDate) && (
-            <button
-              type="button"
-              onClick={() => {
-                setTypeFilter('');
-                setStartDate('');
-                setEndDate('');
-                setPage(1);
-              }}
-              className="h-10 px-4 bg-surface-dark-lighter text-white/60 rounded-lg hover:text-white transition-colors"
-            >
-              Clear
-            </button>
-          )}
-          <button
-            type="submit"
-            className="h-10 px-6 bg-primary text-black font-medium rounded-lg hover:bg-primary/90 transition-colors"
-          >
-            Filter
-          </button>
-        </form>
-      </div>
-
       {/* Transactions Table */}
       <div>
         <DataTable<Transaction>
@@ -715,6 +878,91 @@ export default function TransactionsPage() {
           />
         )}
       </div>
+
+      {showExportFilterModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4">
+          <div className="w-full max-w-lg bg-surface-dark border border-surface-dark-lighter rounded-xl p-6 space-y-5">
+            <div className="flex items-start justify-between gap-3">
+              <div>
+                <h3 className="text-white text-lg font-semibold">Export Date Range</h3>
+                <p className="text-white/60 text-sm mt-1">
+                  Choose a date filter for the {pendingExportFormat === 'pdf' ? 'PDF' : 'CSV'} export.
+                </p>
+              </div>
+              <button
+                type="button"
+                onClick={() => setShowExportFilterModal(false)}
+                className="text-white/60 hover:text-white"
+                aria-label="Close export filter modal"
+              >
+                <span className="material-symbols-outlined">close</span>
+              </button>
+            </div>
+
+            <div className="grid grid-cols-2 sm:grid-cols-5 gap-2">
+              {(['daily', 'weekly', 'monthly', 'yearly', 'custom'] as ExportRangePreset[]).map((preset) => (
+                <button
+                  key={preset}
+                  type="button"
+                  onClick={() => handleExportRangePresetChange(preset)}
+                  className={`h-10 rounded-lg border text-sm font-medium capitalize transition-colors ${
+                    exportRangePreset === preset
+                      ? 'bg-primary text-black border-primary'
+                      : 'bg-surface-dark-lighter text-white border-surface-dark-lighter hover:border-primary/50'
+                  }`}
+                >
+                  {preset}
+                </button>
+              ))}
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div className="space-y-1">
+                <label className="text-white/70 text-sm">Start Date</label>
+                <input
+                  type="date"
+                  value={exportStartDate}
+                  onChange={(e) => {
+                    setExportRangePreset('custom');
+                    setExportStartDate(e.target.value);
+                  }}
+                  className="w-full h-10 px-4 bg-surface-dark-lighter border border-surface-dark-lighter rounded-lg text-white focus:outline-none focus:border-primary/50 transition-colors"
+                />
+              </div>
+              <div className="space-y-1">
+                <label className="text-white/70 text-sm">End Date</label>
+                <input
+                  type="date"
+                  value={exportEndDate}
+                  onChange={(e) => {
+                    setExportRangePreset('custom');
+                    setExportEndDate(e.target.value);
+                  }}
+                  className="w-full h-10 px-4 bg-surface-dark-lighter border border-surface-dark-lighter rounded-lg text-white focus:outline-none focus:border-primary/50 transition-colors"
+                />
+              </div>
+            </div>
+
+            <div className="flex justify-end gap-3 pt-2">
+              <button
+                type="button"
+                onClick={() => setShowExportFilterModal(false)}
+                className="h-10 px-4 rounded-lg bg-surface-dark-lighter text-white/80 hover:text-white transition-colors"
+              >
+                Cancel
+              </button>
+              <button
+                type="button"
+                onClick={handleConfirmExport}
+                disabled={exporting}
+                className="h-10 px-5 rounded-lg bg-primary text-black font-medium hover:bg-primary/90 transition-colors disabled:opacity-60"
+              >
+                {exporting ? 'Exporting...' : 'Export'}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

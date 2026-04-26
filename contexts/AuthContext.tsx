@@ -49,8 +49,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }, [checkAuth]);
 
   const login = async (email: string, password: string) => {
-    setState(prev => ({ ...prev, isLoading: true }));
-    
     try {
       const response = await authApi.login(email, password);
       
@@ -64,7 +62,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         isLoading: false,
       });
     } catch (error) {
-      setState(prev => ({ ...prev, isLoading: false }));
       if (error instanceof ApiError) {
         throw new Error(error.message);
       }

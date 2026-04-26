@@ -514,7 +514,8 @@ export const transactionsApi = {
   
   getOne: (id: number) => apiFetch<Transaction>(`/api/transactions/${id}`),
   
-  getStats: () => apiFetch<TransactionStats>('/api/transactions/stats'),
+  getStats: (query: TransactionQuery = {}) =>
+    apiFetch<TransactionStats>(`/api/transactions/stats${buildQueryString(query as Record<string, unknown>)}`),
   
   getByMember: (memberId: number, query: TransactionQuery = {}) =>
     apiFetch<PaginatedResponse<Transaction>>(
