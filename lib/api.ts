@@ -103,6 +103,7 @@ export interface Transaction {
   category: string;
   description?: string;
   paymentMethod?: string;
+  paymentMethodId?: number | null;
   transactionDate: string;
   member?: Member;
   createdAt: string;
